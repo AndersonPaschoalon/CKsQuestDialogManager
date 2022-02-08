@@ -1,0 +1,43 @@
+
+class Console:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    @staticmethod
+    def yellow(printStr):
+        print(f"{Console.WARNING}{printStr}{Console.ENDC}")
+
+    @staticmethod
+    def blue(printStr):
+        print(f"{Console.OKBLUE}{printStr}{Console.ENDC}")
+
+    @staticmethod
+    def cyan(printStr):
+        print(f"{Console.OKCYAN}{printStr}{Console.ENDC}")
+
+    @staticmethod
+    def green(printStr):
+        print(f"{Console.OKGREEN}{printStr}{Console.ENDC}")
+
+    @staticmethod
+    def red(printStr):
+        print(f"{Console.FAIL}{printStr}{Console.ENDC}")
+
+    @staticmethod
+    def bold(printStr):
+        print(f"{Console.BOLD}{printStr}{Console.ENDC}")
+
+    @staticmethod
+    def underline(printStr):
+        print(f"{Console.UNDERLINE}{printStr}{Console.ENDC}")
+
+
+
+
