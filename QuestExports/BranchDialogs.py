@@ -8,8 +8,8 @@ class BranchDialogs:
         """Default TopicDialogs constructor"""
         # branch name
         self.branch_name = ""
-        # a description of the scene/dialog of the current branch
-        self.description = ""
+        # a comment of the scene/dialog of the current branch
+        self.comment = ""
         # Actor name ID
         self.actor_name = ""
         # Eg.: MaleCommoner
@@ -26,7 +26,7 @@ class BranchDialogs:
     def to_string(self):
         obj = Obj2Json()
         obj.add("branch_name", self.branch_name)
-        obj.add("description", self.description)
+        obj.add("comment", self.comment)
         obj.add("actor_name", self.actor_name)
         obj.add("actor_voice_type", self.actor_voice_type)
         obj.add("actor_race", self.actor_race)
@@ -37,7 +37,7 @@ class BranchDialogs:
         for tp in self.list_topic_dialogs:
             topic_list_str.append(tp.to_string())
         obj.addl("list_topic_dialogs", topic_list_str)
-        return obj.obj()
+        return obj.json()
 
     def add_topic_dialog(self, topic_dialog: TopicDialogs):
         """Adds TopicDialogs."""

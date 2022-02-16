@@ -7,6 +7,7 @@ from PyUtils.Console import Console
 from PyUtils.Cd import Cd
 from PyUtils.Logger import Logger
 from PyUtils.Obj2Json import Obj2Json
+from PyUtils.Functions import *
 
 from .TopicDialogs import TopicDialogs
 from .BranchDialogs import BranchDialogs
@@ -38,24 +39,24 @@ class QuestDialogs:
     LABEL_NPC_RESPONSE_TEXT = 'RESPONSE TEXT'  # npc dialog text
     LABEL_NPC_EMOTION = 'EMOTION'
     # default values
-    DEFAULT_BRANCH_DESCRIPTION = "?banch-description?"
-    DEFAULT_QUEST_DESCRIPTION = "?banch-description?"
+    DEFAULT_BRANCH_DESCRIPTION = "?banch-comment?"
+    DEFAULT_QUEST_DESCRIPTION = "?banch-comment?"
 
     def __init__(self, quest_name: str, quest_description: str):
         """ Quest dialog default constructor"""
         self._quest_name = quest_name
-        self._quest_description = quest_description
+        self._comment = text(quest_description)
         self._list_branch_dialogs = []
 
     def to_string(self):
         obj = Obj2Json()
         obj.add("_quest_name", self._quest_name)
-        obj.add("_quest_description", self._quest_description)
+        obj.add("_comment", self._comment)
         list_branch_str = []
         for br in self._list_branch_dialogs:
             list_branch_str.append(br.to_string())
         obj.addl("_list_branch_dialogs", list_branch_str)
-        return obj.obj()
+        return obj.json()
 
 
     def add_branch_dialog(self, branch_dialog: BranchDialogs):
@@ -141,7 +142,7 @@ class QuestDialogs:
                             # a new branch started, fills the object branch data
                             branch_obj = BranchDialogs()
                             branch_obj.branch_name = current_branch
-                            branch_obj.description = QuestDialogs.DEFAULT_BRANCH_DESCRIPTION
+                            branch_obj.comment = QuestDialogs.DEFAULT_BRANCH_DESCRIPTION
                             branch_obj.dialog_type = row[col_type]
                             branch_obj.actor_name = row[col_npc]
                             branch_obj.actor_race = row[col_npc_race]
@@ -165,7 +166,7 @@ class QuestDialogs:
                         # endif
                         # add current line data to the topic object -- one per line
                         str_index = row[col_npc_resp_index]
-                        str_dialogue = row[col_npc_resp_text]
+                        str_dialogue = text(row[col_npc_resp_text])
                         str_mood = row[col_npc_resp_emo]
                         topic_obj.add_topic_data(str_index, str_dialogue, str_mood)
                     # endfor

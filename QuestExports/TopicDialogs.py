@@ -1,5 +1,5 @@
 from PyUtils.Obj2Json import Obj2Json
-
+from PyUtils.Functions import *
 
 class TopicDialogs:
 
@@ -7,6 +7,8 @@ class TopicDialogs:
         """Default TopicDialogs constructor"""
         # name of the topic
         self.topic_name = ""
+        # additional information
+        self.comment = ""
         # Eg.: DSilHand_KylmirShadeSkinner
         self.actor_name = ""
         # Player prompt
@@ -23,11 +25,11 @@ class TopicDialogs:
         obj.add("player_dialog", self.player_dialog)
         obj.add("form_id", self.form_id)
         obj.addl("_list_topic_data", self._list_topic_data)
-        return obj.obj()
+        return obj.json()
 
     def add_topic_data(self, index: str, response: str, mood: str):
         """Add a tuple of topic information."""
-        topic_tuple = [index, response, mood]
+        topic_tuple = (text(index), text(response), text(mood))
         self._list_topic_data.append(topic_tuple)
 
     def sort(self):
