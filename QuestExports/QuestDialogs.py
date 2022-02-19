@@ -2,6 +2,11 @@
 import csv
 from os import listdir
 from os.path import isfile, join
+import markdown
+from docx import Document
+from htmldocx import HtmlToDocx
+
+
 # local imports
 from PyUtils.Console import Console
 from PyUtils.Cd import Cd
@@ -11,6 +16,7 @@ from PyUtils.Functions import *
 
 from .TopicDialogs import TopicDialogs
 from .BranchDialogs import BranchDialogs
+from .Comments import Comments
 
 
 class QuestDialogs:
@@ -42,41 +48,71 @@ class QuestDialogs:
     DEFAULT_BRANCH_DESCRIPTION = "?banch-comment?"
     DEFAULT_QUEST_DESCRIPTION = "?banch-comment?"
 
-    def __init__(self, quest_name: str, quest_description: str):
+    def __init__(self, quest_name: str, quest_description: str, comment_file="../Comments.csv"):
         """ Quest dialog default constructor"""
-        self._quest_name = quest_name
-        self._comment = text(quest_description)
-        self._list_branch_dialogs = []
+        self.quest_name = quest_name
+        self.comment = text(quest_description)
+        self.comment_file = comment_file
+        self.list_branch_dialogs = []
 
     def to_string(self):
         obj = Obj2Json()
-        obj.add("_quest_name", self._quest_name)
-        obj.add("_comment", self._comment)
+        obj.add("quest_name", self.quest_name)
+        obj.add("comment", self.comment)
         list_branch_str = []
-        for br in self._list_branch_dialogs:
+        for br in self.list_branch_dialogs:
             list_branch_str.append(br.to_string())
-        obj.addl("_list_branch_dialogs", list_branch_str)
+        obj.addl("list_branch_dialogs", list_branch_str)
         return obj.json()
 
 
     def add_branch_dialog(self, branch_dialog: BranchDialogs):
         """ """
-        self._list_branch_dialogs.append(branch_dialog)
+        self.list_branch_dialogs.append(branch_dialog)
 
     def clear_branch_dialog(self):
         """"""
-        self._list_branch_dialogs.clear()
+        self.list_branch_dialogs.clear()
 
-    def generate_markdown(self, destination):
+    def generate_markdown(self, destination="./Docs/Md/"):
         """"""
-        print("todo")
+        STR_PLAYER = "Player"
+        md = ""
+        md += "# Quest {0}\n\n".format(self.quest_name)
+        branch: BranchDialogs
+        topic: TopicDialogs
+        for branch in self.list_branch_dialogs:
+            md += "## {0}\n\n".format(branch.branch_name)
+            md += "> _{0}_\n\n".format(branch.comment)
+            for topic in branch.list_topic_dialogs:
+                md += "* {0}\n\n".format(topic.topic_name)
+                md += "    {0}: {1}\n\n".format(STR_PLAYER, topic.player_dialog)
+                for npc_data in topic.get_topic_data():
+                    md += "    {0}({1}): {2}\n\n".format(topic.actor_name, npc_data[2], npc_data[1])
+        # Markdown
+        md_file = open(self.quest_name + ".md", "w")
+        md_file.write(md)
+        md_file.close()
+        # html
+        md_file = open(self.quest_name + ".html", "w")
+        html = markdown.markdown(md)
+        md_file.write(html)
+        md_file.close()
+        # docx
+        new_parser = HtmlToDocx()
+        new_parser.parse_html_file(self.quest_name + ".html", self.quest_name + ".docx")
+
+
+
+
 
     @staticmethod
     def build_quest_objects(skyrim_path):
         """"""
+        comments = Comments("../Comments.csv")
         log = Logger.get_logger()
         all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
-        print(all_files)
+        # print(all_files)
         # filter all exported files from creation kit
         export_dialog_files = []
         for nth_file in all_files:
@@ -114,6 +150,7 @@ class QuestDialogs:
                     col_npc_resp_text = QuestDialogs.get_index(first_row, QuestDialogs.LABEL_NPC_RESPONSE_TEXT)
                     col_npc_resp_emo = QuestDialogs.get_index(first_row, QuestDialogs.LABEL_NPC_EMOTION)
 
+                    # clear variables
                     quest_name = ""
                     last_branch = ""
                     current_branch = ""
@@ -127,14 +164,17 @@ class QuestDialogs:
                         # store the quest name
                         if quest_name == "":
                             quest_name = row[col_quest]
-
-                        # create a new branch of necessary
+                        # tells if the topic was already added
+                        is_topic_added = False
+                        # create a new branch if necessary
                         current_branch = row[col_branch]
                         if last_branch == "" or last_branch != current_branch:
                             # Stores data from the last iteration
                             # * If it is a new branch, the last topic needs to be stored now -- if the branch is ready
                             #   (not the first)
+                            # print(" # ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
                             QuestDialogs.add_topic(branch_obj, last_topic, topic_obj)
+                            is_topic_added = True
                             # stores the last branch on the list if it is a new one and not the first
                             QuestDialogs.add_branch(list_branches, last_branch, branch_obj)
                             # update last_branch string
@@ -142,7 +182,7 @@ class QuestDialogs:
                             # a new branch started, fills the object branch data
                             branch_obj = BranchDialogs()
                             branch_obj.branch_name = current_branch
-                            branch_obj.comment = QuestDialogs.DEFAULT_BRANCH_DESCRIPTION
+                            branch_obj.comment = comments.get(current_branch, QuestDialogs.DEFAULT_BRANCH_DESCRIPTION)
                             branch_obj.dialog_type = row[col_type]
                             branch_obj.actor_name = row[col_npc]
                             branch_obj.actor_race = row[col_npc_race]
@@ -154,13 +194,16 @@ class QuestDialogs:
                         # check if a new topic need to be created
                         if last_topic == "" or last_topic != current_topic:
                             # add the last topic object to the branch object
-                            QuestDialogs.add_topic(branch_obj, last_topic, topic_obj)
+                            # print(" * ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
+                            if not is_topic_added:
+                                QuestDialogs.add_topic(branch_obj, last_topic, topic_obj)
                             # a new topic started, a new one needs to be created
                             topic_obj = TopicDialogs()
                             topic_obj.topic_name = row[col_topic]
                             topic_obj.actor_name = row[col_npc]
                             topic_obj.player_dialog = row[col_prompt]
                             topic_obj.form_id = row[col_form_id]
+                            topic_obj.comment = comments.get(current_topic, "")
                             # update last topic
                             last_topic = current_topic
                         # endif
@@ -177,7 +220,8 @@ class QuestDialogs:
                 # add last branch
                 QuestDialogs.add_branch(list_branches, last_branch, branch_obj)
                 # now, we can create the new quest object :D
-                quest = QuestDialogs(quest_name, QuestDialogs.DEFAULT_QUEST_DESCRIPTION)
+                quest_comment = comments.get(quest_name, QuestDialogs.DEFAULT_QUEST_DESCRIPTION)
+                quest = QuestDialogs(quest_name, quest_comment)
                 for br in list_branches:
                     quest.add_branch_dialog(br)
                 # endfor
@@ -186,11 +230,14 @@ class QuestDialogs:
             # endfor
         Console.green("Number of files processed: " + str(len(list_quest)))
         for q in list_quest:
-            print(q.to_string())
+            text_file = open(q.quest_name + ".json", "w")
+            text_file.write(q.to_string())
+            text_file.close()
+            q.generate_markdown()
+        return list_quest
 
     @staticmethod
     def get_index(first_row, label):
-        print(first_row)
         if len(first_row) == 0:
             return 0
         return first_row.index(label)
