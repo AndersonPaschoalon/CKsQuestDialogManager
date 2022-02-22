@@ -6,3 +6,16 @@ This tool converts the Dialog Exported CSV from Creation Kit into :lipstick: bea
 * :arrow_down_small: Markdown,
 * :globe_with_meridians: HTML.
 
+### Application Structore
+```
+CkDialogGen.exe
+Comments.csv
+Actors.csv
+App/
+    Settings.json
+    Logs/
+    Imgs/
+    Tutorial/
+        tutorial.html
+Docs/
+```   

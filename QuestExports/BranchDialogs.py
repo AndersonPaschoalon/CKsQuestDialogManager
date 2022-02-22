@@ -19,7 +19,7 @@ class BranchDialogs:
         # Type of dialog PlayerDialogue, SceneDialogue
         self.dialog_type = ""
         # tells of this object is ready to be used or not
-        self.is_read = False
+        self.is_ready = False
         # list of TopicDialogs in this branch
         self.list_topic_dialogs = []
 
@@ -32,7 +32,7 @@ class BranchDialogs:
         obj.add("actor_race", self.actor_race)
         obj.add("actor_voice_type", self.actor_voice_type)
         obj.add("dialog_type", self.dialog_type)
-        obj.add("is_read", self.is_read)
+        obj.add("is_read", self.is_ready)
         topic_list_str = []
         for tp in self.list_topic_dialogs:
             topic_list_str.append(tp.to_string())

@@ -4,6 +4,6 @@ def text(val: str):
 
 
 
-def is_primitive(thing):
-    primitive = (int, str, bool, str)
-    return isinstance(thing, primitive)
+#def is_primitive(thing):
+#    primitive = (int, str, bool, str)
+#    return isinstance(thing, primitive)

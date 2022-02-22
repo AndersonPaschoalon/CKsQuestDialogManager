@@ -4,13 +4,13 @@ class Logger :
     """"""
 
     @staticmethod
-    def get_logger(level_log=logging.DEBUG, level_console=logging.WARNING, log_file='./Settings/Logs/ck-dialog-docgen.log'):
+    def get_logger(level_log=logging.DEBUG, level_console=logging.WARNING, log_file='./App/Logs/ck-dialog-docgen.log'):
 
         logger = logging.getLogger('PyPro')
         logger.setLevel(logging.DEBUG)
 
         # create file handler which logs even debug messages
-        fh = logging.FileHandler('./Settings/Logs/ck-dialog-docgen.log')
+        fh = logging.FileHandler('./App/Logs/ck-dialog-docgen.log')
         fh.setLevel(logging.DEBUG)
 
         # create console handler with a higher log level
