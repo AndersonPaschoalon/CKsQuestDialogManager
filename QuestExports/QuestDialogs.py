@@ -49,6 +49,7 @@ class QuestDialogs:
     # CSV dics
     CSV_COMMENTS_DELIMITER = ";"
     CSV_ACTOR_DELIMITER = ";"
+    CSV_EMPTY_COLUMN = "--"
 
     def __init__(self, quest_name: str, quest_description: str, comment_file="../Comments.csv"):
         """ Quest dialog default constructor"""
@@ -104,13 +105,61 @@ class QuestDialogs:
         new_parser.parse_html_file(self.quest_name + ".html", self.quest_name + ".docx")
 
     @staticmethod
-    def export_ids_to_actors_file(skyrim_path: str, comment_csv: str):
-        print("todo")
-
-
-    @staticmethod
-    def export_objects_to_comment_file(skyrim_path: str, comment_csv: str):
-        print("todo")
+    def export_objects_to_csvdics(skyrim_path: str, comments_csv: str, actors_csv: str):
+        """
+        Export the object names into the CSV dictionaires: Comments.csv and Actors.csv.
+        :param skyrim_path:
+        :param comments_csv:
+        :param actors_csv:
+        :return:
+        """
+        # load objects
+        exported_files = QuestDialogs.get_all_export_dialog_files(skyrim_path)
+        actors = CsvDic(actors_csv)
+        comments = CsvDic(comments_csv)
+        # filter all objects and actors
+        with Cd(skyrim_path):
+            list_objects = []
+            list_actors = []
+            for nth_file in exported_files:
+                with open(nth_file) as fd:
+                    rd = csv.reader(fd, delimiter="\t", quotechar='"')
+                    # calc the positions for each file
+                    first_row = next(rd)
+                    col_quest = QuestDialogs.get_index(first_row, QuestDialogs.LABEL_QUEST_QUEST)
+                    col_branch = QuestDialogs.get_index(first_row, QuestDialogs.LABEL_QUEST_BRANCH)
+                    col_npc = QuestDialogs.get_index(first_row, QuestDialogs.LABEL_NPC_SPEAKER)
+                    col_topic = QuestDialogs.get_index(first_row, QuestDialogs.LABEL_QUEST_TOPIC)
+                    for row in rd:
+                        current_quest = row[col_quest]
+                        current_branch = row[col_branch]
+                        current_topic = row[col_topic]
+                        current_npc = row[col_npc]
+                        # add objects
+                        if (current_quest is not None) and (current_quest != "") and\
+                                (current_quest != QuestDialogs.CSV_EMPTY_COLUMN):
+                            list_objects.append(current_quest)
+                        if (current_branch is not None) and (current_branch != "") and\
+                                (current_branch != QuestDialogs.CSV_EMPTY_COLUMN):
+                            list_objects.append(current_branch)
+                        if (current_topic is not None) and (current_topic != "") and\
+                                (current_topic != QuestDialogs.CSV_EMPTY_COLUMN):
+                            list_objects.append(current_topic)
+                        # add actors
+                        if (current_npc is not None) and (current_npc != "") and\
+                                (current_npc != QuestDialogs.CSV_EMPTY_COLUMN):
+                            list_actors.append(current_npc)
+                        print("* objs: " + current_quest + ", " + current_branch + "" + current_topic)
+        # go back to the working directory and remove duplicates
+        list_objects = list(dict.fromkeys(list_objects))
+        list_actors = list(dict.fromkeys(list_actors))
+        print(list_actors)
+        print(list_objects)
+        for obj in list_objects:
+            comments.add(obj, "")
+        for act in list_actors:
+            actors.add(act, "")
+        print("Exportation process completed.")
 
 
     @staticmethod
@@ -136,14 +185,15 @@ class QuestDialogs:
         list_quest = []
         comments = CsvDic(comments_csv)
         log = Logger.get_logger()
-        all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
-        # print(all_files)
-        # filter all exported files from creation kit
-        export_dialog_files = []
-        for nth_file in all_files:
-            if (nth_file.startswith(QuestDialogs.EXPORT_DIALOG_PREFIX) and
-                    nth_file.endswith(QuestDialogs.EXPORT_DIALOG_EXT)):
-                export_dialog_files.append(nth_file)
+        #all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
+        ## print(all_files)
+        ## filter all exported files from creation kit
+        #export_dialog_files = []
+        #for nth_file in all_files:
+        #    if (nth_file.startswith(QuestDialogs.EXPORT_DIALOG_PREFIX) and
+        #            nth_file.endswith(QuestDialogs.EXPORT_DIALOG_EXT)):
+        #        export_dialog_files.append(nth_file)
+        export_dialog_files = QuestDialogs.get_all_export_dialog_files(skyrim_path)
         # return if no file was filtered
         if len(export_dialog_files) == 0:
             Console.yellow("No valid Creation Kit exported file was found at directory <" + skyrim_path + ">")
@@ -324,6 +374,23 @@ class QuestDialogs:
         """
         if branch.is_ready:
             branch.add_topic_dialog(topic)
+
+    @staticmethod
+    def get_all_export_dialog_files(skyrim_path: str):
+        """
+        Return all the expoted dialog files names inside Skyrim root directory.
+        :param skyrim_path: The skyrim root directory.
+        :return: list of expoted dialog files.
+        """
+        all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
+        # print(all_files)
+        # filter all exported files from creation kit
+        export_dialog_files = []
+        for nth_file in all_files:
+            if (nth_file.startswith(QuestDialogs.EXPORT_DIALOG_PREFIX) and
+                    nth_file.endswith(QuestDialogs.EXPORT_DIALOG_EXT)):
+                export_dialog_files.append(nth_file)
+        return export_dialog_files
 
 
 if __name__ == '__main__':
