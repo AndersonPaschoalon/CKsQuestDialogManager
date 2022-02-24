@@ -1,0 +1,121 @@
+{
+  "quest_name": "DSilHand_M80AssaultJor",
+  "comment": "?banch-comment?",
+  "list_branch_dialogs": [
+    {
+      "branch_name": "DSilHand_M80_FjolBeforeDiscourse",
+      "comment": "?banch-comment?",
+      "actor_name": "--",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "--",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M80FB_Topic01",
+          "actor_name": "--",
+          "player_dialog": "I'm ready!",
+          "form_id": "FormID 02042850",
+          "_list_topic_data": [
+            [
+              "1",
+              "Good brother. We've been waiting for you. All the brothers are here. Let's begin...",
+              "Neutral 50"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M80_FragmentSearch",
+      "comment": "?banch-comment?",
+      "actor_name": "--",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "--",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M80FS_Topic01",
+          "actor_name": "--",
+          "player_dialog": "...",
+          "form_id": "FormID 0204435C",
+          "_list_topic_data": [
+            [
+              "1",
+              "I have one thing to ask. Three of the fragments in possession of the Companions are displayed on the wall, but one is missing... ",
+              "Neutral 50"
+            ],
+            [
+              "2",
+              "We need to find it. We need your help.",
+              "Neutral 50"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M80FS_Topic02",
+          "actor_name": "--",
+          "player_dialog": "Consider the task done!",
+          "form_id": "FormID 0204435E",
+          "_list_topic_data": [
+            [
+              "1",
+              "Thanks. Come to me if you find it.",
+              "Neutral 50"
+            ],
+            [
+              "2",
+              "It must be hidden somewhere in the basement. ",
+              "Neutral 50"
+            ],
+            [
+              "3",
+              "We will be cleaning the mess and preparing the bodies for the funerals.",
+              "Neutral 50"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M80_FragmentFound",
+      "comment": "?banch-comment?",
+      "actor_name": "--",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "--",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M80FF_Topic01",
+          "actor_name": "--",
+          "player_dialog": "Here the last Fragment!",
+          "form_id": "FormID 02044363",
+          "_list_topic_data": [
+            [
+              "1",
+              "So that's it! Thanks to you all Wuuthrad pieces are once again together...",
+              "Neutral 50"
+            ],
+            [
+              "2",
+              "Follow me to the Skyforge  brother...",
+              "Happy 50"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "(none)",
+      "comment": "?banch-comment?",
+      "actor_name": "DSilHand_Fjol",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "NordRace",
+      "dialog_type": "SceneDialogue",
+      "is_read": true,
+      "list_topic_dialogs": []
+    }
+  ]
+}
