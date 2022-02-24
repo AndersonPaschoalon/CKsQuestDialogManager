@@ -3,7 +3,8 @@ from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Console import Console
 
 def test_build_quest_objs():
-    QuestDialogs.build_quest_objects("./Sandbox/")
+    #QuestDialogs.build_quest_objects("./Sandbox/", "./Comments.csv", "./Actors.csv")
+    QuestDialogs.generate_quest_documentation("./Sandbox/", "./Comments.csv", "./Actors.csv", "./Docs/")
 
 def test_export_objs():
     skyrim_path = "./Sandbox/"
@@ -14,7 +15,7 @@ def test_export_objs():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # test_build_quest_objs()
+    test_build_quest_objs()
     test_export_objs()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

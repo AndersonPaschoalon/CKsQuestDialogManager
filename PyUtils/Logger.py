@@ -2,6 +2,8 @@ import logging
 
 class Logger :
     """"""
+    FORMAT_CONSOLE = '%(asctime)s - %(levelname)s - %(message)s'
+    FORMAT_LOGFILE = '%(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s'
 
     @staticmethod
     def get_logger(level_log=logging.DEBUG, level_console=logging.WARNING, log_file='./App/Logs/ck-dialog-docgen.log'):
@@ -18,8 +20,11 @@ class Logger :
         ch.setLevel(logging.WARNING)
 
         # create formatter and add it to the handlers
-        fhFormatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        chFormatter = logging.Formatter('%(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s')
+        # fhFormatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        # chFormatter = logging.Formatter('%(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s')
+        fhFormatter = logging.Formatter(Logger.FORMAT_LOGFILE)
+        chFormatter = logging.Formatter(Logger.FORMAT_LOGFILE)
+
         fh.setFormatter(fhFormatter)
         ch.setFormatter(chFormatter)
 

@@ -3,8 +3,10 @@ import csv
 from os import listdir
 from os.path import isfile, join
 import markdown
-from docx import Document
 from htmldocx import HtmlToDocx
+import pdfkit
+import pypandoc
+
 # local imports
 from PyUtils.Console import Console
 from PyUtils.Cd import Cd
@@ -51,14 +53,22 @@ class QuestDialogs:
     CSV_ACTOR_DELIMITER = ";"
     CSV_EMPTY_COLUMN = "--"
 
-    def __init__(self, quest_name: str, quest_description: str, comment_file="../Comments.csv"):
-        """ Quest dialog default constructor"""
+    def __init__(self, quest_name: str, quest_description: str):
+        """
+        Contructor for the QuestDialogs object. Should to be used, you must call the static method
+        build_quest_objects() instead.
+        :param quest_name: The quest ID name.
+        :param quest_description: A quest description.
+        """
         self.quest_name = quest_name
         self.comment = text(quest_description)
-        self.comment_file = comment_file
         self.list_branch_dialogs = []
 
     def to_string(self):
+        """
+        Retruns a string representation of the QuestDialog object on Json format.
+        :return:
+        """
         obj = Obj2Json()
         obj.add("quest_name", self.quest_name)
         obj.add("comment", self.comment)
@@ -69,11 +79,18 @@ class QuestDialogs:
         return obj.json()
 
     def add_branch_dialog(self, branch_dialog: BranchDialogs):
-        """ """
+        """
+        Add a new BranchDialog object to the list ob BranchDialogs of the quest.
+        :param branch_dialog:
+        :return:
+        """
         self.list_branch_dialogs.append(branch_dialog)
 
     def clear_branch_dialog(self):
-        """"""
+        """
+        Clean the list of branch dialogs from the quest object.
+        :return:
+        """
         self.list_branch_dialogs.clear()
 
     def generate_documentation(self, destination="./Docs/Md/"):
@@ -88,9 +105,9 @@ class QuestDialogs:
             md += "> _{0}_\n\n".format(branch.comment)
             for topic in branch.list_topic_dialogs:
                 md += "* {0}\n\n".format(topic.topic_name)
-                md += "    {0}: {1}\n\n".format(STR_PLAYER, topic.player_dialog)
+                md += "\t{0}: {1}\n\n".format(STR_PLAYER, topic.player_dialog)
                 for npc_data in topic.get_topic_data():
-                    md += "    {0}({1}): {2}\n\n".format(topic.actor_name, npc_data[2], npc_data[1])
+                    md += "\t{0} ({1}): {2}\n\n".format(topic.actor_name, npc_data[2], npc_data[1])
         # Markdown
         md_file = open(self.quest_name + ".md", "w")
         md_file.write(md)
@@ -103,15 +120,20 @@ class QuestDialogs:
         # docx
         new_parser = HtmlToDocx()
         new_parser.parse_html_file(self.quest_name + ".html", self.quest_name + ".docx")
+        # pdf
+        #pdfkit.from_file(self.quest_name + ".html", self.quest_name + ".pdf")
+        #pypandoc.convert(source=self.quest_name + ".html", format='html', to='docx',
+        #                 outputfile=self.quest_name + "2.docx",
+        #                 extra_args='--css=custom_file.css')
 
     @staticmethod
     def export_objects_to_csvdics(skyrim_path: str, comments_csv: str, actors_csv: str):
         """
         Export the object names into the CSV dictionaires: Comments.csv and Actors.csv.
-        :param skyrim_path:
-        :param comments_csv:
-        :param actors_csv:
-        :return:
+        :param skyrim_path: Skyrim directory.
+        :param comments_csv: Comment dictionary Comments.csv.
+        :param actors_csv: Actors Names dictionary Actors.csv.
+        :return: void
         """
         # load objects
         exported_files = QuestDialogs.get_all_export_dialog_files(skyrim_path)
@@ -161,10 +183,17 @@ class QuestDialogs:
             actors.add(act, "")
         print("Exportation process completed.")
 
-
     @staticmethod
-    def generate_quest_documentation(skyrim_path: str, comment_csv: str, doc_dir: str):
-        list_quest_obj = QuestDialogs.build_quest_objects(skyrim_path, comment_csv)
+    def generate_quest_documentation(skyrim_path: str, comment_csv: str, actos_csv: str, doc_dir: str):
+        """
+        Main method to generate
+        :param skyrim_path:
+        :param comment_csv:
+        :param actos_csv: Actors.csv dictionary
+        :param doc_dir:
+        :return:
+        """
+        list_quest_obj = QuestDialogs.build_quest_objects(skyrim_path, comment_csv, actos_csv)
         for q in list_quest_obj:
             with open(q.quest_name + ".json", "w") as text_file:
                 text_file.write(q.to_string())
@@ -184,6 +213,7 @@ class QuestDialogs:
         # initialize output list
         list_quest = []
         comments = CsvDic(comments_csv)
+        actors_dic = CsvDic(actors_csv)
         log = Logger.get_logger()
         #all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
         ## print(all_files)
@@ -258,7 +288,9 @@ class QuestDialogs:
                             branch_obj.branch_name = current_branch
                             branch_obj.comment = comments.get(current_branch, QuestDialogs.DEFAULT_BRANCH_DESCRIPTION)
                             branch_obj.dialog_type = row[col_type]
-                            branch_obj.actor_name = row[col_npc]
+                            # branch_obj.actor_name = row[col_npc]
+                            actor_id = row[col_npc]
+                            branch_obj.actor_name = actors_dic.get(actor_id, actor_id)
                             branch_obj.actor_race = row[col_npc_race]
                             branch_obj.actor_voice_type = row[col_npc_voice]
                             branch_obj.is_ready = True
@@ -274,7 +306,9 @@ class QuestDialogs:
                             # a new topic started, a new one needs to be created
                             topic_obj = TopicDialogs()
                             topic_obj.topic_name = row[col_topic]
-                            topic_obj.actor_name = row[col_npc]
+                            #topic_obj.actor_name = row[col_npc]
+                            actor_id = row[col_npc]
+                            topic_obj.actor_name = actors_dic.get(actor_id, actor_id)
                             topic_obj.player_dialog = row[col_prompt]
                             topic_obj.form_id = row[col_form_id]
                             topic_obj.comment = comments.get(current_topic, "")
