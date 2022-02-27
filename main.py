@@ -1,9 +1,13 @@
 # This is a sample Python script.
+import logging
 from QuestExports.QuestDialogs import QuestDialogs
+from PyUtils.Logger import Logger
 from PyUtils.Console import Console
 
+LOG_FILE = "./App/Logs/ck-dialog-docgen.log"
+
 def test_build_quest_objs():
-    #QuestDialogs.build_quest_objects("./Sandbox/", "./Comments.csv", "./Actors.csv")
+    Logger.initialize(LOG_FILE, level_log=logging.DEBUG, level_console=logging.WARNING)
     QuestDialogs.generate_quest_documentation("./Sandbox/", "./Comments.csv", "./Actors.csv", "./Docs/")
 
 def test_export_objs():

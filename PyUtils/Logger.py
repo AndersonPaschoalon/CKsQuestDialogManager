@@ -1,39 +1,51 @@
 import logging
 
-class Logger :
+class Logger:
     """"""
-    FORMAT_CONSOLE = '%(asctime)s - %(levelname)s - %(message)s'
-    FORMAT_LOGFILE = '%(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s'
+    LOGGER_NAME = "PyPro"
+    FORMAT_CONSOLE = '%(levelname)s - %(message)s'
+    FORMAT_LOGFILE = '%(asctime)s - %(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s'
+    DEFAULT_LOGGER = "default_logger.log"
+    _logger = None
 
     @staticmethod
-    def get_logger(level_log=logging.DEBUG, level_console=logging.WARNING, log_file='./App/Logs/ck-dialog-docgen.log'):
-
-        logger = logging.getLogger('PyPro')
-        logger.setLevel(logging.DEBUG)
-
+    def initialize(log_file, level_log=logging.DEBUG, level_console=logging.WARNING):
+        """
+        Initializes the singleton object.
+        :param log_file: The filename where the logs are going to be saved.
+        :param level_log: Log level for the log file.
+        :param level_console: Log level for the console.
+        :return: None
+        """
+        Logger._logger = logging.getLogger(Logger.LOGGER_NAME)
+        Logger._logger.setLevel(level_log)
         # create file handler which logs even debug messages
-        fh = logging.FileHandler('./App/Logs/ck-dialog-docgen.log')
-        fh.setLevel(logging.DEBUG)
-
+        fh = logging.FileHandler(log_file)
+        fh.setLevel(level_log)
         # create console handler with a higher log level
         ch = logging.StreamHandler()
-        ch.setLevel(logging.WARNING)
-
+        ch.setLevel(level_console)
         # create formatter and add it to the handlers
-        # fhFormatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        # chFormatter = logging.Formatter('%(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s')
-        fhFormatter = logging.Formatter(Logger.FORMAT_LOGFILE)
-        chFormatter = logging.Formatter(Logger.FORMAT_LOGFILE)
-
-        fh.setFormatter(fhFormatter)
-        ch.setFormatter(chFormatter)
-
+        fh_formatter = logging.Formatter(Logger.FORMAT_LOGFILE)
+        ch_formatter = logging.Formatter(Logger.FORMAT_CONSOLE)
+        fh.setFormatter(fh_formatter)
+        ch.setFormatter(ch_formatter)
         # add the handlers to logger
-        logger.addHandler(ch)
-        logger.addHandler(fh)
+        Logger._logger.addHandler(ch)
+        Logger._logger.addHandler(fh)
+        # init log
+        Logger._logger.info("-----------------------------------")
+        Logger._logger.info("Log system successfully initialised")
+        Logger._logger.info("-----------------------------------")
 
-        logger.info("-----------------------------------")
-        logger.info("Log system successfully initialised")
-        logger.info("-----------------------------------")
-
-        return logger
+    @staticmethod
+    def get():
+        """
+        Returns the logger object.
+        :return: The logger.
+        """
+        if Logger._logger is not None:
+            pass
+        else:
+            Logger.initialize(Logger.DEFAULT_LOGGER, logging.DEBUG, logging.WARNING)
+        return Logger._logger

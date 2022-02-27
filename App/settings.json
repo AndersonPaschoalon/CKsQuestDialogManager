@@ -1,6 +1,9 @@
 {
-  "skyrim_path" : "./Sandbox/",
-  "log_level" : "",
-  "descriptions" : "",
-  "topic-sort-by-name" : "true"
+    "skyrim-path": "./Sandbox/",
+    "dogen-dir": "./GenDocs/",
+    "log-level": "DEBUG",
+    "actors-file": "./Actors.csv",
+    "comments-file": "./Comments.csv",
+    "topic-sort-by-name": "true",
+    "app_theme": "DarkBlue15"
 }
