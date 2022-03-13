@@ -71,7 +71,7 @@ class AppInfo:
         self.app_icon_ico = self.img_dir + "sbc.ico"
         self.app_icon_png = self.img_dir + "Snowberry_crostata.png"
         self.log_file = self.log_dir + "ck-dialog-docgen.log"
-        #self.tutorial_html = self.pages_dir + "tutorial.html"
+        self.tutorial_html = self.pages_dir + "tutorial.html"
         self.url_github = "https://github.com/AndersonPaschoalon/CreationKit-DialogDocGen.git"
         self.url_nexus = "https://www.nexusmods.com/skyrim"
         self.tutorial_html = self.pages_dir + "sample.html"

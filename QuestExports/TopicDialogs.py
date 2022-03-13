@@ -27,9 +27,9 @@ class TopicDialogs:
         obj.addl("_list_topic_data", self._list_topic_data)
         return obj.json()
 
-    def add_topic_data(self, index: str, response: str, mood: str):
+    def add_topic_data(self, index: str, response: str, mood: str, file_name: str):
         """Add a tuple of topic information."""
-        topic_tuple = (text(index), text(response), text(mood))
+        topic_tuple = (text(index), text(response), text(mood), text(file_name))
         self._list_topic_data.append(topic_tuple)
 
     def sort(self):

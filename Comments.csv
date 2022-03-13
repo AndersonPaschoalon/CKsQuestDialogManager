@@ -1,39 +1,40 @@
-DSilHand_M10SilverHunt; Some comment for M10SilverHunt
-DSilHand_M10_DrunkenHuntsman; Some comment for DrunkenHuntsman
-DSilHand_M10DH_Topic01; Some comment for Topic01
-DSilHand_M10DH_Topic02; Some comment for Topic02DSilHand_M10_GallowsGreetings;
-DSilHand_M10_GallowsGreetings;
-DSilHand_M10GG_Topic13;
-DSilHand_M10GG_Topic12;
-DSilHand_M10GG_Topic11;
-DSilHand_M10GG_Topic10;
-DSilHand_M10GG_Topic09;
-DSilHand_M10GG_Topic08;
-DSilHand_M10GG_Topic06;
-DSilHand_M10GG_Topic05;
-DSilHand_M10GG_Topic04;
-DSilHand_M10GG_Topic03;
-DSilHand_M10GG_Topic02;
-DSilHand_M10GG_Topic01;
-DSIlHand_M10_GallowsAfterTroll;
-DSIlHand_M10GAT_Topic01;
-DSilHand_M10_GallowsMeetKrev;
-DSilHand_M10GMK_Topic05;
-DSilHand_M10GMK_Topic04;
-DSilHand_M10GMK_Topic03;
-DSilHand_M10GMK_Topic02;
-DSilHand_M10GMK_Topic01;
-DSilHand_M10_Driftshade;
-DSilHand_M10Ds_Topic04;
-DSilHand_M10Ds_Topic03;
-DSilHand_M10Ds_Topic02;
-DSilHand_M10Ds_Topic01;
-DSilHand_M80AssaultJor;
-DSilHand_M80_FjolBeforeDiscourse;
-DSilHand_M80FB_Topic01;
-DSilHand_M80_FragmentSearch;
-DSilHand_M80FS_Topic02;
-DSilHand_M80FS_Topic01;
-DSilHand_M80_FragmentFound;
-DSilHand_M80FF_Topic01;
-(none);
+DSilHand_M10SilverHunt,"It is the first quest for the mod Down of the Silver Hand. The player to start it must talk with three different people: a spy on The Drunk Huntsman on Whiterun, the Gallow’s Rock’s guard, or the Driftshade Refuge’s guar. In any case, the Gallows Rock’s guard will give a quest to kill a Frost Troll, and bring its Skull. After that, you will be allowed to talk to the Silver Hand leader: Krev the Skinner, and ask permission to join. Note: if you join the Companions before completing this quest, it will fail, and the Silver Hands will become hostile to you. "
+DSilHand_M10_DrunkenHuntsman,"Here the Dragonborn will meet the Silver Hand spy on Whiterun, and he will send you to Gallows Rock to start the quest."
+DSilHand_M10DH_Topic01,
+DSilHand_M10DH_Topic02,
+DSilHand_M10_GallowsGreetings,"This dialog tree is enabled if you go to Gallows Rock before joining the Silver Hand. The Gallows Rock Guard will force greet you. Then, you may request to join the faction."
+DSilHand_M10GG_Topic13,
+DSilHand_M10GG_Topic12,
+DSilHand_M10GG_Topic11,
+DSilHand_M10GG_Topic10,
+DSilHand_M10GG_Topic09,
+DSilHand_M10GG_Topic08,
+DSilHand_M10GG_Topic06,
+DSilHand_M10GG_Topic05,
+DSilHand_M10GG_Topic04,
+DSilHand_M10GG_Topic03,
+DSilHand_M10GG_Topic02,
+DSilHand_M10GG_Topic01,
+DSIlHand_M10_GallowsAfterTroll,
+DSIlHand_M10GAT_Topic01,
+DSilHand_M10_GallowsMeetKrev,
+DSilHand_M10GMK_Topic05,
+DSilHand_M10GMK_Topic04,
+DSilHand_M10GMK_Topic03,
+DSilHand_M10GMK_Topic02,
+DSilHand_M10GMK_Topic01,
+DSilHand_M10_Driftshade,
+DSilHand_M10Ds_Topic04,
+DSilHand_M10Ds_Topic03,
+DSilHand_M10Ds_Topic02,
+DSilHand_M10Ds_Topic01,
+DSilHand_M80AssaultJor,
+DSilHand_M80_FjolBeforeDiscourse,
+DSilHand_M80FB_Topic01,
+DSilHand_M80_FragmentSearch,
+DSilHand_M80FS_Topic02,
+DSilHand_M80FS_Topic01,
+DSilHand_M80_FragmentFound,
+DSilHand_M80FF_Topic01,
+(none),
+

@@ -1,9 +1,7 @@
-import logging
 import PySimpleGUI as sg
 from emoji import emojize
 from CkLogicLayer import CkLogicLayer
 from PyUtils.Logger import Logger
-from AppInfo import AppSettings
 from AppInfo import AppInfo
 
 FI = 1.618
@@ -21,7 +19,7 @@ if __name__ == '__main__':
     #
     # Initialize application
     #
-    cd_dialog_dogen = CkLogicLayer()
+    cd_dialog_docgen = CkLogicLayer()
     _log = Logger.get()
     app = AppInfo()
     str_theme = app.settings_obj.app_theme
@@ -60,26 +58,26 @@ if __name__ == '__main__':
             break
         elif event == BTN_SETTINGS:
             _log.debug("event:" + event)
-            cd_dialog_dogen.open_settings_window()
+            cd_dialog_docgen.open_settings_window()
         elif event == BTN_THEME:
             _log.debug("event:" + event)
-            selected_theme = cd_dialog_dogen.open_theme_picker()
+            selected_theme = cd_dialog_docgen.open_theme_picker()
             if selected_theme != "":
                 sg.theme(selected_theme)
         elif event == BTN_EXPORT_CSV:
             _log.debug("event:" + event)
-            cd_dialog_dogen.export_objects_to_csv()
+            cd_dialog_docgen.export_objects_to_csv()
         elif event == BTN_DOC_GEN:
             _log.debug("event:" + event)
-            cd_dialog_dogen.generate_documentation()
+            cd_dialog_docgen.generate_documentation()
         elif event == BTN_TUTORIAL:
             _log.debug("event:" + event)
-            cd_dialog_dogen.open_tutorial()
+            cd_dialog_docgen.open_tutorial()
         elif event == BTN_GITHUB:
             _log.debug("event:" + event)
-            cd_dialog_dogen.open_github()
+            cd_dialog_docgen.open_github()
         elif event == BTN_NEXUS:
             _log.debug("event:" + event)
-            cd_dialog_dogen.open_nexus()
+            cd_dialog_docgen.open_nexus()
 
     window.close()
