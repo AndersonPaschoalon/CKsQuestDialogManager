@@ -1,10 +1,14 @@
 from PyUtils.Obj2Json import Obj2Json
 from PyUtils.Functions import *
 
+
 class TopicDialogs:
+    """
+    This class represents a Topic dialog from quest object.
+    """
 
     def __init__(self):
-        """Default TopicDialogs constructor"""
+        """Default TopicDialogs constructor."""
         # name of the topic
         self.topic_name = ""
         # additional information
@@ -19,6 +23,10 @@ class TopicDialogs:
         self._list_topic_data = []
 
     def to_string(self):
+        """
+        Build a Json string representation of the object.
+        :return: json string.
+        """
         obj = Obj2Json()
         obj.add("topic_name", self.topic_name)
         obj.add("actor_name", self.actor_name)

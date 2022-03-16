@@ -17,17 +17,17 @@ class CkLogicLayer:
     def __init__(self):
         self.app = AppInfo()
         Logger.initialize(self.app.log_file, level_log=logging.DEBUG, level_console=logging.WARNING)
-        _log = Logger.get()
-        _log.debug("-- Initializing CkLogicLayer()")
+        self._log = Logger.get()
+        self._log.debug("-- Initializing CkLogicLayer()")
 
     def export_objects_to_csv(self):
-        _log = Logger.get()
+        self._log = Logger.get()
         try:
-            _log.debug("-- export_objects_to_csv()")
+            self._log.debug("-- export_objects_to_csv()")
             skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
-            _log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
+            self._log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
                        ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv)
             [exported_files, list_objects, list_actors] = QuestDialogs.export_objects_to_csvdics(skyrim_path,
                                                                                                  comments_csv,
@@ -58,18 +58,18 @@ class CkLogicLayer:
                 i = i + 1
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Exported Objects Summary")
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
 
     def generate_documentation(self):
-        _log = Logger.get()
+        self._log = Logger.get()
         try:
-            _log.debug("-- generate_documentation()")
+            self._log.debug("-- generate_documentation()")
             skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
             docs_dir = self.app.settings_obj.docgen_dir
-            _log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path + \
+            self._log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path + \
                        ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv + ", docs_dir:" + docs_dir)
             qlist = QuestDialogs.generate_quest_documentation(skyrim_path, comments_csv, actors_csv, docs_dir)
             i = 0
@@ -82,46 +82,46 @@ class CkLogicLayer:
                 i = i + 1
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Documentation Generation Summary")
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
 
     def open_tutorial(self):
-        _log = Logger.get()
+        self._log = Logger.get()
         try:
-            _log.debug("-- open_tutorial()")
+            self._log.debug("-- open_tutorial()")
             url_tutorial = self.app.tutorial_url()
-            _log.debug("webbrowser.open() url_tutorial:" + url_tutorial)
+            self._log.debug("webbrowser.open() url_tutorial:" + url_tutorial)
             webbrowser.open(url_tutorial, new=2)
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
 
     def open_github(self):
-        _log = Logger.get()
+        self._log = Logger.get()
         try:
-            _log.debug("-- open_github()")
+            self._log.debug("-- open_github()")
             url = self.app.url_github
-            _log.debug("webbrowser.open() url_tutorial:" + url)
+            self._log.debug("webbrowser.open() url_tutorial:" + url)
             webbrowser.open(url, new=2)
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
 
     def open_nexus(self):
         try:
-            _log = Logger.get()
-            _log.debug("-- open_nexus()")
+            self._log = Logger.get()
+            self._log.debug("-- open_nexus()")
             url = self.app.url_nexus
-            _log.debug("webbrowser.open() url_tutorial:" + url)
+            self._log.debug("webbrowser.open() url_tutorial:" + url)
             webbrowser.open(url, new=2)
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
 
     def open_theme_picker(self):
-        _log = Logger.get()
+        self._log = Logger.get()
         try:
-            _log.debug("-- open_theme_picker()")
+            self._log.debug("-- open_theme_picker()")
             layout = [[sg.Text('Theme Browser')],
                       [sg.Text('Click a Theme color to see demo window')],
                       [sg.Listbox(values=sg.theme_list(), size=(20, 12), key='-LIST-', enable_events=True)],
@@ -134,7 +134,7 @@ class CkLogicLayer:
                     window_picker.close()
                     return ""
                 elif event == "OK":
-                    _log.debug("THEME SELECTED:" + selected_theme)
+                    self._log.debug("THEME SELECTED:" + selected_theme)
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
                     window_picker.close()
@@ -143,7 +143,7 @@ class CkLogicLayer:
                     return selected_theme
                 elif event == "RESET":
                     selected_theme = CkLogicLayer.DEFAULT_THEME
-                    _log.debug("THEME SELECTED:" + selected_theme)
+                    self._log.debug("THEME SELECTED:" + selected_theme)
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
                     window_picker.close()
@@ -153,15 +153,15 @@ class CkLogicLayer:
                 sg.theme(values['-LIST-'][0])
                 sg.popup_get_text('This is {}'.format(values['-LIST-'][0]))
                 selected_theme = values['-LIST-'][0]
-                _log.debug("*** " + values['-LIST-'][0])
+                self._log.debug("*** " + values['-LIST-'][0])
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
 
     def open_settings_window(self):
-        _log = Logger.get()
+        self._log = Logger.get()
         try:
-            _log.debug("-- open_settings_window()")
+            self._log.debug("-- open_settings_window()")
             layout = []
             # 0
             layout.append([sg.Text("Skyrim Path"), sg.InputText(default_text=self.app.settings_obj.skyrim_path)])
@@ -195,8 +195,8 @@ class CkLogicLayer:
                     window_settings.close()
                     return "reset"
         except:
-            _log.error(traceback.format_exc())
-            _log.error(sys.exc_info()[2])
+            self._log.error(traceback.format_exc())
+            self._log.error(sys.exc_info()[2])
             return "exception"
 
 if __name__ == '__main__':

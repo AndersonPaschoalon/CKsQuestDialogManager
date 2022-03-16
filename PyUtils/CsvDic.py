@@ -48,7 +48,7 @@ class CsvDic:
             return default_value
 
     def get_last(self, default_comment=""):
-        """Get the last value read by the method has_comment()"""
+        """Get the last value read by the method has_key_()"""
         if self._last_get == "":
             return default_comment
         else:
@@ -61,75 +61,7 @@ class CsvDic:
         """
         if not self.has_key_(key) and key != "" and key is not None:
             try:
-                value_str = ("" if value.startswith('"') else "\"") + value + ("" if value.endswith("\"") else "\"")
-                with open(self._csv_file, "a") as f:
-                    line = key + self._delimiter + value_str + "\n"
-                    f.write(line)
-                return True
-            except:
-                return False
-        else:
-            return True
-
-class CsvDic2:
-    """
-    This class handles a simple CSV file with two columns: a key column and a value column.
-    You may check if a key exist, get its value or add a new one.
-    """
-
-    def __init__(self, dic_file, delimiter=";"):
-        self._csv_file = os.path.abspath(dic_file)
-        self._last_get = ""
-        self._delimiter = delimiter
-
-
-    def has_key_(self, key: str):
-        """Tells if the given key exist in the CSV file."""
-        ret_val = False
-        try:
-            with open(self._csv_file) as file:
-                csvreader = csv.reader(file, delimiter=self._delimiter)
-                for row in csvreader:
-                    if row[0] == key:
-                        self._last_get = str(row[1])
-                        ret_val = True
-                        break
-                if not ret_val:
-                    self._last_get = ""
-        except:
-            self._last_get = ""
-        finally:
-            return ret_val
-
-    def get(self, key: str, default_value=""):
-        """
-        Returns the value of a given key, stored in the CSV file.
-        If the comment key not exist, returns the default_value value instead."""
-        try:
-            file = open(self._csv_file)
-            csvreader = csv.reader(file, delimiter=self._delimiter)
-            for row in csvreader:
-                if row[0] == key:
-                    return str(row[1])
-            return default_value
-        except:
-            return default_value
-
-    def get_last(self, default_comment=""):
-        """Get the last value read by the method has_comment()"""
-        if self._last_get == "":
-            return default_comment
-        else:
-            return self._last_get
-
-    def add(self, key: str, value=""):
-        """
-        Add a new pair of key/value if it already does not exist in the CSV dictionary.
-        If it exit, it does nothing.
-        """
-        if not self.has_key_(key) and key != "" and key is not None:
-            try:
-                value_str = ("" if value.startswith('"') else "\"") + value + ("" if value.endswith("\"") else "\"")
+                value_str = ("" if value.startswith('"') else '"') + value + ("" if value.endswith('"') else '"')
                 with open(self._csv_file, "a") as f:
                     line = key + self._delimiter + value_str + "\n"
                     f.write(line)

@@ -1,25 +1,29 @@
-import csv
-import os
 from os import listdir
 from os.path import isfile, join
 import markdown
 from htmldocx import HtmlToDocx
-import pdfkit
-import pypandoc
 from PyUtils.Console import Console
 from PyUtils.Cd import Cd
 from PyUtils.Logger import Logger
 from PyUtils.Obj2Json import Obj2Json
 from PyUtils.Functions import *
 from PyUtils.CsvDic import *
-from .TopicDialogs import TopicDialogs
-from .BranchDialogs import BranchDialogs
+from QuestExports.TopicDialogs import TopicDialogs
+from QuestExports.BranchDialogs import BranchDialogs
+from QuestExports.Consts import Consts
+from QuestExports.Scene import Scene
 
+"""
+TODO: quando se criar os objectos da quest, as cenas devem ser adicionadas
+TODO: no generate documentation, a cenas devem ser acessadas da quest.
+
+"""
 
 class QuestDialogs:
     """
     This class stores information about the quest dialogs, parsers the Creation Kit exported files,
     and generates the documentation.
+    """
     """
     # file
     LABEL_FILE_FULL_PATH = 'FULL PATH'
@@ -45,14 +49,13 @@ class QuestDialogs:
     DEFAULT_BRANCH_DESCRIPTION = "?banch-comment?"
     DEFAULT_QUEST_DESCRIPTION = "?quest-comment?"
     # CSV dics
-    # CSV_COMMENTS_DELIMITER = ";"
-    # CSV_ACTOR_DELIMITER = ";"
     CSV_COMMENTS_DELIMITER = ","
     CSV_ACTOR_DELIMITER = ","
     CSV_EMPTY_COLUMN = "--"
+    """
     _log = None
 
-    def __init__(self, quest_name: str, quest_description: str):
+    def __init__(self, quest_name: str, quest_description: str, skyrim_path: str):
         """
         Contructor for the QuestDialogs object. Should to be used, you must call the static method
         build_quest_objects() instead.
@@ -61,8 +64,10 @@ class QuestDialogs:
         """
         self.quest_name = quest_name
         self.comment = text(quest_description)
+        self.skyrim_path = skyrim_path
         self.list_branch_dialogs = []
-        _log = Logger.get()
+        self.list_scenes = []
+        self._log = Logger.get()
 
     def to_string(self):
         """
@@ -72,108 +77,163 @@ class QuestDialogs:
         obj = Obj2Json()
         obj.add("quest_name", self.quest_name)
         obj.add("comment", self.comment)
+        obj.add("skyrim_path", self.skyrim_path)
         list_branch_str = []
         for br in self.list_branch_dialogs:
             list_branch_str.append(br.to_string())
         obj.addl("list_branch_dialogs", list_branch_str)
+        list_scenes_str = []
+        for sc in self.list_scenes:
+            list_scenes_str.append(sc.to_string())
+        obj.addl("list_scenes", list_scenes_str)
         return obj.json()
 
-    def generate_documentation(self, destination="./Docs"):
-        """"""
-        DOC_HTML = destination + "/Html/"
-        DOC_MD = destination + "/Md/"
-        DOC_JSON = destination + "/Json/"
-        DOC_DOCX = destination + "/Docx/"
-        STR_PLAYER = "Player"
+    def generate_documentation(self, destination="./Docs", scene_order_dic="./SceneOrder.csv"):
+        """
+        This method generate the actual documentation.
+        :param destination: The directory where the documentation will be generated.
+        :return: void
+        """
+        # (1) Initialize environment
+        self._log.debug("generate_documentation() destination:" + destination + " for quest " + self.quest_name)
+        doc_html = destination + Consts.DOC_HTML_DIR
+        doc_md = destination + Consts.DOC_MD_DIR
+        doc_json = destination + Consts.DOC_JSON_DIR
+        doc_docx = destination + Consts.DOC_DOCX_DIR
         if not os.path.exists(destination):
             os.makedirs(destination)
-        if not os.path.exists(DOC_HTML):
-            os.makedirs(DOC_HTML)
-        if not os.path.exists(DOC_MD):
-            os.makedirs(DOC_MD)
-        if not os.path.exists(DOC_JSON):
-            os.makedirs(DOC_JSON)
-        if not os.path.exists(DOC_DOCX):
-            os.makedirs(DOC_DOCX)
-        path_html = DOC_HTML + self.quest_name + ".html"
-        path_md = DOC_MD + self.quest_name + ".md"
-        path_json = DOC_JSON + self.quest_name + ".json"
-        path_docx = DOC_DOCX + self.quest_name
+        if not os.path.exists(doc_html):
+            os.makedirs(doc_html)
+        if not os.path.exists(doc_md):
+            os.makedirs(doc_md)
+        if not os.path.exists(doc_json):
+            os.makedirs(doc_json)
+        if not os.path.exists(doc_docx):
+            os.makedirs(doc_docx)
+        path_html = doc_html + self.quest_name + ".html"
+        path_md = doc_md + self.quest_name + ".md"
+        path_json = doc_json + self.quest_name + ".json"
+        path_docx = doc_docx + self.quest_name
         md = ""
         md += "# Quest {0}\n".format(self.quest_name)
         md += "\n_{0}_\n".format(self.comment.strip().replace('_', '\\_'))
         branch: BranchDialogs
         topic: TopicDialogs
+        # (2) Creating quest branches documentation
+        md += "\n## Branches\n"
         for branch in self.list_branch_dialogs:
-            md += "## {0}\n".format(branch.branch_name)
+            md += "### {0}\n".format(branch.branch_name)
             md += "> _{0}_\n".format(branch.comment.strip())
             md += "> \n"
-            md += "> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".format(branch.dialog_type.strip(),\
-                                                                                              branch.actor_race.strip(),\
+            md += "> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".format(branch.dialog_type.strip(),
+                                                                                              branch.actor_race.strip(),
                                                                                               branch.actor_voice_type.strip())
             for topic in branch.list_topic_dialogs:
                 md += "####{0}\n\n".format(topic.topic_name)
                 if topic.comment.strip() != "":
                     md += "{0}\n\n".format(topic.comment.strip().replace('_', '\\_'))
-                md += "{0}: {1}\n\n".format(STR_PLAYER, topic.player_dialog)
+                md += "{0}: {1}\n\n".format(Consts.STR_PLAYER_VAL, topic.player_dialog)
                 for npc_data in topic.get_topic_data():
                     md += "{0} ({1}): {2}    \n\n".format(topic.actor_name, npc_data[2], npc_data[1])
                     md += "``{0}``    \n\n".format(npc_data[3])
                 md += "\n"
+        # (3) Creating quest scenes documentation
+        is_empty = True
+        scenes_quests = Scene.list_scene_quests(self.skyrim_path)
+        if self.quest_name in scenes_quests:
+            scene_list = Scene.build_scenes_list(self.skyrim_path, self.quest_name, scene_order_dic)
+            # add scenes to quest
+            for scene in scene_list:
+                self._add_scene(scene)
+            # Check if list is empty
+            for scene in scene_list:
+                if not scene.is_empty():
+                    is_empty = False
+                    md += "\n## Scenes\n"
+                    break
+            # Add scene data
+            for scene in scene_list:
+                if not scene.is_empty():
+                    md += "### {0}\n".format(scene.scene_id)
+                    if scene.comment.strip() != "":
+                        md += "{0}\n\n".format(scene.comment.strip().replace('_', '\\_'))
+                    for st in scene.list_scene_topics:
+                        md += "#### Phase {0}\n\n".format(st.sd_scene_phase)
+                        md +="> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".format(st.de_dialog_type, st.de_actor_race, st.sd_voice_type)
+                        for dl in st.sd_list_dialog_lines:
+                            md += "{0} ({1}): {2}    \n\n".format(st.actor_name, dl.sd_emotion, dl.sd_dialogue)
+                            md += "``{0}``    \n\n".format(dl.sd_filename)
+                            if dl.sd_notes != "":
+                                md += "Notes: *{0}*    \n\n".format(dl.sd_notes)
+                        md += "\n"
+                else:
+                    self._log.warn("**WARN** SKIPPING EMPTY SCENE.")
+        else:
+            self._log.info("Quest " + self.quest_name + " dont have Scenes.")
+
         md += "\n\n\n*****\n\n"
         md += "> _``Documentation generated by CkDiagDocGen. Access https://github.com/AndersonPaschoalon/CreationKit-DialogDocGen for new versions and updates.``_\n\n"
-
+        self._log.debug("markdown generated -> saving into files")
         # Markdown
+        self._log.debug("creating markdown")
         md_file = open(path_md, "w")
         md_file.write(md)
         md_file.close()
         # html
+        self._log.debug("creating html")
         html_file = open(path_html, "w")
         html = markdown.markdown(md)
         html_file.write(html)
         html_file.close()
         # docx
+        self._log.debug("creating docx")
         new_parser = HtmlToDocx()
         new_parser.parse_html_file(path_html, path_docx)
         # json
+        self._log.debug("creating json")
         jfile = open(path_json, "w")
         jfile.write(self.to_string())
         jfile.close()
-        # pdf
-        # pdfkit.from_file(self.quest_name + ".html", self.quest_name + ".pdf")
-        # pypandoc.convert(source=self.quest_name + ".html", format='html', to='docx',
-        #                 outputfile=self.quest_name + "2.docx",
-        #                 extra_args='--css=custom_file.css')
 
     def _add_branch_dialog(self, branch_dialog: BranchDialogs):
         """
         Add a new BranchDialog object to the list ob BranchDialogs of the quest.
-        :param branch_dialog:
-        :return:
+        :param branch_dialog: add branch dialog list.
+        :return: void
         """
         self.list_branch_dialogs.append(branch_dialog)
+
+    def _add_scene(self, scene: Scene):
+        """
+        Add a new Scene object to the list ob BranchDialogs of the quest.
+        :param scene: add branch dialog list.
+        :return: void
+        """
+        self.list_scene.append(scene)
 
     def _clear_branch_dialog(self):
         """
         Clean the list of branch dialogs from the quest object.
-        :return:
+        :return: void
         """
         self.list_branch_dialogs.clear()
+
 
     @staticmethod
     def export_objects_to_csvdics(skyrim_path: str, comments_csv: str, actors_csv: str):
         """
-        Export the object names into the CSV dictionaires: Comments.csv and Actors.csv.
+        Export the object names into the CSV dictionaries: Comments.csv and Actors.csv.
         :param skyrim_path: Skyrim directory.
         :param comments_csv: Comment dictionary Comments.csv.
         :param actors_csv: Actors Names dictionary Actors.csv.
-        :return: void
+        :return: [exported_files, list_objects, list_actors]: returns 3 arrays, a list of exported files, a list of
+        objects exported, and a list of actors exported.
         """
         _log = Logger.get()
         # load objects
         exported_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
-        actors = CsvDic(actors_csv, QuestDialogs.CSV_ACTOR_DELIMITER)
-        comments = CsvDic(comments_csv, QuestDialogs.CSV_COMMENTS_DELIMITER)
+        actors = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
+        comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
         # filter all objects and actors
         with Cd(skyrim_path):
             list_objects = []
@@ -183,10 +243,10 @@ class QuestDialogs:
                     rd = csv.reader(fd, delimiter="\t", quotechar='"')
                     # calc the positions for each file
                     first_row = next(rd)
-                    col_quest = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_QUEST)
-                    col_branch = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_BRANCH)
-                    col_npc = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_SPEAKER)
-                    col_topic = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_TOPIC)
+                    col_quest = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_QUEST)
+                    col_branch = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_BRANCH)
+                    col_npc = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_SPEAKER)
+                    col_topic = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_TOPIC)
                     for row in rd:
                         current_quest = row[col_quest]
                         current_branch = row[col_branch]
@@ -194,17 +254,17 @@ class QuestDialogs:
                         current_npc = row[col_npc]
                         # add objects
                         if (current_quest is not None) and (current_quest != "") and \
-                                (current_quest != QuestDialogs.CSV_EMPTY_COLUMN):
+                                (current_quest != Consts.CSV_EMPTY_COLUMN):
                             list_objects.append(current_quest)
                         if (current_branch is not None) and (current_branch != "") and \
-                                (current_branch != QuestDialogs.CSV_EMPTY_COLUMN):
+                                (current_branch != Consts.CSV_EMPTY_COLUMN):
                             list_objects.append(current_branch)
                         if (current_topic is not None) and (current_topic != "") and \
-                                (current_topic != QuestDialogs.CSV_EMPTY_COLUMN):
+                                (current_topic != Consts.CSV_EMPTY_COLUMN):
                             list_objects.append(current_topic)
                         # add actors
                         if (current_npc is not None) and (current_npc != "") and \
-                                (current_npc != QuestDialogs.CSV_EMPTY_COLUMN):
+                                (current_npc != Consts.CSV_EMPTY_COLUMN):
                             list_actors.append(current_npc)
                         _log.debug("* objs: " + current_quest + ", " + current_branch + "" + current_topic)
         # go back to the working directory and remove duplicates
@@ -220,7 +280,7 @@ class QuestDialogs:
         return [exported_files, list_objects, list_actors]
 
     @staticmethod
-    def generate_quest_documentation(skyrim_path: str, comment_csv: str, actos_csv: str, doc_dir: str):
+    def generate_quest_documentation(skyrim_path: str, comment_csv: str, actos_csv: str, scene_order_csv: str, doc_dir: str):
         """
         Main method to generate
         :param skyrim_path:
@@ -230,6 +290,8 @@ class QuestDialogs:
         :return:
         """
         _log = Logger.get()
+        _log.debug("generate_quest_documentation() skyrim_path:" + skyrim_path + ", comment_csv:" +\
+                   comment_csv + ", actos_csv:" + actos_csv + ", doc_dir:" + doc_dir)
         list_quests_names = []
         list_quest_obj = QuestDialogs.build_quest_objects(skyrim_path, comment_csv, actos_csv)
         for q in list_quest_obj:
@@ -238,6 +300,7 @@ class QuestDialogs:
             q.generate_documentation(doc_dir)
             list_quests_names.append(q.quest_name)
         print("Documentation generation finished.")
+        _log.info("Documentation generation finished.")
         return list_quests_names
 
     @staticmethod
@@ -251,12 +314,12 @@ class QuestDialogs:
         :return: The list of QuestDialog objects.
         """
         _log = Logger.get()
-        _log.debug(" -- build_quest_objects: skyrim_path:" + skyrim_path + ", comments_csv:" + comments_csv + \
+        _log.debug("build_quest_objects(): skyrim_path:" + skyrim_path + ", comments_csv:" + comments_csv + \
                    ", actors_csv:" + actors_csv)
         # initialize output list
         list_quest = []
-        comments = CsvDic(comments_csv, QuestDialogs.CSV_COMMENTS_DELIMITER)
-        actors_dic = CsvDic(actors_csv, QuestDialogs.CSV_ACTOR_DELIMITER)
+        comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
+        actors_dic = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
         export_dialog_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
         for ex_files in export_dialog_files:
             _log.debug(" exported file:" + ex_files)
@@ -275,19 +338,19 @@ class QuestDialogs:
                     rd = csv.reader(fd, delimiter="\t", quotechar='"')
                     # calc the positions for each file
                     first_row = next(rd)
-                    col_file = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_FILE_FULL_PATH)
-                    col_quest = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_QUEST)
-                    col_branch = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_BRANCH)
-                    col_topic = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_TOPIC)
-                    col_type = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_TYPE)
-                    col_form_id = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_QUEST_FORM_ID)
-                    col_prompt = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_PLAYER_PROMPT)
-                    col_npc = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_SPEAKER)
-                    col_npc_race = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_RACE)
-                    col_npc_voice = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_VOICE_TYPE)
-                    col_npc_resp_index = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_RESPONSE_INDEX)
-                    col_npc_resp_text = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_RESPONSE_TEXT)
-                    col_npc_resp_emo = QuestDialogs._get_index(first_row, QuestDialogs.LABEL_NPC_EMOTION)
+                    col_file = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_FULL_PATH)
+                    col_quest = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_QUEST)
+                    col_branch = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_BRANCH)
+                    col_topic = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_TOPIC)
+                    col_type = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_TYPE)
+                    col_form_id = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_FORM_ID)
+                    col_prompt = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_PLAYER_PROMPT)
+                    col_npc = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_SPEAKER)
+                    col_npc_race = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_RACE)
+                    col_npc_voice = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_VOICE_TYPE)
+                    col_npc_resp_index = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_RESPONSE_INDEX)
+                    col_npc_resp_text = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_RESPONSE_TEXT)
+                    col_npc_resp_emo = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_EMOTION)
                     # clear variables
                     quest_name = ""
                     last_branch = ""
@@ -319,7 +382,7 @@ class QuestDialogs:
                             # a new branch started, fills the object branch data
                             branch_obj = BranchDialogs()
                             branch_obj.branch_name = current_branch
-                            branch_obj.comment = comments.get(current_branch, QuestDialogs.DEFAULT_BRANCH_DESCRIPTION)
+                            branch_obj.comment = comments.get(current_branch, Consts.DEFAULT_BRANCH_DESCRIPTION)
                             # delete
                             _log.debug("-- comments._csv_file:" + comments._csv_file)
                             branch_obj.dialog_type = row[col_type]
@@ -329,7 +392,6 @@ class QuestDialogs:
                             branch_obj.actor_race = row[col_npc_race]
                             branch_obj.actor_voice_type = row[col_npc_voice]
                             branch_obj.is_ready = True
-
                         # updates the topic of this new line
                         current_topic = row[col_topic]
                         # check if a new topic need to be created
@@ -364,14 +426,15 @@ class QuestDialogs:
                 # add last branch
                 QuestDialogs._add_branch(list_branches, last_branch, branch_obj)
                 # now, we can create the new quest object :D
-                quest_comment = comments.get(quest_name, QuestDialogs.DEFAULT_QUEST_DESCRIPTION)
-                print("-- quest_name:" + quest_name + ", quest_comment:" + quest_comment)
-                quest = QuestDialogs(quest_name, quest_comment)
+                quest_comment = comments.get(quest_name, Consts.DEFAULT_QUEST_DESCRIPTION)
+                _log.info("-- quest_name:" + quest_name + ", quest_comment:" + quest_comment)
+                quest = QuestDialogs(quest_name, quest_comment, skyrim_path)
                 for br in list_branches:
                     quest._add_branch_dialog(br)
                 # endfor
                 list_quest.append(quest)
                 Console.green("* File " + nth_file + " processed!")
+                _log.info("* File " + nth_file + " processed!")
             # endfor
         _log.info("Number of files processed: " + str(len(list_quest)))
         counter_quest = 0
@@ -431,7 +494,6 @@ class QuestDialogs:
             return
         if last_topic == "":
             return
-        # topic.sort()
         branch_object.add_topic_dialog(topic)
 
     @staticmethod
@@ -456,8 +518,8 @@ class QuestDialogs:
         # filter all exported files from creation kit
         export_dialog_files = []
         for nth_file in all_files:
-            if (nth_file.startswith(QuestDialogs.EXPORT_DIALOG_PREFIX) and
-                    nth_file.endswith(QuestDialogs.EXPORT_DIALOG_EXT)):
+            if (nth_file.startswith(Consts.EXPORT_DIALOG_PREFIX) and
+                    nth_file.endswith(Consts.EXPORT_DIALOG_EXT)):
                 export_dialog_files.append(nth_file)
         return export_dialog_files
 

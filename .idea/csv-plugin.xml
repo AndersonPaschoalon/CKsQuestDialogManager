@@ -17,7 +17,42 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\Sandbox\DicTuple01.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\Sandbox\dialogueExportDSilHand_M10SilverHunt.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Sandbox\dialogueExportDSilHand_M80AssaultJor.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\SceneOrder.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\Sandbox\dialogueExportDSilHand_M10SilverHunt.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\dist\Sandbox\dialogueExportDSilHand_M80AssaultJor.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />
