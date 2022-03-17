@@ -8,10 +8,12 @@ from PyUtils.Obj2Json import Obj2Json
 from PyUtils.CsvDicTuple import CsvDicTuple
 from PyUtils.CsvDic import CsvDic
 from PyUtils.Logger import Logger
+from PyUtils.Functions import *
 from QuestExports.SceneDictionary import SceneDictionary
 from QuestExports.DialogLine import DialogLine
 from QuestExports.SceneTopic import SceneTopic
 from QuestExports.Consts import Consts
+
 
 
 class Scene:
@@ -214,16 +216,20 @@ class Scene:
         list_alias = []
         with Cd(skyrim_path):
             for f in all_scene_files:
-                with open(f) as fd:
-                    rd = csv.reader(fd, delimiter=Consts.EXPORT_SCENE_DELIMITER, quotechar='"')
-                    first_row = next(rd)
-                    col_quest = Scene._get_index(first_row, Consts.LABEL_SCENE_QUEST)
-                    col_scene = Scene._get_index(first_row, Consts.LABEL_SCENE_SCENE)
-                    col_alias = Scene._get_index(first_row, Consts.LABEL_SCENE_ALIAS)
-                    for row in rd:
-                        list_quest_scenes_pairs.append((row[col_quest], row[col_scene]))
-                        list_scenes.append(row[col_scene])
-                        list_alias.append(row[col_alias])
+                print("openning file " + f)
+                if is_non_zero_file(f):
+                    with open(f) as fd:
+                        rd = csv.reader(fd, delimiter=Consts.EXPORT_SCENE_DELIMITER, quotechar='"')
+                        first_row = next(rd)
+                        col_quest = Scene._get_index(first_row, Consts.LABEL_SCENE_QUEST)
+                        col_scene = Scene._get_index(first_row, Consts.LABEL_SCENE_SCENE)
+                        col_alias = Scene._get_index(first_row, Consts.LABEL_SCENE_ALIAS)
+                        for row in rd:
+                            list_quest_scenes_pairs.append((row[col_quest], row[col_scene]))
+                            list_scenes.append(row[col_scene])
+                            list_alias.append(row[col_alias])
+                else:
+                    _log.warn("**WARN**  FILE " + f + " is empty")
         # remove duplicates from pairs
         quest_scenes_no_duplicates = []
         for qs in list_quest_scenes_pairs:
@@ -465,8 +471,9 @@ class Scene:
 if __name__ == '__main__':
     test_list_scene_quests = False
     test_export_scenes_to_csvdic = False
-    test_build_scenes_list = True
+    test_build_scenes_list = False
     test_build_scenes_list2 = False
+    text_export_scenes = True
     if test_list_scene_quests:
         ll = Scene.list_scene_quests("..\\Sandbox\\")
         for quest in ll:
@@ -485,4 +492,6 @@ if __name__ == '__main__':
     if test_build_scenes_list2:
         # test the border cases
         Scene.build_scenes_list("..\\Sandbox\\", "M10SilverHunt", "..\\SceneOrder.csv")
+    if text_export_scenes:
+        Scene.export_scenes_to_csvdic("..\\Sandbox\\", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
 

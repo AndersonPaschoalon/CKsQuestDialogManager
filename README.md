@@ -19,3 +19,12 @@ App/
         tutorial.html
 Docs/
 ```   
+
+### TODO
+
+* Cenas e Aliases devem estar sendo exportados
+* Finalizar integração do SceneOrder nos metodos
+* SceneOrder deve estar no json se configuração
+* SceneOrder deve estar contido no logiclayer
+* Integrar com interface grafica
+* Remover todos do codigo

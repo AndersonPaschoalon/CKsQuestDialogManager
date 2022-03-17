@@ -8,7 +8,8 @@ LOG_FILE = "./App/Logs/ck-dialog-docgen.log"
 
 def test_build_quest_objs():
     Logger.initialize(LOG_FILE, level_log=logging.DEBUG, level_console=logging.WARNING)
-    QuestDialogs.generate_quest_documentation("./Sandbox/", "./Comments.csv", "./Actors.csv", "./Docs/")
+    QuestDialogs.generate_quest_documentation("./Sandbox/", "./Comments.csv", "./Actors.csv",
+                                              "./SceneOrder.csv", "./Docs/")
 
 def test_export_objs():
     skyrim_path = "./Sandbox/"
@@ -20,6 +21,6 @@ def test_export_objs():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     test_build_quest_objs()
-    test_export_objs()
+    #test_export_objs()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

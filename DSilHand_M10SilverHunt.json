@@ -1,6 +1,7 @@
 {
   "quest_name": "DSilHand_M10SilverHunt",
   "comment": "It is the first quest for the mod Down of the Silver Hand. The player to start it must talk with three different people: a spy on The Drunk Huntsman on Whiterun, the Gallow\u2019s Rock\u2019s guard, or the Driftshade Refuge\u2019s guar. In any case, the Gallows Rock\u2019s guard will give a quest to kill a Frost Troll, and bring its Skull. After that, you will be allowed to talk to the Silver Hand leader: Krev the Skinner, and ask permission to join. Note: if you join the Companions before completing this quest, it will fail, and the Silver Hands will become hostile to you. ",
+  "skyrim_path": "./Sandbox/",
   "list_branch_dialogs": [
     {
       "branch_name": "DSilHand_M10_DrunkenHuntsman",
@@ -486,6 +487,27 @@
               "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm"
             ]
           ]
+        }
+      ]
+    }
+  ],
+  "list_scenes": [
+    {
+      "quest_id": "DSilHand_M10SilverHunt",
+      "scene_id": "",
+      "scene_position": -1,
+      "comment": "?scene-comment?",
+      "list_scene_topics": [
+        {
+          "actor_name": "",
+          "sd_scene_id": "",
+          "sd_alias": "",
+          "sd_voice_type": "",
+          "sd_scene_phase": -1,
+          "de_actor_id": "",
+          "de_actor_race": "",
+          "de_dialog_type": "",
+          "sd_list_dialog_lines": []
         }
       ]
     }

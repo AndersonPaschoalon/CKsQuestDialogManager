@@ -5,6 +5,7 @@ from os.path import isfile, join
 from PyUtils.Cd import Cd
 from PyUtils.Logger import Logger
 from PyUtils.Obj2Json import Obj2Json
+from PyUtils.Functions import *
 from QuestExports.Consts import Consts
 
 class SceneDictionary:
@@ -71,7 +72,7 @@ class SceneDictionary:
             for nth_file in export_dialog_files:
                 _log.info("-- processing file " + nth_file)
                 print("-- processing file " + nth_file)
-                if SceneDictionary._is_non_zero_file(nth_file):
+                if is_non_zero_file(nth_file):
                     with open(nth_file) as fd:
                         rd = csv.reader(fd, delimiter="\t", quotechar='"')
                         # calc the positions for each file

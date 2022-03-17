@@ -61,3 +61,7 @@ class Consts:
     DOC_JSON_DIR = "/Json/"
     DOC_DOCX_DIR = "/Docx/"
 
+    # this application
+    URL_GITHUB = "https://github.com/AndersonPaschoalon/CreationKit-DialogDocGen"
+    APP_NAME = "CkDiagDocGen"
+
