@@ -55,11 +55,16 @@ class Consts:
     DEFAULT_QUEST_DESCRIPTION = "?quest-comment?"
     DEFAULT_SCENE_DESCRIPTION = "?scene-comment?"
 
-    # documentation directories
+    # documentation
     DOC_HTML_DIR = "/Html/"
     DOC_MD_DIR = "/Md/"
     DOC_JSON_DIR = "/Json/"
     DOC_DOCX_DIR = "/Docx/"
+    DOC_JSON_EXT = ".json"
+    DOC_DOCX_EXT = ".docx"
+    DOC_HTML_EXT = ".html"
+    DOC_MD_EXT = ".md"
+
 
     # this application
     URL_GITHUB = "https://github.com/AndersonPaschoalon/CreationKit-DialogDocGen"

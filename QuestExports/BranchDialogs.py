@@ -23,6 +23,22 @@ class BranchDialogs:
         # list of TopicDialogs in this branch
         self.list_topic_dialogs = []
 
+    def is_branch_data_empty(self):
+        """
+        Tells if the topic data is empty of not.
+        :return: True if it is empty, false otherwise.
+        """
+        # if there is not topics, it is empty
+        if len(self.list_topic_dialogs) == 0:
+            return True
+        tp: TopicDialogs
+        for tp in self.list_topic_dialogs:
+            # if any is not empty, it is not empty
+            if not tp.is_topic_data_empty():
+                return False
+        # all topics are empty
+        return True
+
     def to_string(self):
         obj = Obj2Json()
         obj.add("branch_name", self.branch_name)

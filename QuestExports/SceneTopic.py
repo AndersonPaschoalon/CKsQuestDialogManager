@@ -10,7 +10,7 @@ class SceneTopic:
 
     def __init__(self, scene_id, alias, voice_type, scene_phase):
         # data from SceneDialog_ file
-        self.actor_name = ""
+        self.ac_actor_name = ""
         self.sd_scene_id = scene_id     # SceneDialogue.SCENE
         self.sd_alias = alias        # SceneDialogue.ALIAS
         self.sd_voice_type = voice_type   # SceneDialogue.VOICE TYPE
@@ -46,13 +46,63 @@ class SceneTopic:
         return was_set
 
     def set_actor_name(self, name: str):
-        self.actor_name = name
+        self.ac_actor_name = name
 
-    def get_actor_id(self):
+    def actor_name(self):
+        """
+        Returns the actor name.
+        :return: actor name string.
+        """
+        return self.ac_actor_name
+
+    def scene_id(self):
+        """
+        Returns scene ID.
+        :return: scene ID string.
+        """
+        return self.sd_scene_id
+
+    def actor_alias(self):
+        """
+        Returns actor Alias.
+        :return: actor alias string.
+        """
+        return self.sd_alias
+
+    def voice_type(self):
+        """
+        Returns actor voice type.
+        :return: actor voice type string.
+        """
+        return self.sd_voice_type
+
+    def scene_phase(self):
+        """
+        Returns the scene_phase of the SceneTopic object.
+        :return: the scene phase.
+        """
+        return self.sd_scene_phase
+
+    def actor_id(self):
+        """
+        Returns actor ID.
+        :return: actor ID string.
+        """
         return self.de_actor_id
 
-    def get_actor_alias(self):
-        return self.sd_alias
+    def actor_race(self):
+        """
+        Returns actor race.
+        :return: actor race string.
+        """
+        return self.de_actor_race
+
+    def dialog_type(self):
+        """
+        Returns actor dialogue type.
+        :return: actor dialogue type string.
+        """
+        return self.de_dialog_type
 
     def get_list_filenames_keys(self):
         """
@@ -64,20 +114,13 @@ class SceneTopic:
             list_filenames.append(dl.sd_filename)
         return list_filenames
 
-    def get_scene_phase(self):
-        """
-        Returns the scene_phase of the SceneTopic object.
-        :return: the scene phase.
-        """
-        return self.sd_scene_phase
-
     def to_string(self):
         """
         Build a Json string representation of the object.
         :return: json string.
         """
         obj = Obj2Json()
-        obj.add("actor_name", self.actor_name)
+        obj.add("actor_name", self.ac_actor_name)
         # SceneDialog_
         obj.add("sd_scene_id", self.sd_scene_id)
         obj.add("sd_alias", self.sd_alias)

@@ -35,6 +35,12 @@ class TopicDialogs:
         obj.addl("_list_topic_data", self._list_topic_data)
         return obj.json()
 
+    def is_topic_data_empty(self):
+        if len(self._list_topic_data) > 0:
+            False
+        else:
+            True
+
     def add_topic_data(self, index: str, response: str, mood: str, file_name: str):
         """Add a tuple of topic information."""
         topic_tuple = (text(index), text(response), text(mood), text(file_name))

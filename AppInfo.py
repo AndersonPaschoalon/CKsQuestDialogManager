@@ -8,9 +8,10 @@ class AppSettings:
     Store all settings from the application.
     """
     SKYRIM_PATH = "./Sandbox/"
-    DOGEN_DIR = "./GenDocs/"
+    DOGEN_DIR = "./OUTPUT/"
     ACTORS_FILE = "./Actors.csv"
     COMMENTS_FILE = "./Comments.csv"
+    SCENE_ORDER_FILE = "./SceneOrder.csv"
     TOPIC_SORT_BY_NAME = "true"
 
     def __init__(self, json_file):
@@ -22,6 +23,7 @@ class AppSettings:
         self.log_level = self.data["log-level"]
         self.actors_file = self.data["actors-file"]
         self.comments_file = self.data["comments-file"]
+        self.scene_order_file = self.data["scene-order-file"]
         self.topic_sort_by_name = self.data["topic-sort-by-name"]
         self.app_theme = self.data["app_theme"]
 
@@ -31,6 +33,7 @@ class AppSettings:
         self.data["log-level"] = self.log_level
         self.data["actors-file"] = self.actors_file
         self.data["comments-file"] = self.comments_file
+        self.data["scene-order-file"] = self.scene_order_file
         self.data["topic-sort-by-name"] = self.topic_sort_by_name
         self.data["app_theme"] = self.app_theme
         with open(self.settings_file, "w") as a_file:
@@ -55,6 +58,7 @@ class AppSettings:
         self.docgen_dir = AppSettings.DOGEN_DIR
         self.actors_file = AppSettings.ACTORS_FILE
         self.comments_file = AppSettings.COMMENTS_FILE
+        self.scene_order_file = AppSettings.SCENE_ORDER_FILE
         self.topic_sort_by_name = AppSettings.TOPIC_SORT_BY_NAME
 
     def reset_and_save(self):
@@ -100,5 +104,5 @@ class AppInfo:
 if __name__ == '__main__':
     aa = AppInfo()
     print(aa.to_string())
-    aa.settings_obj.docgen_dir = "./GenDocs/"
+    aa.settings_obj.docgen_dir = "./OUTPUT/"
     aa.settings_obj.save()

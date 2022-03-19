@@ -65,6 +65,10 @@ class DialogLine:
         self.flag_dialog_export = True
 
     def to_string(self):
+        """
+        Retuns a Json string representing the object.
+        :return:
+        """
         obj = Obj2Json()
         obj.add("response_index", self.de_response_index)
         obj.add("filename", self.sd_filename)
@@ -86,3 +90,45 @@ class DialogLine:
             return True
         else:
             return False
+
+    def filename(self):
+        """
+        Returns the filename (not full path). Used as key.
+        :return: filename (key)
+        """
+        return self.sd_filename
+
+    def dialogue(self):
+        """
+        Returns the dialogue line.
+        :return: dialogue line string.
+        """
+        return self.sd_dialogue
+
+    def emotion(self):
+        """
+        Returns the emotion data string.
+        :return: emotion string.
+        """
+        return self.sd_emotion
+
+    def notes(self):
+        """
+        Returns the dialogue notes.
+        :return: dialogue notes string.
+        """
+        return self.sd_notes
+
+    def response_index(self):
+        """
+        Returns the response index integer.
+        :return: response index integer.
+        """
+        return self.de_response_index
+
+    def filepath(self):
+        """
+        Returns the audio file full path.
+        :return: audio file path string.
+        """
+        return self.de_filepath

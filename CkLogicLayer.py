@@ -5,6 +5,7 @@ from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Logger import Logger
 from AppInfo import AppInfo
 from AppInfo import AppSettings
+from QuestExports.Scene import Scene
 import traceback
 import sys
 
@@ -27,11 +28,19 @@ class CkLogicLayer:
             skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
+            scene_order_csv = self.app.settings_obj.scene_order_file
             self._log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
                        ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv)
             [exported_files, list_objects, list_actors] = QuestDialogs.export_objects_to_csvdics(skyrim_path,
                                                                                                  comments_csv,
                                                                                                  actors_csv)
+            self._log.debug(" -- QuestDialogs.export_scenes_data_to_csvdic()")
+            [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
+                Scene.export_scenes_data_to_csvdic(skyrim_path, scene_order_csv, comments_csv,
+                                                   actors_csv)
+            exported_files.extend(all_scene_files)
+            list_objects.extend(list_scenes)
+            list_actors.extend(list_alias)
             poup_text = " * Files processed: "
             i = 0
             for f in exported_files:
@@ -41,7 +50,7 @@ class CkLogicLayer:
                     poup_text += ", " + f
                 i = i + 1
             i = 0
-            poup_text += "\n\n * Objects founded:"
+            poup_text += "\n\n * Objects found:"
             for f in list_objects:
                 if i == 0:
                     poup_text += "\n" + f
@@ -49,7 +58,7 @@ class CkLogicLayer:
                     poup_text += ", " + f
                 i = i + 1
             i = 0
-            poup_text += "\n\n * Actors founded: "
+            poup_text += "\n\n * Actors found: "
             for f in list_actors:
                 if i == 0:
                     poup_text += "\n" + f
@@ -68,10 +77,13 @@ class CkLogicLayer:
             skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
+            scene_order_csv = self.app.settings_obj.scene_order_file
             docs_dir = self.app.settings_obj.docgen_dir
-            self._log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path + \
-                       ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv + ", docs_dir:" + docs_dir)
-            qlist = QuestDialogs.generate_quest_documentation(skyrim_path, comments_csv, actors_csv, docs_dir)
+            self._log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path +
+                            ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv + ", docs_dir:" + docs_dir +
+                            ", scene_order_csv:" + scene_order_csv)
+            qlist = QuestDialogs.generate_quest_documentation(skyrim_path, comments_csv, actors_csv,
+                                                              scene_order_csv, docs_dir)
             i = 0
             poup_text = "\n * Documentation generated for the following quests:\n"
             for f in qlist:
@@ -168,10 +180,12 @@ class CkLogicLayer:
             # 1
             layout.append([sg.Text("Docgen Folder"), sg.InputText(default_text=self.app.settings_obj.docgen_dir)])
             # 2
-            layout.append([sg.Text("Actors File"), sg.InputText(default_text=self.app.settings_obj.actors_file)])
+            layout.append([sg.Text("Actors.csv File"), sg.InputText(default_text=self.app.settings_obj.actors_file)])
             # 3
-            layout.append([sg.Text("Comments File"), sg.InputText(default_text=self.app.settings_obj.comments_file)])
+            layout.append([sg.Text("Comments.csv File"), sg.InputText(default_text=self.app.settings_obj.comments_file)])
             # 4
+            layout.append([sg.Text("SceneOrder.csv File"), sg.InputText(default_text=self.app.settings_obj.scene_order_file)])
+            # 5
             layout.append([sg.Text("Sort By Name(true) or FormId(false)"),
                            sg.InputText(default_text=self.app.settings_obj.topic_sort_by_name)])
             layout.append([sg.Button('Save'), sg.Button('Reset'), sg.Button('Cancel')])
@@ -186,7 +200,8 @@ class CkLogicLayer:
                     self.app.settings_obj.docgen_dir = values[1]
                     self.app.settings_obj.actors_file = values[2]
                     self.app.settings_obj.comments_file = values[3]
-                    self.app.settings_obj.topic_sort_by_name = values[4]
+                    self.app.settings_obj.scene_order_file = values[4]
+                    self.app.settings_obj.topic_sort_by_name = values[5]
                     self.app.settings_obj.save()
                     window_settings.close()
                     return "saved"
@@ -198,6 +213,9 @@ class CkLogicLayer:
             self._log.error(traceback.format_exc())
             self._log.error(sys.exc_info()[2])
             return "exception"
+
+
+
 
 if __name__ == '__main__':
     print("oi")

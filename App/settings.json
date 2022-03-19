@@ -4,6 +4,7 @@
     "log-level": "DEBUG",
     "actors-file": "./Actors.csv",
     "comments-file": "./Comments.csv",
+    "scene-order-file": "./SceneOrder.csv",
     "topic-sort-by-name": "true",
     "app_theme": "DarkBlue15"
 }

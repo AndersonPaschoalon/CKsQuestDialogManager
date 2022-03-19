@@ -148,7 +148,7 @@ class Scene:
             self.list_scene_topics[i].sort_dialog_lines()
             i += 1
         # sort scene phases
-        self.list_scene_topics.sort(key=lambda x: x.get_scene_phase(), reverse=False)
+        self.list_scene_topics.sort(key=lambda x: x.scene_phase(), reverse=False)
         self._log.debug("elements from self.list_scene_topics sorted for quest " + self.quest_id + ", scene " +\
                         self.scene_id)
 
@@ -196,7 +196,7 @@ class Scene:
         return scene_quests
 
     @staticmethod
-    def export_scenes_to_csvdic(skyrim_path: str, csv_dic_order: str, csv_dic_comemnts: str, csv__dic_actors):
+    def export_scenes_data_to_csvdic(skyrim_path: str, csv_dic_order: str, csv_dic_comemnts: str, csv__dic_actors):
         """
         Export Quests IDs and Scenes IDs to SceneOrder.csv.
         :param skyrim_path: Skyrim path where the Scenes files are going to be searched.
@@ -229,7 +229,7 @@ class Scene:
                             list_scenes.append(row[col_scene])
                             list_alias.append(row[col_alias])
                 else:
-                    _log.warn("**WARN**  FILE " + f + " is empty")
+                    _log.warning("**WARN**  FILE " + f + " is empty")
         # remove duplicates from pairs
         quest_scenes_no_duplicates = []
         for qs in list_quest_scenes_pairs:
@@ -253,7 +253,7 @@ class Scene:
             actors.add(al)
         _log.debug("all_scene_files:" + str(all_scene_files))
         _log.debug("quest_scenes_no_duplicates:" + str(quest_scenes_no_duplicates))
-        return [all_scene_files, quest_scenes_no_duplicates, list_scenes]
+        return [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias]
 
     @staticmethod
     def build_scenes_list(skyrim_path: str, quest_id: str, scene_order_dic: str, comments_csv: str, actors_csv: str):
@@ -375,10 +375,10 @@ class Scene:
             _log.debug("Adding comment for " + sc.scene_id)
             sc.comment = comments.get(sc.scene_id, Consts.DEFAULT_SCENE_DESCRIPTION)
             while i < len(sc.list_scene_topics):
-                act_id = sc.list_scene_topics[i].get_actor_id()
+                act_id = sc.list_scene_topics[i].actor_id()
                 # if it is an ampty actor ID, try to search for alias
                 if act_id == Consts.STR_EMPTY_ACTOR_ID:
-                    act_id = sc.list_scene_topics[i].get_actor_alias()
+                    act_id = sc.list_scene_topics[i].actor_alias()
                 name = actors_dic.get(act_id, act_id)
                 print("act_id:" + act_id + ", name:" + name)
                 sc.list_scene_topics[i].set_actor_name(name)
@@ -470,28 +470,32 @@ class Scene:
 
 if __name__ == '__main__':
     test_list_scene_quests = False
-    test_export_scenes_to_csvdic = False
+    test_export_scenes_to_csvdic = True
     test_build_scenes_list = False
     test_build_scenes_list2 = False
-    text_export_scenes = True
+    DOCS_OUTPUT = "..\\Output\\"
     if test_list_scene_quests:
         ll = Scene.list_scene_quests("..\\Sandbox\\")
         for quest in ll:
             print("quest with scene: " + quest)
     if test_export_scenes_to_csvdic:
-        [all_scene_files, quest_scenes_no_duplicates] = \
-            Scene.export_scenes_to_csvdic("..\\Sandbox\\", "..\\SceneOrder.csv")
+        [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
+            Scene.export_scenes_data_to_csvdic("..\\Sandbox\\", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
         print("all_scene_files: ")
         for sf in all_scene_files:
             print("    - " + sf)
         print("quest_scenes_no_duplicates:")
         for t in quest_scenes_no_duplicates:
             print("    - " + t[0] + ", " + t[1])
+        print("list_scenes:" + str(list_scenes))
+        for s in list_scenes:
+            print("    - " + s)
+        for a in list_alias:
+            print("    - " + a)
+
     if test_build_scenes_list:
         Scene.build_scenes_list("..\\Sandbox\\", "DSilHand_M80AssaultJor", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
     if test_build_scenes_list2:
         # test the border cases
         Scene.build_scenes_list("..\\Sandbox\\", "M10SilverHunt", "..\\SceneOrder.csv")
-    if text_export_scenes:
-        Scene.export_scenes_to_csvdic("..\\Sandbox\\", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
 

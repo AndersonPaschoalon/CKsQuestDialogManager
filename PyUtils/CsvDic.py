@@ -7,7 +7,7 @@ class CsvDic:
     You may check if a key exist, get its value or add a new one.
     """
 
-    def __init__(self, dic_file, delimiter=";"):
+    def __init__(self, dic_file, delimiter=","):
         try:
             self._csv_file = os.path.abspath(dic_file)
         except:

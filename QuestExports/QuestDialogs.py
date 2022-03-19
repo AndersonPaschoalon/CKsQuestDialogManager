@@ -12,6 +12,8 @@ from QuestExports.TopicDialogs import TopicDialogs
 from QuestExports.BranchDialogs import BranchDialogs
 from QuestExports.Consts import Consts
 from QuestExports.Scene import Scene
+from QuestExports.SceneTopic import SceneTopic
+from QuestExports.DialogLine import DialogLine
 
 """
 TODO: quando se criar os objectos da quest, as cenas devem ser adicionadas
@@ -88,7 +90,7 @@ class QuestDialogs:
         obj.addl("list_scenes", list_scenes_str)
         return obj.json()
 
-    def generate_documentation(self, destination="./Docs"):
+    def generate_documentation(self, destination):
         """
         This method generate the actual documentation.
         :param destination: The directory where the documentation will be generated.
@@ -110,9 +112,9 @@ class QuestDialogs:
             os.makedirs(doc_json)
         if not os.path.exists(doc_docx):
             os.makedirs(doc_docx)
-        path_html = doc_html + self.quest_name + ".html"
-        path_md = doc_md + self.quest_name + ".md"
-        path_json = doc_json + self.quest_name + ".json"
+        path_html = doc_html + self.quest_name + Consts.DOC_HTML_EXT
+        path_md = doc_md + self.quest_name + Consts.DOC_MD_EXT
+        path_json = doc_json + self.quest_name + Consts.DOC_JSON_EXT
         path_docx = doc_docx + self.quest_name
         md = ""
         md += "# Quest {0}\n".format(self.quest_name)
@@ -122,24 +124,37 @@ class QuestDialogs:
         # (2) Creating quest branches documentation
         md += "\n## Branches\n"
         for branch in self.list_branch_dialogs:
-            md += "### {0}\n".format(branch.branch_name)
-            md += "> _{0}_\n".format(branch.comment.strip())
-            md += "> \n"
-            md += "> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".format(branch.dialog_type.strip(),
-                                                                                              branch.actor_race.strip(),
-                                                                                              branch.actor_voice_type.strip())
-            for topic in branch.list_topic_dialogs:
-                md += "####{0}\n\n".format(topic.topic_name)
-                if topic.comment.strip() != "":
-                    md += "{0}\n\n".format(topic.comment.strip().replace('_', '\\_'))
-                md += "{0}: {1}\n\n".format(Consts.STR_PLAYER_VAL, topic.player_dialog)
-                for npc_data in topic.get_topic_data():
-                    md += "{0} ({1}): {2}    \n\n".format(topic.actor_name, npc_data[2], npc_data[1])
-                    md += "``{0}``    \n\n".format(npc_data[3])
-                md += "\n"
+            if not branch.is_branch_data_empty():
+                md += "### {0}\n".format(branch.branch_name)
+                md += "> _{0}_\n".format(branch.comment.strip())
+                md += "> \n"
+                md += "> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".format(branch.dialog_type.strip(),
+                                                                                                  branch.actor_race.strip(),
+                                                                                                  branch.actor_voice_type.strip())
+                for topic in branch.list_topic_dialogs:
+
+                    self._log.debug("=> TOPIC :" + topic.topic_name + ":" + str(len(topic._list_topic_data)))
+                    if not topic.is_topic_data_empty():
+                        md += "#### {0}\n\n".format(topic.topic_name)
+                        if topic.comment.strip() != "":
+                            md += "{0}\n\n".format(topic.comment.strip().replace('_', '\\_'))
+                        md += "{0}: {1}\n\n".format(Consts.STR_PLAYER_VAL, topic.player_dialog)
+                        for npc_data in topic.get_topic_data():
+                            md += "{0} ({1}): {2}    \n\n".format(topic.actor_name, npc_data[2], npc_data[1])
+                            md += "``{0}``    \n\n".format(npc_data[3])
+                        md += "\n"
+                    else:
+                        self._log.warning("** TOPIC DATA IS EMPTY FOR TOPIC <" + topic.topic_name + "> **")
+                        self._log.warning("** TOPIC <" + topic.topic_name +
+                                          "> IS NOT GOING TO BE ADDED TO THE DOCUMENTATION  **")
+            else:
+                self._log.warning("** BRANCH DATA IS EMPTY FOR BRANCH <" + branch.branch_name + "> **")
+                self._log.warning("** BRANCH <" + branch.branch_name +
+                                  "> IS NOT GOING TO BE ADDED TO THE DOCUMENTATION  **")
         # (3) Creating quest scenes documentation
         is_empty = True
         # Check if list is empty
+        scene: Scene
         for scene in self.list_scenes:
             if not scene.is_empty():
                 is_empty = False
@@ -151,15 +166,17 @@ class QuestDialogs:
                     md += "### {0}\n".format(scene.scene_id)
                     if scene.comment.strip() != "":
                         md += "{0}\n\n".format(scene.comment.strip().replace('_', '\\_'))
+                    st: SceneTopic
                     for st in scene.list_scene_topics:
-                        md += "#### Phase {0}: {1}\n\n".format(st.sd_scene_phase, st.actor_name)
+                        md += "#### Phase {0}: {1}\n\n".format(st.scene_phase(), st.actor_name())
                         md +="> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".\
-                            format(st.de_dialog_type, st.de_actor_race, st.sd_voice_type)
+                            format(st.dialog_type(), st.actor_race(), st.voice_type())
+                        dl: DialogLine
                         for dl in st.sd_list_dialog_lines:
-                            md += "({0}): {1}    \n\n".format(dl.sd_emotion, dl.sd_dialogue)
-                            md += "``{0}``    \n\n".format(dl.sd_filename)
-                            if dl.sd_notes != "":
-                                md += "Notes: *{0}*    \n\n".format(dl.sd_notes)
+                            md += "({0}): {1}    \n\n".format(dl.emotion(), dl.dialogue())
+                            md += "``{0}``    \n\n".format(dl.filepath())
+                            if dl.notes() != "":
+                                md += "Notes: *{0}*    \n\n".format(dl.notes())
                         md += "\n"
                 else:
                     self._log.warn("**WARN** SKIPPING EMPTY SCENE.")
@@ -276,24 +293,22 @@ class QuestDialogs:
         return [exported_files, list_objects, list_actors]
 
     @staticmethod
-    def generate_quest_documentation(skyrim_path: str, comment_csv: str, actos_csv: str, scene_order_csv: str, doc_dir: str):
+    def generate_quest_documentation(skyrim_path: str, comment_csv: str, actors_csv: str, scene_order_csv: str, doc_dir: str):
         """
-        Main method to generate
-        :param skyrim_path:
-        :param comment_csv:
-        :param actos_csv: Actors.csv dictionary
-        :param scene_order_csv: SceneOrder.csv dictionary.
-        :param doc_dir: Documentation dictionary.
-        :return:
+        Main method to generate the quest documentation.
+        :param skyrim_path: place where the exported files from Creation Kit are going to be searched.
+        :param comment_csv: Commensts.csv dictionary file.
+        :param actors_csv: Actors.csv dictionary file.
+        :param scene_order_csv: SceneOrder.csv dictionary file.
+        :param doc_dir: Documentation output directory.
+        :return: list of quests names for which the documentation was generated.
         """
         _log = Logger.get()
-        _log.debug("generate_quest_documentation() skyrim_path:" + skyrim_path + ", comment_csv:" +\
-                   comment_csv + ", actos_csv:" + actos_csv + ", doc_dir:" + doc_dir)
+        _log.debug("generate_quest_documentation() skyrim_path:" + skyrim_path + ", comment_csv:" +
+                   comment_csv + ", actors_csv:" + actors_csv + ", doc_dir:" + doc_dir)
         list_quests_names = []
-        list_quest_obj = QuestDialogs.build_quest_objects(skyrim_path, comment_csv, actos_csv, scene_order_csv)
+        list_quest_obj = QuestDialogs.build_quest_objects(skyrim_path, comment_csv, actors_csv, scene_order_csv)
         for q in list_quest_obj:
-            with open(q.quest_name + ".json", "w") as text_file:
-                text_file.write(q.to_string())
             q.generate_documentation(doc_dir)
             list_quests_names.append(q.quest_name)
         print("Documentation generation finished.")
