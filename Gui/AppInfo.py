@@ -104,5 +104,5 @@ class AppInfo:
 if __name__ == '__main__':
     aa = AppInfo()
     print(aa.to_string())
-    aa.settings_obj.docgen_dir = "./OUTPUT/"
+    aa.settings_obj.docgen_dir = "../OUTPUT/"
     aa.settings_obj.save()

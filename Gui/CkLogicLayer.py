@@ -1,18 +1,17 @@
-"""
 import logging
 import webbrowser
 import PySimpleGUI as sg
 from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Logger import Logger
-from AppInfo import AppInfo
-from AppInfo import AppSettings
+from Gui.AppInfo import AppInfo
 from QuestExports.Scene import Scene
 import traceback
 import sys
 
 
 class CkLogicLayer:
-
+    """
+    """
     DEFAULT_THEME = "DarkGrey13"
 
     def __init__(self):
@@ -215,7 +214,7 @@ class CkLogicLayer:
             return "exception"
 
 
+
+
 if __name__ == '__main__':
     print("oi")
-
-"""

@@ -1,3 +1,4 @@
+"""
 import PySimpleGUI as sg
 from emoji import emojize
 from CkLogicLayer import CkLogicLayer
@@ -81,3 +82,5 @@ if __name__ == '__main__':
             cd_dialog_docgen.open_nexus()
 
     window.close()
+
+"""

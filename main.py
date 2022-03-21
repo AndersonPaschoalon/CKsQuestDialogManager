@@ -3,6 +3,7 @@ import logging
 from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Logger import Logger
 from PyUtils.Console import Console
+from Gui.MainWindow import MainWindow
 
 LOG_FILE = "./App/Logs/ck-dialog-docgen.log"
 DOC_OUTPUT = "./OUTPUT/"
@@ -21,6 +22,7 @@ def test_export_objs():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    test_build_quest_objs()
-
+    #test_build_quest_objs()
+    app = MainWindow()
+    app.run()
 
