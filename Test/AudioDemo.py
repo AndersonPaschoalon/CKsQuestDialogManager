@@ -2,6 +2,8 @@ import PySimpleGUI as sg
 import random
 import string
 import operator
+#import emoji
+import textwrap
 
 
 class AudioData:
@@ -11,8 +13,11 @@ class AudioData:
         self.actor_name = actor_name
         self.subtitle = subtitle
 
+sg.theme('Default')
+
 s6 = "See section 2.1 and 6.7 of the Python Library Reference for more information.) The following code sorts the table by the second column (index 1)."
 
+lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
 def create_audio_list():
     s1 = "I have a 2-dimensional table of data implemented as a list of lists in Python. I would like to sort the data by an arbitrary column. This is a common task with tabular data."
@@ -76,16 +81,37 @@ def sort_table(table, cols):
 
 data = create_audio_table(4)
 print(data)
-headings = ["Quest ID", "Actor", "Subtitles"]
-sliders = [sg.Slider(range=(0, 100), key='_SLIDERv1_', orientation='h', size=(20, 10), default_value=80, enable_events=True, tooltip="Volume"),
-           sg.Text(" |\n |\n | "),
-           sg.Text("0:00"),
-           sg.Slider(range=(0, 100), key='_SLIDERv2_', orientation='h', size=(80, 10), default_value=70, enable_events=True, tooltip="Progress"),
-           sg.Text("03:05")]
-sliders2 = [sg.Slider(range=(0, 100), key='_SLIDERv3_', orientation='v', size=(6, 20), default_value=1, enable_events=True),
-            sg.Multiline(s6, size=(30, 5), key='text_legend')]
+
+# table elements
+table_headings = ["Quest ID", "Actor", "Subtitles"]
+
+# Player Elements
+slider_volume = sg.Slider(range=(0, 100), key='slider_volume', orientation='h', size=(20, 10), default_value=80,
+                          enable_events=True, tooltip="Volume")
+
+slider_progress = [sg.Text("0:00"),
+                   sg.Text("03:05"),
+                   sg.Slider(range=(0, 100), key='_SLIDERv2_', orientation='h', size=(80, 10), default_value=70,
+                          enable_events=True, tooltip="Progress")]
+
+track_information = [sg.Text(""), sg.Text('Cell clicked:'), sg.T(k='-CLICKED-')]
+
+track_sliders = [sg.Button('Play'),
+    sg.Button('Stop'),
+    sg.VerticalSeparator(),
+    sg.Slider(range=(0, 100), key='slider_volume', orientation='h', size=(20, 10), default_value=80, enable_events=True, tooltip="Volume"),
+    sg.VerticalSeparator(),
+    sg.Text("0:00"),
+    sg.Slider(range=(0, 100), key='_SLIDERv2_', orientation='h', size=(80, 10), default_value=70, enable_events=True, tooltip="Progress"),
+    sg.Text("03:05")]
+
+tool_box = [sg.Button('Open Folder'), sg.Button('Copy Track Name'),
+            sg.Button('Copy Track Info'), sg.Button('Generate XWM'), sg.Button('Generate FUZ'), sg.Button('UnFUZ')],
+
 # ------ Window Layout ------
-layout = [[sg.Table(values=data[1:][:], headings=headings,
+
+
+layout = [[sg.Table(values=data[1:][:], headings=table_headings,
                     auto_size_columns=True,
                     max_col_width=100,
                     display_row_numbers=False,
@@ -97,16 +123,19 @@ layout = [[sg.Table(values=data[1:][:], headings=headings,
                     enable_events=True,
                     expand_x=True,
                     expand_y=True,
-                    enable_click_events=True,           # Comment out to not enable header and other clicks
+                    enable_click_events=True,  # Comment out to not enable header and other clicks
                     tooltip='Audio list')],
-          [sg.Button('Play'), sg.Button('Stop'), sg.Button('Open Folder'), sg.Button('Copy File Name'),
-           sg.Button('Copy Information'), sg.Button('Generate XWM'), sg.Button('Generate FUZ'), sg.Button('UnFUZ')],
-          [sg.Text('Cell clicked:'), sg.T(k='-CLICKED-')],
-          [sliders],
-          #sliders2,
+          [sg.HorizontalSeparator()],
+          track_information,
+          [sg.Text(lorem_ipsum, size=(120, None))],
+          track_sliders,
+          [sg.Text('')],
+          [sg.HorizontalSeparator()],
+          [sg.Text(''), sg.Text('Tools')],
+           tool_box,
           [sg.Text('')],
           [sg.Text(''),
-           sg.Sizegrip()]]
+          sg.Sizegrip()]]
 
 # ------ Create Window ------
 window = sg.Window('The Table Element', layout,
