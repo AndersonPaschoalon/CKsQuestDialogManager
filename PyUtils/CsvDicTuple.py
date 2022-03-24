@@ -83,6 +83,14 @@ class CsvDicTuple:
         except:
             return -2
 
+    def move_up(selfkey: str, value: str):
+        print("todo")
+        # todo
+
+    def move_down(selfkey: str, value: str):
+        print("todo")
+        # todo
+
     def _sort_csv_file(self):
         """
         Sort the CSV file.

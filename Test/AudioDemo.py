@@ -2,9 +2,11 @@ import PySimpleGUI as sg
 import random
 import string
 import operator
-#import emoji
+from emoji import emojize
+import emoji
 import textwrap
 
+#emoji.emojize(language='alias')
 
 class AudioData:
     def __init__(self, audio_file: str, quest_id, actor_name: str, subtitle: str):
@@ -56,7 +58,6 @@ def create_audio_table(repeat=0):
     return table
 
 
-
 def clicked_row(event):
     try:
         return event[2][0]
@@ -80,7 +81,6 @@ def sort_table(table, cols):
 
 
 data = create_audio_table(4)
-print(data)
 
 # table elements
 table_headings = ["Quest ID", "Actor", "Subtitles"]
@@ -96,8 +96,10 @@ slider_progress = [sg.Text("0:00"),
 
 track_information = [sg.Text(""), sg.Text('Cell clicked:'), sg.T(k='-CLICKED-')]
 
-track_sliders = [sg.Button('Play'),
-    sg.Button('Stop'),
+emojize(":fleur-de-lis: Play", variant="emoji_type")
+
+track_sliders = [sg.Button(emojize(":arrow_forward:Play", language='alias')),
+    sg.Button(emojize(":black_medium_square:     Stop", variant='emoji_type')),
     sg.VerticalSeparator(),
     sg.Slider(range=(0, 100), key='slider_volume', orientation='h', size=(20, 10), default_value=80, enable_events=True, tooltip="Volume"),
     sg.VerticalSeparator(),
@@ -105,12 +107,14 @@ track_sliders = [sg.Button('Play'),
     sg.Slider(range=(0, 100), key='_SLIDERv2_', orientation='h', size=(80, 10), default_value=70, enable_events=True, tooltip="Progress"),
     sg.Text("03:05")]
 
-tool_box = [sg.Button('Open Folder'), sg.Button('Copy Track Name'),
-            sg.Button('Copy Track Info'), sg.Button('Generate XWM'), sg.Button('Generate FUZ'), sg.Button('UnFUZ')],
+tool_box = [sg.Button(emojize(":file_folder:     Open Folder", variant='emoji_type')),
+            sg.Button(emojize(":sparkle:Copy Track Name", language='alias')),
+            sg.Button(emojize(":speech_balloon:    Track Info Details", language='alias')),
+            sg.Button(emojize(":musical_note:     Generate XWM", language='alias')),
+            sg.Button(emojize(":studio_microphone:Generate FUZ", language='alias')),
+            sg.Button(emojize(":headphones:     UnFUZ", language='alias'))],
 
 # ------ Window Layout ------
-
-
 layout = [[sg.Table(values=data[1:][:], headings=table_headings,
                     auto_size_columns=True,
                     max_col_width=100,
@@ -133,7 +137,7 @@ layout = [[sg.Table(values=data[1:][:], headings=table_headings,
           [sg.HorizontalSeparator()],
           [sg.Text(''), sg.Text('Tools')],
            tool_box,
-          [sg.Text('')],
+          [sg.Multiline(size=(170, 5), enter_submits=False, key='-QUERY-', do_not_clear=False, write_only=True)],
           [sg.Text(''),
           sg.Sizegrip()]]
 

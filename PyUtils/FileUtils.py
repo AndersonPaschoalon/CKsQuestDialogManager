@@ -24,6 +24,7 @@ class FileUtils:
         except:
             return False
 
+
 if __name__ == "__main__":
     TEST_PATH = "C:\\Users\\Usuario\\Desktop\\TEST.txt"
     FileUtils.open_file_explorer(TEST_PATH)

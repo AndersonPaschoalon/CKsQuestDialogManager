@@ -1,5 +1,7 @@
+import subprocess
 
 class Console:
+
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -39,5 +41,8 @@ class Console:
         print(f"{Console.UNDERLINE}{printStr}{Console.ENDC}")
 
 
-
+    @staticmethod
+    def execute(command: str):
+        ret = subprocess.run(command, shell=True, capture_output=True)
+        return [ret.returncode, ret.stdout, ret.stderr]
 
