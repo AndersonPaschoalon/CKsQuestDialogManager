@@ -47,10 +47,12 @@ class AudioWindow:
 
     def __init__(self):
         sg.theme('Default')
+        self.data = []
+        self.current_row = -1
 
     def run(self, list_audio_data):
         # display matrix
-        data = AudioWindow.create_audio_table(list_audio_data, 4)
+        self.data = AudioWindow.create_audio_table(list_audio_data, 4)
 
         # table elements
         table_headings = ["Quest ID", "Actor", "Subtitles"]
@@ -87,7 +89,7 @@ class AudioWindow:
                     sg.Button(emojize(":headphones:     UnFUZ", language='alias'))],
 
         # ------ Window Layout ------
-        layout = [[sg.Table(values=data[1:][:], headings=table_headings,
+        layout = [[sg.Table(values=self.data[1:][:], headings=table_headings,
                             auto_size_columns=True,
                             max_col_width=100,
                             display_row_numbers=False,
@@ -126,24 +128,33 @@ class AudioWindow:
             if event == sg.WIN_CLOSED:
                 break
             if event == 'Play':
-                for i in range(1, len(data)):
-                    data.append(data[i])
-                window['-TABLE-'].update(values=data[1:][:])
+                #for i in range(1, len(self.data)):
+                #    self.data.append(self.data[i])
+                #window['-TABLE-'].update(values=self.data[1:][:])
+                print("Play")
             if event == 'Stop':
                 print("Stop")
-            if event == 'Copy File Name':
-                print("Copy File Name")
-            if event == "Open Folder":
+            if event == 'Open Folder':
                 print("Open Folder")
+            if event == 'Track Info Details':
+                print("Track Info Details")
+            if event == "Generate XWM":
+                print("Generate XWM")
+            if event == "Generete FUZ":
+                print("Generete FUZ")
+            if event == 'UnFuz':
+                print("UnFuz")
+
             if isinstance(event, tuple):
                 # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
+                self.current_row = AudioWindow.clicked_row(event)
                 print(" -- Clicked Row: " + str(AudioWindow.clicked_row(event)))
                 if event[0] == '-TABLE-':
                     if event[2][0] == -1 and event[2][1] != -1:  # Header was clicked and wasn't the "row" column
                         col_num_clicked = event[2][1]
-                        new_table = AudioWindow.sort_table(data[1:][:], (col_num_clicked, 0))
+                        new_table = AudioWindow.sort_table(self.data[1:][:], (col_num_clicked, 0))
                         window['-TABLE-'].update(new_table)
-                        data = [data[0]] + new_table
+                        self.data = [self.data[0]] + new_table
                     window['-CLICKED-'].update(f'{event[2][0]},{event[2][1]}')
         window.close()
 

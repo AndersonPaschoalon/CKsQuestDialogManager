@@ -58,6 +58,13 @@ class CsvDicTuple:
         except:
             return False
 
+    def move_down(self, key: str, value: str):
+        return self._move(key, value, 1)
+
+    def move_up(self, key: str, value: str):
+        return self._move(key, value, -1)
+        # todo
+
     def tuple_position(self, key: str, value: str):
         """
         Tells the position of a (key, value) tuple in the csv file.
@@ -82,14 +89,6 @@ class CsvDicTuple:
             return position
         except:
             return -2
-
-    def move_up(selfkey: str, value: str):
-        print("todo")
-        # todo
-
-    def move_down(selfkey: str, value: str):
-        print("todo")
-        # todo
 
     def _sort_csv_file(self):
         """
@@ -125,6 +124,57 @@ class CsvDicTuple:
         line = key + self._delimiter + value_str + "\n"
         return line
 
+    def _move(self, key: str, value: str, offset: int):
+        """
+        Move a tuple offset positions in the tuple dictionary.
+        :param key: the tuple key.
+        :param value: the tuple value
+        :param offset: -1 to move up, +1 to move down
+        :return: True in case of success, False otherwise.
+        """
+        ret_val = False
+        i = 0
+        list_tuple_dic = []
+        # calc current position
+        tup_curr_pos = -1
+        with open(self._csv_file) as file:
+            csvreader = csv.reader(file, delimiter=self._delimiter, quotechar=self._quotechar)
+            for row in csvreader:
+                if (row[0], row[1]) == (key, value):
+                    tup_curr_pos = i
+                    break
+                i += 1
+        tup_new_pos = tup_curr_pos + offset
+        # if the offset is zero, do nothing
+        if offset == 0:
+            return True
+        # if pos is 0, do nothing, otherwise move to position curr_pos - 1
+        if tup_new_pos <= 0:
+            return True
+        try:
+            # Count the number of lines. If new position is larger, do nothing
+            dic_len = 0
+            with open(self._csv_file) as file:
+                csvreader = csv.reader(file, delimiter=self._delimiter, quotechar=self._quotechar)
+                dic_len = sum(1 for row in csvreader)
+            if tup_new_pos >=  dic_len - 1:
+                return True
+            # create updated list of tuples
+            with open(self._csv_file) as file:
+                csvreader = csv.reader(file, delimiter=self._delimiter, quotechar=self._quotechar)
+                for row in csvreader:
+                    list_tuple_dic.append((row[0], row[1]))
+                # swap tup_curr_pos and tup_new_pos
+                list_tuple_dic[tup_new_pos], list_tuple_dic[tup_curr_pos] = list_tuple_dic[tup_curr_pos], list_tuple_dic[tup_new_pos]
+            # erase file
+            open(self._csv_file, 'w').close()
+            # update file
+            for tp in list_tuple_dic:
+                self.add_tuple(tp[0], tp[1])
+            ret_val = True
+        finally:
+            return ret_val
+
 
 def _print_position(csv_dic_tuple: CsvDicTuple, key: str, value: str, expected_position: int):
     """
@@ -141,6 +191,23 @@ def _print_position(csv_dic_tuple: CsvDicTuple, key: str, value: str, expected_p
 
 
 if __name__ == '__main__':
+    test_add = False
+    test_moveup1 = True
+    test_moveup2 = False
+    test_moveup3 = False
+    test_movedown1 = False
+    test_movedown2 = False
+    test_movedown3 = False
+    # key1, "AA"
+    # key1, "A"
+    # key2, "AAA"
+    # key3, "AAAA"
+    # key3, "AAAAA"
+    # key3, "BB"
+    # key3, "CC"
+    # key3, "CC2"
+    # key5, "DD"
+    # key6, "EE"
     dic = CsvDicTuple("../Sandbox/DicTuple01.csv")
     dic.add_tuple("key1", "AA")
     dic.add_tuple("key1", "A")
@@ -154,9 +221,21 @@ if __name__ == '__main__':
     dic.add_tuple("key3", "CC2")
     dic.add_tuple("key6", "EE")
     dic.add_tuple("key5", "DD")
-    _print_position(dic, "key1", "A", 1)
-    _print_position(dic, "key1", "AA", 0)
-    _print_position(dic, "key6", "EE", 0)
-    _print_position(dic, "key3", "BB", 2)
-    _print_position(dic, "key3", "BB", 2)
-    _print_position(dic, "key3", "xsddd", -1)
+
+    if test_add:
+        _print_position(dic, "key1", "A", 1)
+        _print_position(dic, "key1", "AA", 0)
+        _print_position(dic, "key6", "EE", 0)
+        _print_position(dic, "key3", "BB", 2)
+        _print_position(dic, "key3", "BB", 2)
+        _print_position(dic, "key3", "xsddd", -1)
+    if test_moveup1:
+        dic.move_up("key3", "AAAAA")
+        dic.move_up("key3", "AAAAA")
+        dic.move_up("key3", "AAAAA")
+        dic.move_up("key3", "BB")
+        dic.move_down("key3", "CC2")
+        dic.move_down("key3", "CC2")
+        dic.move_down("key6", "EE")
+        dic.move_up("key6", "EE")
+        dic.move_up("key3", "AAAAA")
