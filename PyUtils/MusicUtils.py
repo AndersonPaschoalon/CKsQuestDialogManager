@@ -8,6 +8,7 @@ class MusicUtils:
         print("Initializing mixer from pygame")
         mixer.init()
         self.sound = None
+        self.track = ""
 
     def play(self, sound_path):
         """
@@ -18,6 +19,7 @@ class MusicUtils:
         self.sound = mixer.Sound(sound_path)
         mixer.music.load(sound_path)
         mixer.music.play()
+        self.track = sound_path
 
     def stop(self):
         """
@@ -25,6 +27,7 @@ class MusicUtils:
         :return:
         """
         mixer.music.stop()
+        self.track = ""
 
     def pause(self):
         """
@@ -79,6 +82,13 @@ class MusicUtils:
         :return:
         """
         mixer.music.set_volume(new_volume)
+
+    def get_track(self):
+        """
+        Return the name of the file being played.
+        :return:
+        """
+        return self.track
 
 
 if __name__ == "__main__":

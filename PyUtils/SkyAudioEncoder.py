@@ -1,7 +1,7 @@
 import os
 import subprocess
-
 from PyUtils.Console import Console
+from PyUtils.FileUtils import FileUtils
 
 class SkyAudioEncoder:
 
@@ -14,7 +14,7 @@ class SkyAudioEncoder:
     DEF_BITRATE = 192000
     EXE_XWMAENCODE = "xWMAEncode.exe"
     EXE_FUZ_EXTRACTOR = "fuz_extractor.exe"
-    EXE_FFMPEG = "ffmpeg"
+    EXE_FFMPEG = "ffmpeg.exe"
     EXT_WAV = "wav"
     EXT_XWM = "xwm"
     EXT_FUZ = "fuz"
@@ -29,7 +29,7 @@ class SkyAudioEncoder:
         self.last_ret_code = 0
 
     def unfuz(self, file):
-        fuz_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_FUZ)
+        fuz_file = FileUtils.change_ext(file, SkyAudioEncoder.EXT_FUZ)
         if not os.path.isfile(fuz_file):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_FUZ.format(fuz_file)
             return False
@@ -44,8 +44,8 @@ class SkyAudioEncoder:
         return self.xwm_to_wav(file)
 
     def xwm_to_wav(self, file):
-        xwm_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_XWM)
-        wav_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_WAV)
+        xwm_file = FileUtils.change_ext(file, SkyAudioEncoder.EXT_XWM)
+        wav_file = FileUtils.change_ext(file, SkyAudioEncoder.EXT_WAV)
         if not os.path.isfile(xwm_file):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_XWM.format(xwm_file)
             return False

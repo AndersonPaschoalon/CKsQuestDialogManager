@@ -56,6 +56,10 @@ Docs/
 
 08.[nok] Atualizar documentação
 
+9. [nok] adicionar metodos filepath wav, xwm, fuz, lip
+
+
+
 
 
 

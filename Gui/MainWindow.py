@@ -4,6 +4,7 @@ from Gui.CkLogicLayer import CkLogicLayer
 from PyUtils.Logger import Logger
 from Gui.AppInfo import AppInfo
 
+
 class MainWindow:
 
     FI = 1.618

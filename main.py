@@ -4,6 +4,8 @@ from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Logger import Logger
 from PyUtils.Console import Console
 from Gui.MainWindow import MainWindow
+from Gui.AudioWindow import AudioWindow
+
 
 LOG_FILE = "./App/Logs/ck-dialog-docgen.log"
 DOC_OUTPUT = "./OUTPUT/"
@@ -18,6 +20,10 @@ def test_export_objs():
     comments_csv = "Comments.csv"
     actors_csv = "Actors.csv"
     QuestDialogs.export_objects_to_csvdics(skyrim_path, comments_csv, actors_csv)
+
+def test_run_audio_window():
+    audio_win = AudioWindow()
+    audio_win.run()
 
 
 # Press the green button in the gutter to run the script.
