@@ -16,16 +16,16 @@ def create_audio_list():
     s10 = "An example using Python's groupby and defaultdict to do the same task — posted 2014-10-09"
     s11 = "python enum types — posted 2012-10-10"
     audio_list = []
-    audio_list.append(AudioData('audio/01\ -\ Unfinished\ Allegro.mp3', "Angels Cry", "Angra", s1))
-    audio_list.append(AudioData('audio/02\ -\ Carry\ On.mp3', "Angels Cry", "Angra", s2))
-    audio_list.append(AudioData('audio/03\ -\ Time.mp3', "Angels Cry", "Angra", s3))
-    audio_list.append(AudioData('audio/04\ -\ Angels Cry.mp3', "Angels Cry", "Angra", s4))
-    audio_list.append(AudioData('audio/05\ -\ Stand Away.mp3', "Angels Cry", "Angra", s5))
-    audio_list.append(AudioData('audio/06\ -\ Never Understand.mp3', "Angels Cry", "Angra", s6))
-    audio_list.append(AudioData('audio/07\ -\ Wuthering Heights.mp3', "Angels Cry", "Angra", s7))
-    audio_list.append(AudioData('audio/08\ -\ Streets Of Tomorrow.mp3', "Angels Cry", "Angra", s8))
-    audio_list.append(AudioData('audio/09\ -\ Evil Warning.mp3', "Angels Cry", "Angra", s9))
-    audio_list.append(AudioData('audio/10\ -\ Lasting Child.mp3', "Angels Cry", "Angra", s10))
-    audio_list.append(AudioData('audio/11\ -\ Rainy Nights.mp3', "Fireworks", "Angra", s11))
+    audio_list.append(AudioData('Sandbox\\audio\\01 - Unfinished Allegro.mp3', "Angels Cry", "Angra", s1))
+    audio_list.append(AudioData('Sandbox\\audio\\02 - Carry On.mp3', "Angels Cry", "Angra", s2))
+    audio_list.append(AudioData('Sandbox\\audio\\03 - Time.mp3', "Angels Cry", "Angra", s3))
+    audio_list.append(AudioData('Sandbox\\audio\\04 - Angels Cry.mp3', "Angels Cry", "Angra", s4))
+    audio_list.append(AudioData('Sandbox\\audio\\05 - Stand Away.mp3', "Angels Cry", "Angra", s5))
+    audio_list.append(AudioData('Sandbox\\audio\\06 - Never Understand.mp3', "Angels Cry", "Angra", s6))
+    audio_list.append(AudioData('Sandbox\\audio\\07 - Wuthering Heights.mp3', "Angels Cry", "Angra", s7))
+    audio_list.append(AudioData('Sandbox\\audio\\08 - Streets Of Tomorrow.mp3', "Angels Cry", "Angra", s8))
+    audio_list.append(AudioData('Sandbox\\audio\\09 - Evil Warning.mp3', "Angels Cry", "Angra", s9))
+    audio_list.append(AudioData('Sandbox\\audio\\10 - Lasting Child.mp3', "Angels Cry", "Angra", s10))
+    audio_list.append(AudioData('Sandbox\\audio\\11 - Rainy Nights.mp3', "Fireworks", "Angra", s11))
     return audio_list
 

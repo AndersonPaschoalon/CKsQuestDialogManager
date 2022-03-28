@@ -41,9 +41,17 @@ class TopicDialogs:
         else:
             True
 
-    def add_topic_data(self, index: str, response: str, mood: str, file_name: str):
-        """Add a tuple of topic information."""
-        topic_tuple = (text(index), text(response), text(mood), text(file_name))
+    def add_topic_data(self, index: str, response: str, mood: str, file_path: str, file_name: str):
+        """
+        Add a tuple of topic information.
+        :param index:
+        :param response:
+        :param mood:
+        :param file_path:
+        :param file_name:
+        :return:
+        """
+        topic_tuple = (text(index), text(response), text(mood), text(file_path), text(file_name))
         self._list_topic_data.append(topic_tuple)
 
     def sort(self):

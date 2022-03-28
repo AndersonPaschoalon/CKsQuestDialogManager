@@ -69,6 +69,7 @@ class AppSettings:
 class AppInfo:
     def __init__(self, app_dir="./App/"):
         self.app_dir = app_dir
+        self.audio_encoder_dir = app_dir + "Bin/"
         self.img_dir = self.app_dir + "Img/"
         self.pages_dir = self.app_dir + "Pages/"
         self.log_dir = self.app_dir + "Logs/"

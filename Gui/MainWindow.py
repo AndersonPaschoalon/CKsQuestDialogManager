@@ -17,7 +17,6 @@ class MainWindow:
     FONT_SKIPLINE1 = ('Any', 20,)
     FONT_SKIPLINE2 = ('Any', 15,)
 
-
     def run(self):
         #
         # Initialize application

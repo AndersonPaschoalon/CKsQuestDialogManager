@@ -2,6 +2,7 @@ import os
 import subprocess
 from PyUtils.Console import Console
 from PyUtils.FileUtils import FileUtils
+from PyUtils.FileUtils import Exts
 
 class SkyAudioEncoder:
 
@@ -10,15 +11,12 @@ class SkyAudioEncoder:
     ERROR_FILE_NOT_FOUND_WAV = "WAV file {0} could not be found."
     ERROR_FILE_NOT_FOUND_XWM = "XWM file {0} could not be found."
     ERROR_FILE_NOT_FOUND_LIP = "LIP file {0} could not be found."
+    ERROR_FILE_NOT_FOUND_MP3 = "MP3 file {0} could not be found."
     ERROR_FILE_NOT_FOUND_ENCODER = "Encoder application {0} could not be found."
     DEF_BITRATE = 192000
     EXE_XWMAENCODE = "xWMAEncode.exe"
     EXE_FUZ_EXTRACTOR = "fuz_extractor.exe"
     EXE_FFMPEG = "ffmpeg.exe"
-    EXT_WAV = "wav"
-    EXT_XWM = "xwm"
-    EXT_FUZ = "fuz"
-    EXT_LIP = "lip"
 
     def __init__(self, exe_dir: str):
         self.xWMAEncode = os.path.join(exe_dir, SkyAudioEncoder.EXE_XWMAENCODE)
@@ -29,7 +27,7 @@ class SkyAudioEncoder:
         self.last_ret_code = 0
 
     def unfuz(self, file):
-        fuz_file = FileUtils.change_ext(file, SkyAudioEncoder.EXT_FUZ)
+        fuz_file = FileUtils.change_ext(file, Exts.EXT_FUZ)
         if not os.path.isfile(fuz_file):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_FUZ.format(fuz_file)
             return False
@@ -43,9 +41,23 @@ class SkyAudioEncoder:
             return False
         return self.xwm_to_wav(file)
 
+    def mp3_to_wav(self, file):
+        mp3_file = FileUtils.change_ext(file, Exts.EXT_MP3)
+        wav_file = FileUtils.change_ext(file, Exts.EXT_WAV)
+        if not os.path.isfile(mp3_file):
+            self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_MP3.format(mp3_file)
+            return False
+        if not os.path.isfile(self.ffmpeg):
+            self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.ffmpeg)
+            return False
+        # ..\..\App\Bin\ffmpeg.exe -y -i .\TestAudio01Gen.mp3 -acodec pcm_s16le -ac 1 -ar 16000 .\TestAudio01Gen.wav
+        cmd = self.ffmpeg + " -y -i " + mp3_file + " -acodec pcm_s16le -ac 1 -ar 16000 " + wav_file
+        return self._process_command(cmd)
+
+
     def xwm_to_wav(self, file):
-        xwm_file = FileUtils.change_ext(file, SkyAudioEncoder.EXT_XWM)
-        wav_file = FileUtils.change_ext(file, SkyAudioEncoder.EXT_WAV)
+        xwm_file = FileUtils.change_ext(file, Exts.EXT_XWM)
+        wav_file = FileUtils.change_ext(file, Exts.EXT_WAV)
         if not os.path.isfile(xwm_file):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_XWM.format(xwm_file)
             return False
@@ -57,8 +69,8 @@ class SkyAudioEncoder:
         return self._process_command(cmd)
 
     def wav_to_xwm(self, file):
-        xwm_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_XWM)
-        wav_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_WAV)
+        xwm_file = SkyAudioEncoder.change_ext(file, Exts.EXT_XWM)
+        wav_file = SkyAudioEncoder.change_ext(file, Exts.EXT_WAV)
         if not os.path.isfile(wav_file):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_WAV.format(wav_file)
             return False
@@ -71,9 +83,9 @@ class SkyAudioEncoder:
 
     def fuz(self, file):
         self.wav_to_xwm(file)
-        xwm_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_XWM)
-        lip_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_LIP)
-        fuz_file = SkyAudioEncoder.change_ext(file, SkyAudioEncoder.EXT_FUZ)
+        xwm_file = SkyAudioEncoder.change_ext(file, Exts.EXT_XWM)
+        lip_file = SkyAudioEncoder.change_ext(file, Exts.EXT_LIP)
+        fuz_file = SkyAudioEncoder.change_ext(file, Exts.EXT_FUZ)
         if not os.path.isfile(xwm_file):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_XWM.format(xwm_file)
             return False
@@ -111,6 +123,7 @@ class SkyAudioEncoder:
         :return:
         """
         [ret, stdout, stderr] = Console.execute(command)
+        print("[ret, stdout, stderr] = " + str([ret, stdout, stderr]))
         self.last_ret_code = ret
         if success_ret_code == ret:
             self.last_stdout = stdout
@@ -120,22 +133,33 @@ class SkyAudioEncoder:
             self.last_error = "Return Code: " + str(ret) + "\n" +\
                               "Stdout:\n" + stdout +\
                               "Stderr:\n" + stderr
+            print("--------------------------------------------")
+            print(self.last_stdout)
+            print("--------------------------------------------")
+            print(self.last_error)
             return False
 
 
 if __name__ == '__main__':
     print("oi")
     app_dir = "..\\App\\Bin\\"
-    dir_files = "..\\Sandbox\\enc1\\"
-    dir_files = "..\\Sandbox\\enc2\\"
+    dir_files1 = "..\\Sandbox\\enc1\\"
+    dir_files2 = "..\\Sandbox\\enc2\\"
+    dir_files3 = "..\\Sandbox\\enc3\\"
     file = "TestAudio01"
+    file3 = "TestAudio01Gen"
+    b_test1 = False
+    b_test2 = False
+    b_test3 = True
 
+    ret = True
     enc = SkyAudioEncoder(app_dir)
-    ret = enc.fuz(dir_files + file)
-    if not ret:
-        print("Error")
-        print(enc.get_last_error())
-    ret = enc.unfuz(dir_files + file)
+    if b_test1:
+        ret = enc.fuz(dir_files1 + file)
+    if b_test2:
+        ret = enc.unfuz(dir_files2 + file)
+    if b_test3:
+        ret = enc.mp3_to_wav(dir_files3 + file3)
     if not ret:
         print("Error")
         print(enc.get_last_error())

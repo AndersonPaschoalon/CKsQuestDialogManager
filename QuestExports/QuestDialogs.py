@@ -355,6 +355,7 @@ class QuestDialogs:
                     # calc the positions for each file
                     first_row = next(rd)
                     col_file = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_FULL_PATH)
+                    col_file_name = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_FILENAME)
                     col_quest = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_QUEST)
                     col_branch = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_BRANCH)
                     col_topic = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_TOPIC)
@@ -433,7 +434,8 @@ class QuestDialogs:
                         str_dialogue = text(row[col_npc_resp_text])
                         str_mood = row[col_npc_resp_emo]
                         str_file = row[col_file]
-                        topic_obj.add_topic_data(str_index, str_dialogue, str_mood, str_file)
+                        str_file_name = row[col_file_name]
+                        topic_obj.add_topic_data(str_index, str_dialogue, str_mood, str_file, str_file_name)
                     # endfor
                 # endwith
                 # Stores the data from the last iteration
