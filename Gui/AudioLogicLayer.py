@@ -18,7 +18,6 @@ from QuestExports.BranchDialogs import BranchDialogs
 from QuestExports.TopicDialogs import TopicDialogs
 
 
-
 class AudioLogicLayer:
 
     STR_INFO_POPUP = "Info"
@@ -227,7 +226,7 @@ class AudioLogicLayer:
         wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
         mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
-        self._log.debug("wav_file:" + wav_file +  ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
+        self._log.debug("wav_file:" + wav_file + ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
         if not exists(wav_file):
             self._log.info("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
             # try to generate file from XWM

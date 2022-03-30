@@ -17,8 +17,11 @@ class SkyAudioEncoder:
     EXE_XWMAENCODE = "xWMAEncode.exe"
     EXE_FUZ_EXTRACTOR = "fuz_extractor.exe"
     EXE_FFMPEG = "ffmpeg.exe"
+    # ENCODING = "utf-8"
+    ENCODING = "ISO-8859-1"
 
     def __init__(self, exe_dir: str):
+        exe_dir = exe_dir.replace(os.sep, '\\')
         self.xWMAEncode = os.path.join(exe_dir, SkyAudioEncoder.EXE_XWMAENCODE)
         self.fuz_extractor = os.path.join(exe_dir, SkyAudioEncoder.EXE_FUZ_EXTRACTOR)
         self.ffmpeg = os.path.join(exe_dir, SkyAudioEncoder.EXE_FFMPEG)
@@ -50,8 +53,9 @@ class SkyAudioEncoder:
         if not os.path.isfile(self.ffmpeg):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.ffmpeg)
             return False
-        # ..\..\App\Bin\ffmpeg.exe -y -i .\TestAudio01Gen.mp3 -acodec pcm_s16le -ac 1 -ar 16000 .\TestAudio01Gen.wav
-        cmd = self.ffmpeg + " -y -i " + mp3_file + " -acodec pcm_s16le -ac 1 -ar 16000 " + wav_file
+        # ../App/Bin/ffmpeg.exe -y -i ..\Sandbox\enc3\TestAudio01Gen.mp3 -acodec pcm_u8  -ac 1 -ar 22050 ..\Sandbox\enc3\TestAudio01Gen.wav
+        cmd = self.ffmpeg + " -y -i " + mp3_file + " -acodec pcm_u8  -ac 1 -ar 22050 " + wav_file
+        print("cmd:" + cmd)
         return self._process_command(cmd)
 
 
@@ -119,20 +123,24 @@ class SkyAudioEncoder:
         Stores the console result.
         In case the error, stores the error (retcode, stdout, stderr) information.
         :param command:
-        :param success_ret_code:
+    :param success_ret_code:|Q
         :return:
         """
+        print("command:" + command)
         [ret, stdout, stderr] = Console.execute(command)
+        # [ret, stdout, stderr] = Console.execute("dir")
         print("[ret, stdout, stderr] = " + str([ret, stdout, stderr]))
+        str_stdout = str(stdout, SkyAudioEncoder.ENCODING)
+        str_stderr = str(stderr, SkyAudioEncoder.ENCODING)
         self.last_ret_code = ret
         if success_ret_code == ret:
-            self.last_stdout = stdout
+            self.last_stdout = str_stdout
             return True
         else:
-            self.last_stdout = stdout + "\n" + stderr
+            self.last_stdout = str_stdout + "\n" + str_stderr
             self.last_error = "Return Code: " + str(ret) + "\n" +\
-                              "Stdout:\n" + stdout +\
-                              "Stderr:\n" + stderr
+                              "Stdout:\n" + str_stdout +\
+                              "Stderr:\n" + str_stderr
             print("--------------------------------------------")
             print(self.last_stdout)
             print("--------------------------------------------")
