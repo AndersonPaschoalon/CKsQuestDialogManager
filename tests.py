@@ -36,7 +36,7 @@ def test_audio_logic_layer_enerate_list_audio_data():
         print(ad.to_string())
 
 def test_audio_window():
-    audio_win = AudioWindow(".\\App\\")
+    audio_win = AudioWindow("App\\")
     audio_win.run()
 
 

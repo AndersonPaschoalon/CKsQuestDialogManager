@@ -53,12 +53,14 @@ class AudioLogicLayer:
             popup_text = "No sound file selected."
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
             return
-        [ret_val, ret_msg] = self._generate_wav_if_not_exit(sound_path)
-        if ret_val:
+        ret_val = self.encoder.try_to_gen_wav(sound_path, force_generation=False)
+        if ret_val == SkyAudioEncoder.RET_SUCCESS:
             wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
             self.player.play(wav_file)
         else:
-            popup_text = "Error playing track " + sound_path + ": " + ret_msg
+            ret_msg = self.encoder.get_last_error()
+            err_description = self.encoder.get_last_stdout()
+            popup_text = "Error playing track " + sound_path + ": " + ret_msg + "\n\n" + err_description
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Play Audio Error")
 
     def play_info(self):
