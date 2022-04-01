@@ -63,6 +63,22 @@ class AudioLogicLayer:
             popup_text = "Error playing track " + sound_path + ": " + ret_msg + "\n\n" + err_description
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Play Audio Error")
 
+    def stop_sound(self):
+        """
+        Screen Element: Stop Button
+        :return:
+        """
+        self._log.debug("-- stop_sound()")
+        self.player.stop()
+
+    def pause_sound(self):
+        """
+        Screen Element: Pause Button
+        :return:
+        """
+        self._log.debug("-- stop_sound()")
+        self.player.pause()
+
     def play_info(self):
         """
         Screen Element: song progress bar.
@@ -213,6 +229,20 @@ class AudioLogicLayer:
         if not ret_val:
             popup_text = "Error deconding file " + sound_path + ". Error message:" + self.encoder.get_last_error()
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+
+    def get_current_track_len(self):
+        """
+        Returns track len in seconds.
+        :return:
+        """
+        return self.player.len()
+
+    def get_current_track_progress(self):
+        """
+        Returns track progress in seconds.
+        :return:
+        """
+        return self.player.position()
 
     def _generate_wav_if_not_exit(self, sound_path):
         """

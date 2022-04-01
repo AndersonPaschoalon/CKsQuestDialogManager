@@ -16,10 +16,17 @@ class MusicUtils:
         :param sound_path:
         :return:
         """
-        self.sound = mixer.Sound(sound_path)
-        mixer.music.load(sound_path)
-        mixer.music.play()
-        self.track = sound_path
+        # it is not a empty track
+        if sound_path != "":
+            # a new song was selected
+            if self.track != sound_path:
+                self.sound = mixer.Sound(sound_path)
+                mixer.music.load(sound_path)
+                mixer.music.play()
+                self.track = sound_path
+            # It is the same song selected, just continue
+            else:
+                mixer.music.unpause()
 
     def stop(self):
         """
@@ -57,14 +64,20 @@ class MusicUtils:
         Tells the sound len in seconds
         :return:
         """
-        return int(round(self.sound.get_length()))
+        try:
+            return int(round(self.sound.get_length()))
+        except:
+            return 0
 
     def position(self):
         """
         Tells the current position in seconds
         :return:
         """
-        return int(round(mixer.music.get_pos() / 1000))
+        try:
+            return int(round(mixer.music.get_pos() / 1000))
+        except:
+            return 0
 
     def get_volume(self):
         """

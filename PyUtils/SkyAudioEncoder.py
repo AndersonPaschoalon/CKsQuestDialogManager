@@ -69,7 +69,7 @@ class SkyAudioEncoder:
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.ffmpeg)
             return SkyAudioEncoder.RET_ERR_ENCODER_EXE_NOT_FOUND
         # ../App/Bin/ffmpeg.exe -y -i ..\Sandbox\enc3\TestAudio01Gen.mp3 -acodec pcm_u8  -ac 1 -ar 22050 ..\Sandbox\enc3\TestAudio01Gen.wav
-        cmd = self.ffmpeg + " -y -i " + mp3_file + " -acodec pcm_u8  -ac 1 -ar 22050 " + wav_file
+        cmd = self.ffmpeg + " -y -i \"" + mp3_file + "\" \"" + wav_file + "\""
         return self._process_command(cmd)
 
     def xwm_to_wav(self, file: str):
@@ -87,7 +87,7 @@ class SkyAudioEncoder:
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.xWMAEncode)
             return False
         # .\xWMAEncode.exe  .\TestAudio01.xwm .\TestAudio01Back.wav
-        cmd = self.xWMAEncode + " " + xwm_file + " " + wav_file
+        cmd = self.xWMAEncode + "  \"" + xwm_file + "\"  \"" + wav_file + "\""
         return self._process_command(cmd)
 
     def wav_to_xwm(self, file: str):
@@ -128,7 +128,7 @@ class SkyAudioEncoder:
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.fuz_extractor)
             return SkyAudioEncoder.RET_ERR_ENCODER_EXE_NOT_FOUND
         # .\fuz_extractor.exe -c TestAudio01.fuz .\TestAudio01.lip .\TestAudio01.xwm
-        cmd = self.fuz_extractor + " -c " + " " + fuz_file + " " + lip_file + " " + xwm_file
+        cmd = self.fuz_extractor + " -c " + " \"" + fuz_file + "\"  \"" + lip_file + "\"  \"" + xwm_file + "\""
         return self._process_command(cmd)
 
     def get_last_encodder_ret_code(self):
@@ -172,7 +172,7 @@ class SkyAudioEncoder:
         self.last_command = command
         [ret, stdout, stderr] = Console.execute(command)
         # [ret, stdout, stderr] = Console.execute("dir")
-        str_stdout = "stdout:\n" + str(stdout, SkyAudioEncoder.ENCODING) + "stderr:\n" + \
+        str_stdout = "stdout:\n" + str(stdout, SkyAudioEncoder.ENCODING) + " \nstderr:\n" + \
                      str(stderr, SkyAudioEncoder.ENCODING)
         self.last_ret_code = ret
         self.last_stdout = str_stdout
@@ -253,9 +253,9 @@ if __name__ == '__main__':
     dir_files3 = "..\\Sandbox\\enc3\\"
     file = "TestAudio01"
     file3 = "TestAudio01Gen"
-    b_test1 = False
+    b_test1 = True
     b_test2 = False
-    b_test3 = True
+    b_test3 = False
     ret = True
     enc = SkyAudioEncoder(app_dir)
 

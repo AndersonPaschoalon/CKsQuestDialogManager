@@ -9,6 +9,7 @@ from Gui.AppInfo import AppInfo
 from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.AudioData import AudioData
 from Gui.TestData import *
+import datetime
 
 
 class AudioWindow:
@@ -114,8 +115,9 @@ class AudioWindow:
                            resizable=False)
         # ------ Event Loop ------
         while True:
-            event, values = window.read()
 
+            # Handle events
+            event, values = window.read(timeout=500)
             if isinstance(event, tuple):
                 # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                 self.current_row = AudioWindow.clicked_row(event)
@@ -138,10 +140,13 @@ class AudioWindow:
                 self.audio_logic_layer.play_sound(self.current_track)
             if event == AudioWindow.KEY_STOP_BUTTON:
                 print("Pressed button: " + AudioWindow.KEY_STOP_BUTTON)
-                self.audio_logic_layer.stop_sound(self.current_track)
+                self.audio_logic_layer.stop_sound()
             if event == AudioWindow.KEY_PAUSE_BUTTON:
                 print("Pressed button: " + AudioWindow.KEY_PAUSE_BUTTON)
-                self.audio_logic_layer.pause_sound(self.current_track)
+                self.audio_logic_layer.pause_sound()
+            if event == AudioWindow.KEY_SLIDER_VOLUME:
+                print("Pressed button: " + AudioWindow.KEY_SLIDER_VOLUME)
+                self.audio_logic_layer.set_volume(values[AudioWindow.KEY_SLIDER_VOLUME])
             if event == AudioWindow.KEY_OPEN_BUTTON:
                 print("Pressed button: " + AudioWindow.KEY_OPEN_BUTTON)
                 self.audio_logic_layer.open_folder(self.current_track)
@@ -161,7 +166,24 @@ class AudioWindow:
                 print("Pressed button: " + AudioWindow.KEY_UNFUZ_BUTTON)
                 self.audio_logic_layer.audio_unfuz(self.current_track)
 
+            # update progress bar
+            audio_prog = self.audio_logic_layer.get_current_track_progress()
+            audio_len = self.audio_logic_layer.get_current_track_len()
+            if audio_len == 0:
+                audio_len = 1
+            print("Current progress is " + str(audio_prog) + "/" + str(audio_len) + " for " + self.current_track)
+            window[AudioWindow.KEY_SLIDER_PROGRESS].update(value=audio_prog, range=(0, audio_len))
+            window[AudioWindow.KEY_TEXT_END_TIME].update(value=AudioWindow.sec_to_min(audio_len))
+
+
+
         window.close()
+
+
+
+    @staticmethod
+    def sec_to_min(sec: int):
+        return str(datetime.timedelta(seconds=sec))
 
     @staticmethod
     def create_audio_table(audio_list, repeat=0):
