@@ -19,6 +19,7 @@ class AudioWindow:
     DEFAULT_CURRENT_TRACK = ""
     # Text
     KEY_TEXT_CURRENT_TRACK = "key_text_current_track"
+    KEY_TEXT_CURRENT_SUBTITLE = "key_text_current_subtitle"
     KEY_TEXT_INIT_TIME = "key_text_init_time"
     KEY_TEXT_END_TIME = "key_text_end_time"
     # Button
@@ -44,24 +45,26 @@ class AudioWindow:
         self.data = []
         self.current_row = -1
         self.current_track = ""
+        self.current_subtitle = ""
 
-    def update_current_track(self, sound):
+    def update_current_track(self, sound, subtitle):
         if not sound == "":
             self.current_track = str(sound)
+            self.current_subtitle = str(subtitle)
 
     def run(self):
         # Load table data
         # todo comentar linha de teste
-        list_audio_data = create_audio_list()
-        for audio in list_audio_data:
-            print(audio.to_string())
+        list_audio_data = create_audio_list2()
+        # for audio in list_audio_data:
+        #    print(audio.to_string())
         # TODO use the command below, instead the above
         # list_audio_data = self.audio_logic_layer.generate_list_audio_data()
         self.data = AudioWindow.create_audio_table(list_audio_data, 4)
         # table elements
         table_headings = ["Quest ID", "Actor", "Subtitles"]
         # Player Elements
-        track_information = [sg.Text(""), sg.Text('Audio Track:'), sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK)]
+        track_information = [sg.Text(emojize(":radio:     ")), sg.Text('Audio Track:'), sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK)]
         track_sliders = [sg.Button(emojize(":arrow_forward:Play", language='alias'), key=AudioWindow.KEY_PLAY_BUTTON),
                          sg.Button(emojize("\u23F8\uFE0F     Pause", variant='emoji_type'),
                                    key=AudioWindow.KEY_PAUSE_BUTTON),
@@ -83,7 +86,8 @@ class AudioWindow:
                     sg.Button(emojize(":studio_microphone:Generate FUZ", language='alias'), key=AudioWindow.KEY_GEN_FUZ_BUTTON),
                     sg.Button(emojize(":headphones:     UnFUZ", language='alias'), key=AudioWindow.KEY_UNFUZ_BUTTON)],
         # ------ Window Layout ------
-        layout = [[sg.Table(values=self.data[1:][:], headings=table_headings,
+        layout = [[sg.Table(values=self.data[:][:], # values=self.data[1:][:],
+                            headings=table_headings,
                             auto_size_columns=True,
                             max_col_width=100,
                             display_row_numbers=False,
@@ -99,11 +103,11 @@ class AudioWindow:
                             tooltip='Audio list')],
                   [sg.HorizontalSeparator()],
                   track_information,
-                  [sg.Text(lorem_ipsum, size=(120, None))],
+                  [sg.Text("", size=(120, None), key=AudioWindow.KEY_TEXT_CURRENT_SUBTITLE)],
                   track_sliders,
                   [sg.Text('')],
                   [sg.HorizontalSeparator()],
-                  [sg.Text(''), sg.Text('Tools')],
+                  [sg.Text(emojize(":desktop_computer:").strip()), sg.Text('System & Tools')],
                   tool_box,
                   [sg.Multiline(size=(170, 5), enter_submits=False, key='-QUERY-', do_not_clear=False,
                                 write_only=True)],
@@ -121,7 +125,7 @@ class AudioWindow:
             if isinstance(event, tuple):
                 # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                 self.current_row = AudioWindow.clicked_row(event)
-                self.update_current_track(self.get_filename(AudioWindow.clicked_row(event)))
+                self.update_current_track(self.get_filename(self.current_row), self.get_subtitle(self.current_row))
                 if event[0] == '-TABLE-':
                     if event[2][0] == -1 and event[2][1] != -1:  # Header was clicked and wasn't the "row" column
                         col_num_clicked = event[2][1]
@@ -129,9 +133,10 @@ class AudioWindow:
                         window['-TABLE-'].update(new_table)
                         self.data = [self.data[0]] + new_table
                     window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
-            print(event, values)
+                    window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
+            print("event:<" + str(event) + ">, values:<" + str(values) + ">")
 
-            self.update_current_track(self.current_track)
+            # self.update_current_track(self.current_track, self.current_subtitle)
             if event == sg.WIN_CLOSED:
                 print("Pressed button: sg.WIN_CLOSED")
                 break
@@ -171,11 +176,10 @@ class AudioWindow:
             audio_len = self.audio_logic_layer.get_current_track_len()
             if audio_len == 0:
                 audio_len = 1
-            print("Current progress is " + str(audio_prog) + "/" + str(audio_len) + " for " + self.current_track)
+            # debug
+            # print("Current progress is " + str(audio_prog) + "/" + str(audio_len) + " for " + self.current_track)
             window[AudioWindow.KEY_SLIDER_PROGRESS].update(value=audio_prog, range=(0, audio_len))
             window[AudioWindow.KEY_TEXT_END_TIME].update(value=AudioWindow.sec_to_min(audio_len))
-
-
 
         window.close()
 
@@ -187,6 +191,18 @@ class AudioWindow:
 
     @staticmethod
     def create_audio_table(audio_list, repeat=0):
+        """
+        Creates an data table to be displayed in the main windows.
+        Each row is composed of the following data:
+        0 - Quest ID
+        1 - Actor Name
+        3 - Subtitle
+        4 - File Name
+        5 - File Path
+        :param audio_list:
+        :param repeat:
+        :return:
+        """
         al = []
         i = 0
         while i < repeat:
@@ -224,6 +240,16 @@ class AudioWindow:
             return self.data[clicked_row][4]
         except:
             return ""
+
+    def get_subtitle(self, clicked_row: int):
+        try:
+            return self.data[clicked_row][2]
+        except:
+            return ""
+
+
+
+
 
 
 if __name__ == '__main__':

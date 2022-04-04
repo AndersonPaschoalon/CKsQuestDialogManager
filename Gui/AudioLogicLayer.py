@@ -28,6 +28,7 @@ class AudioLogicLayer:
         self._log = Logger.get()
         self.encoder = SkyAudioEncoder(self.app.audio_encoder_dir)
         self.player = MusicUtils()
+        self.console_output = ""
 
     def generate_list_audio_data(self):
         """
@@ -48,10 +49,13 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
+        self._console_clear()
+        self._console_add("play_sound: " + sound_path)
         self._log.debug("-- play_sound() sound_path:" + sound_path)
         if sound_path == "":
             popup_text = "No sound file selected."
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
+            self._console_add(popup_text)
             return
         ret_val = self.encoder.try_to_gen_wav(sound_path, force_generation=False)
         if ret_val == SkyAudioEncoder.RET_SUCCESS:
@@ -62,12 +66,15 @@ class AudioLogicLayer:
             err_description = self.encoder.get_last_stdout()
             popup_text = "Error playing track " + sound_path + ": " + ret_msg + "\n\n" + err_description
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Play Audio Error")
+            self._console_add(popup_text)
 
     def stop_sound(self):
         """
         Screen Element: Stop Button
         :return:
         """
+        self._console_clear()
+        self._console_add("stop_sound")
         self._log.debug("-- stop_sound()")
         self.player.stop()
 
@@ -76,6 +83,8 @@ class AudioLogicLayer:
         Screen Element: Pause Button
         :return:
         """
+        self._console_clear()
+        self._console_add("pause_sound")
         self._log.debug("-- stop_sound()")
         self.player.pause()
 
@@ -85,6 +94,8 @@ class AudioLogicLayer:
         Used to update the screen with the song information in realtime.
         :return: Return a list with the data of the track being played.
         """
+        self._console_clear()
+        self._console_add("play_info")
         self._log.debug("-- play_info()")
         is_playing = self.player.is_playing()
         volume = int(self.player.get_volume() * 100)
@@ -99,6 +110,8 @@ class AudioLogicLayer:
         :param volume:
         :return:
         """
+        self._console_clear()
+        self._console_add("set_volume " + str(volume))
         self._log.debug("-- set_volume() " + str(volume))
         v_in = volume/100
         self.player.set_volume(v_in)
@@ -244,6 +257,13 @@ class AudioLogicLayer:
         """
         return self.player.position()
 
+    def get_console_output(self):
+        """
+        Retuns the string with the log execution of the last task.
+        :return: string with the console output.
+        """
+        return self.console_output
+
     def _generate_wav_if_not_exit(self, sound_path):
         """
         Try to generate WAV file if it does not exit.
@@ -286,3 +306,8 @@ class AudioLogicLayer:
         self._log.debug(str([ret_val, ret_msg]))
         return [ret_val, ret_msg]
 
+    def _console_clear(self):
+        self.console_output = ""
+
+    def _console_add(self, msg: str):
+        self.console_output += msg + "\n"

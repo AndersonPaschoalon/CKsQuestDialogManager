@@ -31,7 +31,7 @@ class AudioData:
         :param scene_id: Scene ID.
         :param scene_phase: Scene Phase.
         """
-        print("Generating Audio Data for file " + file_path)
+        # print("Generating Audio Data for file " + file_path)
         self.file_name = file_name
         self.actor_name = actor_name
         self.subtitle = subtitle
