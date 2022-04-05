@@ -134,7 +134,8 @@ class AudioWindow:
                         self.data = [self.data[0]] + new_table
                     window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
                     window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
-            print("event:<" + str(event) + ">, values:<" + str(values) + ">")
+            # todo debug
+            # print("event:<" + str(event) + ">, values:<" + str(values) + ">")
 
             # self.update_current_track(self.current_track, self.current_subtitle)
             if event == sg.WIN_CLOSED:

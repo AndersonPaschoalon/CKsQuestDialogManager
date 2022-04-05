@@ -18,6 +18,8 @@ class SkyAudioEncoder:
     EXE_FUZ_EXTRACTOR = "fuz_extractor.exe"
     EXE_FFMPEG = "ffmpeg.exe"
     ENCODING = "ISO-8859-1"
+    # # .\xWMAEncode.exe  -b 192000 .\TestAudio01.wav .\TestAudio01.xwm
+    CMD_WAV_TO_XWM = "{0} -b {1} \"{2}\" \"{3}\" "
 
     def __init__(self, exe_dir: str):
         """
@@ -105,7 +107,8 @@ class SkyAudioEncoder:
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.xWMAEncode)
             return SkyAudioEncoder.RET_ERR_ENCODER_EXE_NOT_FOUND
         # .\xWMAEncode.exe  -b 192000 .\TestAudio01.wav .\TestAudio01.xwm
-        cmd = self.xWMAEncode + " -b " + str(SkyAudioEncoder.DEF_BITRATE) + " " + wav_file + " " + xwm_file
+        cmd = SkyAudioEncoder.CMD_WAV_TO_XWM.format(self.xWMAEncode, str(SkyAudioEncoder.DEF_BITRATE), wav_file, xwm_file)
+        # cmd = self.xWMAEncode + " -b " + str(SkyAudioEncoder.DEF_BITRATE) + " \"" + wav_file + "\"  \"" + xwm_file + "\""
         return self._process_command(cmd)
 
     def fuz(self, file: str):

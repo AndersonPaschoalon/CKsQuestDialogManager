@@ -22,6 +22,7 @@ class AudioLogicLayer:
 
     STR_INFO_POPUP = "Info"
     STR_ERROR_POPUP = "Error"
+    STR_CANCEL = "Cancel"
 
     def __init__(self, app_dir):
         self.app = AppInfo(app_dir)
@@ -88,6 +89,7 @@ class AudioLogicLayer:
         self._log.debug("-- stop_sound()")
         self.player.pause()
 
+    # todo delete?
     def play_info(self):
         """
         Screen Element: song progress bar.
@@ -170,37 +172,42 @@ class AudioLogicLayer:
         Generate XWM file.
         :param sound_path:
         """
-        self._log.cebug("-- audio_gen_xwm()")
-        xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
-        # garante que o WAV exista, para que XWM possa ser gerado
-        [ret_val, ret_msg] = self._generate_wav_if_not_exit(sound_path)
-        if not ret_val:
-            popup_text = "Error Generating XWM file " + sound_path + ": " + ret_msg
-            sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+        self._log.debug("-- audio_gen_xwm()")
+        if sound_path.strip() == "":
+            popup_text = "Error: No sound file selected!"
+            sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                     title=AudioLogicLayer.STR_INFO_POPUP)
             return
-        # criar XWM, pergunte caso arquivo ja exista
+        xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
+        wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
+        # in case a XWM file already exists, ask first
         if exists(xwm_file):
             popup_text = "The following file is going to be overwritten: \n" + str(xwm_file) +\
                          "\n\nDo you want to continue?"
-            popup_ret = sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                                  title=AudioLogicLayer.STR_INFO_POPUP)
             if popup_ret == AudioLogicLayer.STR_CANCEL:
                 return
-            ret_val = self.encoder.wav_to_xwm(sound_path)
-            if not ret_val:
-                popup_text = "Error creating XWM file from " + sound_path + ".\nError Message: " +\
-                             self.encoder.get_last_error()
-                sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
-                         title=AudioLogicLayer.STR_ERROR_POPUP)
-        else:
-            ret_val = self.encoder.wav_to_xwm(sound_path)
-        if ret_val:
-            popup_ret = "Success generating XWM file."
+        # XWM file is going to be generated!
+        # in case WAV does not exist, create one
+        ret_val = True
+        ret_msg = ""
+        if not exists(wav_file):
+            [ret_val, ret_msg] = self._generate_wav_if_not_exit(sound_path, xwm_to_wav=False)
+        if not ret_val:
+            popup_text = "Error Generating XWM file: Error creating WAV file.\nSound Path: " + sound_path + "\nError Message:" + ret_msg
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             return
-        else:
-            popup_ret = "Error: " +  self.encoder.get_last_error()
-            sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+        ret_val = self.encoder.wav_to_xwm(sound_path)
+        if ret_val != SkyAudioEncoder.RET_SUCCESS:
+            popup_text = "Error encoding WAV into XWM.\nSound Path:" + sound_path + ".\nError Message:" +\
+                         self.encoder.get_last_error()
+            sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                     title=AudioLogicLayer.STR_ERROR_POPUP)
+            return
+        popup_text = "Success generating XWM file."
+        sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+
 
     def audio_gen_fuz(self, sound_path: str):
         """
@@ -208,7 +215,7 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
-        self._log.cebug("-- audio_gen_fuz()")
+        self._log.debug("-- audio_gen_fuz()")
         fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
         ret_val = self.encoder.fuz(sound_path)
         if not ret_val:
@@ -220,7 +227,7 @@ class AudioLogicLayer:
         Decode FUZ file into lip, xwm an wav format.
         :param sound_path: sound file.
         """
-        self._log.cebug("-- audio_unfuz()")
+        self._log.debug("-- audio_unfuz()")
         lip_file = FileUtils.change_ext(sound_path, Exts.EXT_LIP)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
         wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
@@ -235,7 +242,7 @@ class AudioLogicLayer:
         if len(exit_file) > 0:
             popup_text = "The following files are going to be overwritten: \n" + str(exit_file) +\
                          "\n\nDo you want to continue?"
-            popup_ret = sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
             if popup_ret == AudioLogicLayer.STR_CANCEL:
                 return
         ret_val = self.encoder.unfuz(sound_path)
@@ -264,10 +271,11 @@ class AudioLogicLayer:
         """
         return self.console_output
 
-    def _generate_wav_if_not_exit(self, sound_path):
+    def _generate_wav_if_not_exit(self, sound_path, xwm_to_wav=True):
         """
         Try to generate WAV file if it does not exit.
         :param sound_path: Path of the file to be used on the generation of the wav file.
+        :param xwm_to_wav: optional flag to tell the method to try or not to generate a wav file from a xwm.
         :return: return a vector [ret_val: bool, ret_msg: str], where ret_val is True if the WAV file already exits,
         or it was rightly generated. Returns False in case some error ocurred generating the WAV file. In case ret_val
         id True ret_msg will be an empty sttring. Otherwise it will contains the Error message.
@@ -282,7 +290,7 @@ class AudioLogicLayer:
         if not exists(wav_file):
             self._log.info("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
             # try to generate file from XWM
-            if exists(xwm_file):
+            if exists(xwm_file) and xwm_to_wav:
                 self._log.info("XWM was found for " + sound_path)
                 ret_val = self.encoder.xwm_to_wav(sound_path)
                 if not ret_val:
