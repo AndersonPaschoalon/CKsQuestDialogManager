@@ -7,6 +7,7 @@ from PyUtils.SkyAudioEncoder import SkyAudioEncoder
 from PyUtils.MusicUtils import MusicUtils
 from PyUtils.FileUtils import FileUtils
 from PyUtils.FileUtils import Exts
+from PyUtils.Functions import *
 from Gui.AudioData import AudioData
 from PyUtils.Logger import Logger
 from Gui.AppInfo import AppInfo
@@ -16,7 +17,8 @@ from QuestExports.Scene import Scene
 from QuestExports.SceneTopic import SceneTopic
 from QuestExports.BranchDialogs import BranchDialogs
 from QuestExports.TopicDialogs import TopicDialogs
-
+import multiprocessing
+import threading
 
 class AudioLogicLayer:
 
@@ -230,6 +232,24 @@ class AudioLogicLayer:
         self._log.debug("FUZ file " + fuz_file + " generated successfully!")
         popup_text = "Success generating FUZ file " + fuz_file + "."
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
+
+    def audio_gen_fuz_all(self, list_sound_path, process=False):
+        if process:
+            # do the processing
+            print("proc")
+
+        else:
+            # count number of cores
+            ncores = multiprocessing.cpu_count()
+            if ncores <= 1:
+                ncores = 2
+            splitted_list = split_list(list_sound_path, ncores)
+            report = []
+            threads = list()
+            for sound_list_slice in splitted_list:
+                x = threading.Thread(target=self.audio_gen_fuz_all, args=(sound_list_slice, True))
+                threads.append(x)
+                x.start()
 
 
     def audio_unfuz(self, sound_path: str):
