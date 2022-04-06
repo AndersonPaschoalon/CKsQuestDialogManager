@@ -90,12 +90,13 @@ class AudioLogicLayer:
         self.player.pause()
 
     # todo delete?
+    """
     def play_info(self):
-        """
+        ""
         Screen Element: song progress bar.
         Used to update the screen with the song information in realtime.
         :return: Return a list with the data of the track being played.
-        """
+        ""
         self._console_clear()
         self._console_add("play_info")
         self._log.debug("-- play_info()")
@@ -105,6 +106,7 @@ class AudioLogicLayer:
         sound_len = str(datetime.timedelta(seconds=self.player.len()))
         track = self.player.get_track()
         return [is_playing, volume, position, sound_len, track]
+    """
 
     def set_volume(self, volume: int):
         """
@@ -190,23 +192,25 @@ class AudioLogicLayer:
                 return
         # XWM file is going to be generated!
         # in case WAV does not exist, create one
-        ret_val = True
+        ret_flag = True
+        ret_int = SkyAudioEncoder.RET_SUCCESS
         ret_msg = ""
         if not exists(wav_file):
-            [ret_val, ret_msg] = self._generate_wav_if_not_exit(sound_path, xwm_to_wav=False)
-        if not ret_val:
-            popup_text = "Error Generating XWM file: Error creating WAV file.\nSound Path: " + sound_path + "\nError Message:" + ret_msg
+            [ret_flag, ret_msg] = self._generate_wav_if_not_exit(sound_path, xwm_to_wav=False)
+        if not ret_flag:
+            popup_text = "Error Generating XWM file: Error creating WAV file.\nSound Path: " + sound_path + \
+                         "\nError Message:" + ret_msg
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             return
         ret_val = self.encoder.wav_to_xwm(sound_path)
         if ret_val != SkyAudioEncoder.RET_SUCCESS:
-            popup_text = "Error encoding WAV into XWM.\nSound Path:" + sound_path + ".\nError Message:" +\
-                         self.encoder.get_last_error()
+            popup_text = "Error encoding WAV into XWM.\nSound Path:" + sound_path + "\nError Code:" + str(ret_val) + \
+                         ".\nError Message:" + self.encoder.get_last_error()
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                      title=AudioLogicLayer.STR_ERROR_POPUP)
             return
         popup_text = "Success generating XWM file."
-        sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+        sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
 
 
     def audio_gen_fuz(self, sound_path: str):
@@ -218,9 +222,15 @@ class AudioLogicLayer:
         self._log.debug("-- audio_gen_fuz()")
         fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
         ret_val = self.encoder.fuz(sound_path)
-        if not ret_val:
+        if ret_val != SkyAudioEncoder.RET_SUCCESS:
             popup_text = "Error encoding file into FUZ format: " + self.encoder.get_last_error()
+            self._log.error("PopUp Error: " + popup_text)
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+            return
+        self._log.debug("FUZ file " + fuz_file + " generated successfully!")
+        popup_text = "Success generating FUZ file " + fuz_file + "."
+        sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
+
 
     def audio_unfuz(self, sound_path: str):
         """
@@ -242,13 +252,23 @@ class AudioLogicLayer:
         if len(exit_file) > 0:
             popup_text = "The following files are going to be overwritten: \n" + str(exit_file) +\
                          "\n\nDo you want to continue?"
-            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
+            self._log.error("PopUp Error: " + popup_text)
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                                           title=AudioLogicLayer.STR_INFO_POPUP)
             if popup_ret == AudioLogicLayer.STR_CANCEL:
+                self._log.info("Operation {0} was CANCELLED".format("audio_unfuz()"))
                 return
         ret_val = self.encoder.unfuz(sound_path)
-        if not ret_val:
-            popup_text = "Error deconding file " + sound_path + ". Error message:" + self.encoder.get_last_error()
+        print(">>>> ret_val:" + str(ret_val))
+        if ret_val != SkyAudioEncoder.RET_SUCCESS:
+            popup_text = "Error decoding file " + sound_path + "\nError Code:" + str(ret_val) + "\n. Error message:" + \
+                         self.encoder.get_last_error()
+            self._log.error("PopUp Error: " + popup_text)
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+            return
+        self._log.debug("UNFUZ on file " + sound_path + " was successful!")
+        popup_text = "Success on UNFUZ file " + sound_path + "."
+        sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
 
     def get_current_track_len(self):
         """
@@ -281,7 +301,7 @@ class AudioLogicLayer:
         id True ret_msg will be an empty sttring. Otherwise it will contains the Error message.
         """
         self._log.debug("-- _generate_wav_if_not_exit()")
-        ret_val = False
+        ret_val = SkyAudioEncoder.RET_SUCCESS
         ret_msg = ""
         wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
@@ -293,7 +313,7 @@ class AudioLogicLayer:
             if exists(xwm_file) and xwm_to_wav:
                 self._log.info("XWM was found for " + sound_path)
                 ret_val = self.encoder.xwm_to_wav(sound_path)
-                if not ret_val:
+                if ret_val != SkyAudioEncoder.RET_SUCCESS:
                     ret_msg = self.encoder.get_last_error()
                     self._log.error("Last error: " + self.encoder.get_last_error())
                     self._log.error("Last stdout: " + self.encoder.get_last_stdout())
@@ -301,7 +321,7 @@ class AudioLogicLayer:
             elif exists(mp3_file):
                 self._log.info("MP3 was found for " + sound_path)
                 ret_val = self.encoder.mp3_to_wav(sound_path)
-                if not ret_val:
+                if ret_val != SkyAudioEncoder.RET_SUCCESS:
                     ret_msg = self.encoder.get_last_error()
                     self._log.error("Last error: " + self.encoder.get_last_error())
                     self._log.error("Last stdout: " + self.encoder.get_last_stdout())

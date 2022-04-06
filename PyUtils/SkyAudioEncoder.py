@@ -20,10 +20,14 @@ class SkyAudioEncoder:
     ENCODING = "ISO-8859-1"
     # # .\xWMAEncode.exe  -b 192000 .\TestAudio01.wav .\TestAudio01.xwm
     CMD_WAV_TO_XWM = "{0} -b {1} \"{2}\" \"{3}\" "
+    # fuz_extractor.exe  -e  + fuz_file.fuz
+    CMD_UNFUZ = "{0} -e \"{1}\""
 
     def __init__(self, exe_dir: str):
         """
-        Constructor.
+        Constructor for SkyAudioEncoder. This class is a wrapper over three applications: xWMAEncode, fuz_extractor,
+        and ffmpeg, intending to easy the process of converting audio back and forth between Skyrim audio encodings
+        (such as FUZ and XWM) and common audio formats (WAV and MP3).
         :param exe_dir: directory where the encoders xWMAEncode, fuz_extractor, and ffmpeg are placed.
         """
         exe_dir = exe_dir.replace(os.sep, '\\')
@@ -38,9 +42,9 @@ class SkyAudioEncoder:
 
     def unfuz(self, file: str):
         """
-
-        :param file:
-        :return:
+        Decode a file in FUZ format into XWM, LIP and WAV file formats, with the same file names.
+        :param file: fuz file name.
+        :return: Return the flag RET_SUCCESS in case of success, and an error flag in case of failure.
         """
         fuz_file = FileUtils.change_ext(file, Exts.EXT_FUZ)
         if not os.path.isfile(fuz_file):
@@ -50,17 +54,18 @@ class SkyAudioEncoder:
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.fuz_extractor)
             return SkyAudioEncoder.RET_ERR_ENCODER_EXE_NOT_FOUND
         # .\fuz_extractor.exe -e .\TestAudio01_2.fuz
+        cmd = SkyAudioEncoder.CMD_UNFUZ.format(self.fuz_extractor, fuz_file)
         cmd = self.fuz_extractor + " -e " + fuz_file
         ret = self._process_command(cmd)
-        if not ret:
-            return SkyAudioEncoder.RET_ERR_PROCESSING
+        if ret != SkyAudioEncoder.RET_SUCCESS:
+            return ret
         return self.xwm_to_wav(file)
 
     def mp3_to_wav(self, file: str):
         """
-
-        :param file:
-        :return:
+        Converts a mp3 file into wav.
+        :param file: mp3 audio file.
+        :return: Return the flag RET_SUCCESS in case of success, and an error flag in case of failure.
         """
         mp3_file = FileUtils.change_ext(file, Exts.EXT_MP3)
         wav_file = FileUtils.change_ext(file, Exts.EXT_WAV)
@@ -76,27 +81,27 @@ class SkyAudioEncoder:
 
     def xwm_to_wav(self, file: str):
         """
-
-        :param file:
-        :return:
+        Converts a XWM file into WAV format.
+        :param file: the file name of the xwm file.
+        :return: Return the flag RET_SUCCESS in case of success, and an error flag in case of failure.
         """
         xwm_file = FileUtils.change_ext(file, Exts.EXT_XWM)
         wav_file = FileUtils.change_ext(file, Exts.EXT_WAV)
         if not os.path.isfile(xwm_file):
             self.last_error = SkyAudioEncoder.ERROR_EXT_FILE_NOT_FOUND.format("XWM", xwm_file)
-            return False
+            return SkyAudioEncoder.RET_ERR_AUDIO_FILE_NOT_FOUND
         if not os.path.isfile(self.xWMAEncode):
             self.last_error = SkyAudioEncoder.ERROR_FILE_NOT_FOUND_ENCODER.format(self.xWMAEncode)
-            return False
+            return SkyAudioEncoder.RET_ERR_ENCODER_EXE_NOT_FOUND
         # .\xWMAEncode.exe  .\TestAudio01.xwm .\TestAudio01Back.wav
         cmd = self.xWMAEncode + "  \"" + xwm_file + "\"  \"" + wav_file + "\""
         return self._process_command(cmd)
 
     def wav_to_xwm(self, file: str):
         """
-
-        :param file:
-        :return:
+        Converts a WAV file into XWM format.
+        :param file: the file name of the WAV file.
+        :return: Return the flag RET_SUCCESS in case of success, and an error flag in case of failure.
         """
         xwm_file = SkyAudioEncoder.change_ext(file, Exts.EXT_XWM)
         wav_file = SkyAudioEncoder.change_ext(file, Exts.EXT_WAV)
@@ -108,7 +113,6 @@ class SkyAudioEncoder:
             return SkyAudioEncoder.RET_ERR_ENCODER_EXE_NOT_FOUND
         # .\xWMAEncode.exe  -b 192000 .\TestAudio01.wav .\TestAudio01.xwm
         cmd = SkyAudioEncoder.CMD_WAV_TO_XWM.format(self.xWMAEncode, str(SkyAudioEncoder.DEF_BITRATE), wav_file, xwm_file)
-        # cmd = self.xWMAEncode + " -b " + str(SkyAudioEncoder.DEF_BITRATE) + " \"" + wav_file + "\"  \"" + xwm_file + "\""
         return self._process_command(cmd)
 
     def fuz(self, file: str):

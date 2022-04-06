@@ -14,6 +14,13 @@ import datetime
 
 class AudioWindow:
 
+    # window size
+    FI = 1.618
+    WINDOW_HIGH = 650
+    WINDOW_WIDTH = int(WINDOW_HIGH * FI)
+    WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HIGH)
+    SUBTITLE_SIZE = int(WINDOW_HIGH/5.5)
+    # default values
     DEFAULT_INIT_PROGRESS = "0:00"
     DEFAULT_END_PROGRESS = ""
     DEFAULT_CURRENT_TRACK = ""
@@ -103,7 +110,7 @@ class AudioWindow:
                             tooltip='Audio list')],
                   [sg.HorizontalSeparator()],
                   track_information,
-                  [sg.Text("", size=(120, None), key=AudioWindow.KEY_TEXT_CURRENT_SUBTITLE)],
+                  [sg.Text("", size=(AudioWindow.SUBTITLE_SIZE, None), key=AudioWindow.KEY_TEXT_CURRENT_SUBTITLE)],
                   track_sliders,
                   [sg.Text('')],
                   [sg.HorizontalSeparator()],
@@ -114,9 +121,11 @@ class AudioWindow:
                   [sg.Text(''),
                    sg.Sizegrip()]]
         # ------ Create Window ------
-        window = sg.Window('The Table Element', layout,
+        window = sg.Window('The Table Element',
+                           layout,
                            ttk_theme='clam',
-                           resizable=False)
+                           resizable=False,
+                           size=AudioWindow.WINDOW_SIZE)
         # ------ Event Loop ------
         while True:
 
