@@ -19,12 +19,20 @@ from QuestExports.BranchDialogs import BranchDialogs
 from QuestExports.TopicDialogs import TopicDialogs
 import multiprocessing
 import threading
+from threading import Thread
+from threading import Lock
+from multiprocessing.pool import ThreadPool
+from Gui.BatchCmdReport import BatchCmdReport
+
 
 class AudioLogicLayer:
 
     STR_INFO_POPUP = "Info"
     STR_ERROR_POPUP = "Error"
     STR_CANCEL = "Cancel"
+    STR_OK = "Ok"
+    batchReportMutex = Lock()
+
 
     def __init__(self, app_dir):
         self.app = AppInfo(app_dir)
@@ -233,24 +241,86 @@ class AudioLogicLayer:
         popup_text = "Success generating FUZ file " + fuz_file + "."
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
 
-    def audio_gen_fuz_all(self, list_sound_path, process=False):
-        if process:
-            # do the processing
-            print("proc")
-
+    def audio_gen_fuz_all(self, list_sound_path, parallel_method: int):
+        """
+        Execute fuz command massively, and returns a report.
+        :param list_sound_path:
+        :param parallel_method: 1 for one thread per core, 2 for thread ThreadPool (built-in).
+        :return:
+        """
+        curr_exec_path = self.encoder.get_exe_dir()
+        report_list_arg = []
+        report_list_async = []
+        ncores = multiprocessing.cpu_count()
+        if ncores <= 1:
+            ncores = 2
+        print("-- ncores:" + str(ncores))
+        splitted_list = split_list(list_sound_path, ncores)
+        # Thread managing, one per core
+        if parallel_method != 2:
+            threads = []
+            ret_list = []
+            for small_list in splitted_list:
+                process = Thread(target=AudioLogicLayer._exec_fuz_list, args=[small_list, curr_exec_path, report_list_arg])
+                process.start()
+                threads.append(process)
+            for process in threads:
+                process.join()
+        # Builtin thread pool
         else:
-            # count number of cores
-            ncores = multiprocessing.cpu_count()
-            if ncores <= 1:
-                ncores = 2
-            splitted_list = split_list(list_sound_path, ncores)
-            report = []
-            threads = list()
-            for sound_list_slice in splitted_list:
-                x = threading.Thread(target=self.audio_gen_fuz_all, args=(sound_list_slice, True))
-                threads.append(x)
-                x.start()
+            pool = ThreadPool()
+            async_result_list = []
+            for small_list in splitted_list:
+                async_result = pool.apply_async(AudioLogicLayer._exec_fuz_list, (small_list, curr_exec_path, report_list_arg))
+                async_result_list.append(async_result)
+            for item in async_result_list:
+                return_val = item.get()
+                report_list_async.append(return_val)
+        n_errors = BatchCmdReport.count_errors(report_list_arg)
+        n_success = BatchCmdReport.count_success(report_list_arg)
+        popup_ret = ""
+        popup_text = "Batch execution finished with {0} errors and {1} successes. Do you want to open the report?".format(n_errors, n_success)
+        popup_ret == sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+        if popup_ret == AudioLogicLayer.STR_OK:
+            BatchCmdReport.export_report(report_list_arg)
 
+    @staticmethod
+    def _exec_fuz_list(list_files, exec_path, list_exec_report):
+        """
+        Execute the fuz operation for all listed files on list_files. The encoder is instantiated using the exec_path
+        as reference. A list of report objects BatchCmdReport is returned and is appended (extend) to the mutable list
+        list_exec_report.
+        :param list_files: list of sound files where are going to be applied the fuz operation.
+        :param exec_path: Exec path to instantidate the SkyAudioEncoder object.
+        :param list_exec_report: mutable list of execution reports.
+        :return: list of execution reports generated in this thread.
+        """
+        encoder = SkyAudioEncoder(exec_path)
+        thread_report = []
+        if len(list_files) == 0:
+            return thread_report
+        for sound_path in list_files:
+            report = BatchCmdReport()
+            fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
+            ret_val = encoder.fuz(sound_path)
+            report.error_code = ret_val
+            if ret_val != SkyAudioEncoder.RET_SUCCESS:
+                report.error_flag = False
+                report.error_message = encoder.get_last_error()
+            else:
+                report.error_flag = True
+            report.command = encoder.get_last_command()
+            report.stdout = encoder.get_last_stdout()
+            report.process_code = encoder.get_last_encodder_ret_code()
+            report.file_name = sound_path
+            report.exe_dir = exec_path
+            thread_report.append(report)
+        AudioLogicLayer.batchReportMutex.acquire()
+        try:
+            list_exec_report.extend(thread_report)
+        finally:
+            AudioLogicLayer.batchReportMutex.release()
+        return thread_report
 
     def audio_unfuz(self, sound_path: str):
         """

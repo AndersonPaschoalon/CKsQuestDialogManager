@@ -39,6 +39,7 @@ class AudioWindow:
     KEY_GEN_XWM_BUTTON = "key_gen_xwm_button"
     KEY_GEN_FUZ_BUTTON = "key_gen_fuz_button"
     KEY_UNFUZ_BUTTON = "key_unfuz_button"
+    KEY_GEN_FUZ_ALL_BUTTON = "key_fuz_all_button"
     # Slider
     KEY_SLIDER_VOLUME = "key_slider_volume"
     KEY_SLIDER_PROGRESS = "key_slider_progress"
@@ -91,7 +92,9 @@ class AudioWindow:
                               key="key_copy_info_button"),
                     sg.Button(emojize(":musical_note:     Generate XWM", language='alias'), key=AudioWindow.KEY_GEN_XWM_BUTTON),
                     sg.Button(emojize(":studio_microphone:Generate FUZ", language='alias'), key=AudioWindow.KEY_GEN_FUZ_BUTTON),
-                    sg.Button(emojize(":headphones:     UnFUZ", language='alias'), key=AudioWindow.KEY_UNFUZ_BUTTON)],
+                    sg.Button(emojize(":headphones:     UnFUZ", language='alias'), key=AudioWindow.KEY_UNFUZ_BUTTON),
+                    sg.Button(emojize(":package:     Generate FUZ for all", language='alias'), key=AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
+                    ],
         # ------ Window Layout ------
         layout = [[sg.Table(values=self.data[:][:], # values=self.data[1:][:],
                             headings=table_headings,
@@ -180,6 +183,11 @@ class AudioWindow:
             if event == AudioWindow.KEY_UNFUZ_BUTTON:
                 print("Pressed button: " + AudioWindow.KEY_UNFUZ_BUTTON)
                 self.audio_logic_layer.audio_unfuz(self.current_track)
+            if event == AudioWindow.KEY_GEN_FUZ_ALL_BUTTON:
+                print("Pressed button: " + AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
+                list_all_sounds = []
+                self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1)
+
 
             # update progress bar
             audio_prog = self.audio_logic_layer.get_current_track_progress()

@@ -30,6 +30,7 @@ class SkyAudioEncoder:
         (such as FUZ and XWM) and common audio formats (WAV and MP3).
         :param exe_dir: directory where the encoders xWMAEncode, fuz_extractor, and ffmpeg are placed.
         """
+        self.current_exe_dir = exe_dir
         exe_dir = exe_dir.replace(os.sep, '\\')
         self.xWMAEncode = os.path.join(exe_dir, SkyAudioEncoder.EXE_XWMAENCODE)
         self.fuz_extractor = os.path.join(exe_dir, SkyAudioEncoder.EXE_FUZ_EXTRACTOR)
@@ -39,6 +40,13 @@ class SkyAudioEncoder:
         self.last_ret_code = 0
         self.last_command = ""
         self.troubleshoot_stdout = ""
+
+    def get_exe_dir(self):
+        """
+        Returns the execution directory of the current instance of the encoder.
+        :return:
+        """
+        return self.current_exe_dir
 
     def unfuz(self, file: str):
         """
