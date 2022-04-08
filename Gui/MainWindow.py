@@ -56,7 +56,7 @@ class MainWindow:
                   layout_title_export, layout_export, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   layout_title_help, layout_tutorial, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   ]
-        window = sg.Window(title="Creation Kit - Dialog Doc Generator", layout=layout, size=MainWindow.WINDOW_SIZE,
+        window = sg.Window(title=app.label_main_window, layout=layout, size=MainWindow.WINDOW_SIZE,
                            icon=app.app_icon_ico)
 
         # Event Loop to process "events" and get the "values" of the inputs

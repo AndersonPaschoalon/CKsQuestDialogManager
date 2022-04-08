@@ -125,11 +125,12 @@ class AudioWindow:
                   [sg.Text(''),
                    sg.Sizegrip()]]
         # ------ Create Window ------
-        window = sg.Window('The Table Element',
-                           layout,
+        window = sg.Window(title=self.app.label_audio_window,
+                           layout=layout,
                            ttk_theme='clam',
                            resizable=False,
-                           size=AudioWindow.WINDOW_SIZE)
+                           size=AudioWindow.WINDOW_SIZE,
+                           icon=self.app.app_icon_ico)
         # ------ Event Loop ------
         while True:
 

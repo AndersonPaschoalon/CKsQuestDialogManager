@@ -81,6 +81,8 @@ class AppInfo:
         self.url_nexus = "https://www.nexusmods.com/skyrim"
         self.tutorial_html = self.pages_dir + "sample.html"
         self.settings_file = self.app_dir + "settings.json"
+        self.label_main_window = "CK Quest Dialog Manager"
+        self.label_audio_window = "CK Quest Audio Manager"
         self.settings_obj = AppSettings(self.settings_file)
 
     def tutorial_url(self):
@@ -98,6 +100,8 @@ class AppInfo:
         obj.add("log_file", self.log_file)
         obj.add("tutorial_html", self.tutorial_html)
         obj.add("settings_file", self.settings_file)
+        obj.add("label_main_window", self.label_main_window)
+        obj.add("label_audio_window", self.label_audio_window)
         settings = str(self.settings_obj.data)
         obj.add("settings_obj", settings)
         return obj.json()
