@@ -40,6 +40,7 @@ class AudioLogicLayer:
         self.encoder = SkyAudioEncoder(self.app.audio_encoder_dir)
         self.player = MusicUtils()
         self.console_output = ""
+        self._console_has_change = True
 
     def generate_list_audio_data(self):
         """
@@ -60,7 +61,6 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
-        self._console_clear()
         self._console_add("play_sound: " + sound_path)
         self._log.debug("-- play_sound() sound_path:" + sound_path)
         if sound_path == "":
@@ -84,7 +84,6 @@ class AudioLogicLayer:
         Screen Element: Stop Button
         :return:
         """
-        self._console_clear()
         self._console_add("stop_sound")
         self._log.debug("-- stop_sound()")
         self.player.stop()
@@ -94,29 +93,10 @@ class AudioLogicLayer:
         Screen Element: Pause Button
         :return:
         """
-        self._console_clear()
         self._console_add("pause_sound")
         self._log.debug("-- stop_sound()")
         self.player.pause()
 
-    # todo delete?
-    """
-    def play_info(self):
-        ""
-        Screen Element: song progress bar.
-        Used to update the screen with the song information in realtime.
-        :return: Return a list with the data of the track being played.
-        ""
-        self._console_clear()
-        self._console_add("play_info")
-        self._log.debug("-- play_info()")
-        is_playing = self.player.is_playing()
-        volume = int(self.player.get_volume() * 100)
-        position = str(datetime.timedelta(seconds=self.player.position()))
-        sound_len = str(datetime.timedelta(seconds=self.player.len()))
-        track = self.player.get_track()
-        return [is_playing, volume, position, sound_len, track]
-    """
 
     def set_volume(self, volume: int):
         """
@@ -124,7 +104,6 @@ class AudioLogicLayer:
         :param volume:
         :return:
         """
-        self._console_clear()
         self._console_add("set_volume " + str(volume))
         self._log.debug("-- set_volume() " + str(volume))
         v_in = volume/100
@@ -205,17 +184,28 @@ class AudioLogicLayer:
         ret_flag = True
         ret_int = SkyAudioEncoder.RET_SUCCESS
         ret_msg = ""
+        ret_stdout = ""
         if not exists(wav_file):
-            [ret_flag, ret_msg] = self._generate_wav_if_not_exit(sound_path, xwm_to_wav=False)
+            [ret_flag, ret_val, ret_msg, ret_stdout] = self._generate_wav_if_not_exit(sound_path, xwm_to_wav=False)
         if not ret_flag:
+            self._log.warn("Last Stdout:" + ret_stdout)
+            self._log.warn("Last error:" + ret_msg + " for sound_path:" + sound_path)
+            self._console_add("Last Stdout:" + ret_stdout)
+            self._console_add("Last error:" + ret_msg + " for sound_path:" + sound_path)
             popup_text = "Error Generating XWM file: Error creating WAV file.\nSound Path: " + sound_path + \
                          "\nError Message:" + ret_msg
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             return
         ret_val = self.encoder.wav_to_xwm(sound_path)
+        ret_stdout = self.encoder.get_last_stdout()
+        ret_msg = self.encoder.get_last_error()
+        self._log.warn("Last Stdout:" + ret_stdout)
+        self._console_add("Last Stdout:" + ret_stdout)
         if ret_val != SkyAudioEncoder.RET_SUCCESS:
+            self._log.error("Last error:" + ret_msg + " for sound_path:" + sound_path)
+            self._console_add("Last error:" + ret_msg + " for sound_path:" + sound_path)
             popup_text = "Error encoding WAV into XWM.\nSound Path:" + sound_path + "\nError Code:" + str(ret_val) + \
-                         ".\nError Message:" + self.encoder.get_last_error()
+                         ".\nError Message:" + ret_msg
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                      title=AudioLogicLayer.STR_ERROR_POPUP)
             return
@@ -374,11 +364,19 @@ class AudioLogicLayer:
         """
         return self.player.position()
 
+    def console_has_change(self):
+        """
+        Tells if the console has any change or not.
+        :return: True or false.
+        """
+        return self._console_has_change
+
     def get_console_output(self):
         """
         Retuns the string with the log execution of the last task.
         :return: string with the console output.
         """
+        self._console_has_change = False
         return self.console_output
 
     def _generate_wav_if_not_exit(self, sound_path, xwm_to_wav=True):
@@ -386,46 +384,72 @@ class AudioLogicLayer:
         Try to generate WAV file if it does not exit.
         :param sound_path: Path of the file to be used on the generation of the wav file.
         :param xwm_to_wav: optional flag to tell the method to try or not to generate a wav file from a xwm.
-        :return: return a vector [ret_val: bool, ret_msg: str], where ret_val is True if the WAV file already exits,
-        or it was rightly generated. Returns False in case some error ocurred generating the WAV file. In case ret_val
-        id True ret_msg will be an empty sttring. Otherwise it will contains the Error message.
+        :return: return a vector [ret_flag: bool, ret_val: int, ret_msg: str, ret_stdout: str], where ret_flag is True
+        if the WAV file already exits, or it was rightly generated. Returns False in case some error occurred
+        generating the WAV file. ret_val is the code returned by the encoder. ret_str is the error message returned by
+        the encoder, in case of error, and the ret_strout is the console output generated (error os success).
         """
         self._log.debug("-- _generate_wav_if_not_exit()")
+        self._console_add("_generate_wav_if_not_exit()")
+        ret_flag = False
         ret_val = SkyAudioEncoder.RET_SUCCESS
         ret_msg = ""
+        ret_stdout = ""
         wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
         mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
         self._log.debug("wav_file:" + wav_file + ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
+        self._console_add("wav_file:" + wav_file + ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
         if not exists(wav_file):
             self._log.info("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
+            self._console_add("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
             # try to generate file from XWM
             if exists(xwm_file) and xwm_to_wav:
                 self._log.info("XWM was found for " + sound_path)
+                self._console_add("XWM was found for " + sound_path)
                 ret_val = self.encoder.xwm_to_wav(sound_path)
+                ret_stdout = self.encoder.get_last_stdout()
+                self._log.error("Last stdout: " + ret_stdout)
+                self._console_add("Last stdout: " + ret_stdout)
                 if ret_val != SkyAudioEncoder.RET_SUCCESS:
                     ret_msg = self.encoder.get_last_error()
-                    self._log.error("Last error: " + self.encoder.get_last_error())
-                    self._log.error("Last stdout: " + self.encoder.get_last_stdout())
+                    self._log.error("Last error: " + ret_msg)
+                    self._console_add("Last error: " + ret_msg)
             # try mp3 format
             elif exists(mp3_file):
                 self._log.info("MP3 was found for " + sound_path)
+                self._console_add()
                 ret_val = self.encoder.mp3_to_wav(sound_path)
+                ret_stdout = self.encoder.get_last_stdout()
+                self._log.error("Last stdout: " + ret_stdout)
+                self._console_add("Last stdout: " + ret_stdout)
                 if ret_val != SkyAudioEncoder.RET_SUCCESS:
                     ret_msg = self.encoder.get_last_error()
-                    self._log.error("Last error: " + self.encoder.get_last_error())
-                    self._log.error("Last stdout: " + self.encoder.get_last_stdout())
+                    self._log.error("Last error: " + ret_msg)
+                    self._console_add("Last error: " + ret_msg)
             else:
                 ret_msg = "WAV file does not exit for track \"" + sound_path + \
                           "\", and no alternative (xwm or mp3) was found.\n Try to use UnFuz first."
                 self._log.error("ret_msg:" + ret_msg)
+                self._console_add("ret_msg:" + ret_msg)
         else:
-            ret_val = True
-        self._log.debug(str([ret_val, ret_msg]))
-        return [ret_val, ret_msg]
+            ret_flag = True
+        if ret_val == SkyAudioEncoder.RET_SUCCESS:
+            ret_flag = True
+        print([ret_flag, ret_val, ret_msg, ret_stdout])
+        self._console_add(str([ret_flag, ret_val, ret_msg, ret_stdout]))
+        return [ret_flag, ret_val, ret_msg, ret_stdout]
+
 
     def _console_clear(self):
         self.console_output = ""
+        self._console_has_change = True
+
 
     def _console_add(self, msg: str):
         self.console_output += msg + "\n"
+        self._console_has_change = True
+
+
+
+

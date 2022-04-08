@@ -52,6 +52,7 @@ def create_audio_list2():
     s9 = f09 + "The cols argument is a tuple specifying the columns to sort by. The first column to sort by is listed first, the second second, and so on."
     s10 = f10 + "An example using Python's groupby and defaultdict to do the same task — posted 2014-10-09"
     s11 = f11 + "python enum types — posted 2012-10-10"
+    s1 = s1 + s1  + s1  + s1  + s1
     audio_list = []
     audio_list.append(AudioData(f01, "Angels Cry", "Angra", s1))
     audio_list.append(AudioData(f02, "Angels Cry", "Angra", s2))

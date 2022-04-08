@@ -16,7 +16,7 @@ class AudioWindow:
 
     # window size
     FI = 1.618
-    WINDOW_HIGH = 650
+    WINDOW_HIGH = 675
     WINDOW_WIDTH = int(WINDOW_HIGH * FI)
     WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HIGH)
     SUBTITLE_SIZE = int(WINDOW_HIGH/5.5)
@@ -29,6 +29,7 @@ class AudioWindow:
     KEY_TEXT_CURRENT_SUBTITLE = "key_text_current_subtitle"
     KEY_TEXT_INIT_TIME = "key_text_init_time"
     KEY_TEXT_END_TIME = "key_text_end_time"
+    KEY_TEXT_CONSOLE = "key_text_console"
     # Button
     KEY_PLAY_BUTTON = "key_play_button"
     KEY_PAUSE_BUTTON = "key_pause_button"
@@ -102,8 +103,8 @@ class AudioWindow:
                             max_col_width=100,
                             display_row_numbers=False,
                             justification='left',
-                            size=(150, 150),
-                            num_rows=20,
+                            #size=(150, 150),
+                            num_rows=5,
                             key='-TABLE-',
                             selected_row_colors='red on yellow',
                             enable_events=True,
@@ -119,7 +120,7 @@ class AudioWindow:
                   [sg.HorizontalSeparator()],
                   [sg.Text(emojize(":desktop_computer:").strip()), sg.Text('System & Tools')],
                   tool_box,
-                  [sg.Multiline(size=(170, 5), enter_submits=False, key='-QUERY-', do_not_clear=False,
+                  [sg.Multiline(size=(170, 5), enter_submits=False, key=AudioWindow.KEY_TEXT_CONSOLE, do_not_clear=False,
                                 write_only=True)],
                   [sg.Text(''),
                    sg.Sizegrip()]]
@@ -189,16 +190,20 @@ class AudioWindow:
                 self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1)
 
 
-            # update progress bar
+            # update gui
             audio_prog = self.audio_logic_layer.get_current_track_progress()
             audio_len = self.audio_logic_layer.get_current_track_len()
             if audio_len == 0:
                 audio_len = 1
             # debug
             # print("Current progress is " + str(audio_prog) + "/" + str(audio_len) + " for " + self.current_track)
+            # update audio elements
             window[AudioWindow.KEY_SLIDER_PROGRESS].update(value=audio_prog, range=(0, audio_len))
             window[AudioWindow.KEY_TEXT_END_TIME].update(value=AudioWindow.sec_to_min(audio_len))
-
+            # update console
+            if self.audio_logic_layer.console_has_change():
+                window[AudioWindow.KEY_TEXT_CONSOLE].update(value=self.audio_logic_layer.get_console_output())
+                window[AudioWindow.KEY_TEXT_CONSOLE].set_vscroll_position(1.0)
         window.close()
 
 
