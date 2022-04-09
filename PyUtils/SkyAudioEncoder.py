@@ -186,7 +186,7 @@ class SkyAudioEncoder:
         """
         self.last_command = command
         [ret, stdout, stderr] = Console.execute(command)
-        str_stdout = "stdout:\n" + str(stdout, SkyAudioEncoder.ENCODING) + " \nstderr:\n" + \
+        str_stdout = "stdout:\n" + str(stdout, SkyAudioEncoder.ENCODING) + " \nstderr:\n" +\
                      str(stderr, SkyAudioEncoder.ENCODING)
         self.last_ret_code = ret
         self.last_stdout = str_stdout
@@ -197,8 +197,6 @@ class SkyAudioEncoder:
             # executing troubleshooting routine to gatter information
             self._troubleshooting()
             return SkyAudioEncoder.RET_ERR_PROCESSING
-
-
 
     def _troubleshooting(self):
         """

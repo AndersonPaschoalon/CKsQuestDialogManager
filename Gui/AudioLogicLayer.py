@@ -1,5 +1,6 @@
 import datetime
 import os
+import webbrowser
 import PySimpleGUI as sg
 import pyperclip
 from os.path import exists
@@ -33,7 +34,6 @@ class AudioLogicLayer:
     STR_OK = "Ok"
     batchReportMutex = Lock()
 
-
     def __init__(self, app_dir):
         self.app = AppInfo(app_dir)
         self._log = Logger.get()
@@ -54,6 +54,44 @@ class AudioLogicLayer:
         scene_order_csv = self.app.settings_obj.scene_order_file
         list_audio_data = AudioData.generate_list_audio_data(skyrim_path, comments_csv, actors_csv, scene_order_csv)
         return list_audio_data
+
+    def file_status(self, sound_path: str):
+        """
+        Return a string with the file status.
+        :return:
+        """
+        if sound_path == "":
+            return ""
+        mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
+        wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
+        xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
+        lip_file = FileUtils.change_ext(sound_path, Exts.EXT_LIP)
+        fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
+        msg = ""
+        # mp3
+        if exists(mp3_file):
+            msg = " mp3[ok] "
+        # wav
+        if exists(wav_file):
+            msg += " wav[ok] "
+        else:
+            msg += "wav[missing] "
+        # xwm
+        if exists(xwm_file):
+            msg += "xmw[ok] "
+        else:
+            msg += "xmw[missing] "
+        # lip
+        if exists(lip_file):
+            msg += "lip[ok] "
+        else:
+            msg += "lip[missing] "
+        # fuz
+        if exists(fuz_file):
+            msg += "fuz[ok] "
+        else:
+            msg += "fuz[missing] "
+        return msg
 
     def play_sound(self, sound_path: str):
         """
@@ -96,7 +134,6 @@ class AudioLogicLayer:
         self._console_add("pause_sound()")
         self._log.debug("-- stop_sound()")
         self.player.pause()
-
 
     def set_volume(self, volume: int):
         """
@@ -252,8 +289,16 @@ class AudioLogicLayer:
         :param parallel_method: 1 for one thread per core, 2 for thread ThreadPool (built-in).
         :return:
         """
-        self._console_add("audio_gen_fuz_all() list_sound_path:" + list_sound_path + ", parallel_method:" +\
-                          parallel_method)
+        popup_text = "This procedure will overwrite any .fuz and xwm pre-existing file.\n If the audios are recoded in mp3 format, wav files are going to be overwritten as well.\n\n Do you want to continue?"
+        self._console_add(popup_text)
+
+        popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                                       title=AudioLogicLayer.STR_INFO_POPUP)
+        self._console_add("User option: " + popup_ret)
+        if popup_ret == AudioLogicLayer.STR_CANCEL:
+            return
+        self._console_add("audio_gen_fuz_all() list_sound_path:" + str(list_sound_path) + ", parallel_method:" +
+                          str(parallel_method))
         curr_exec_path = self.encoder.get_exe_dir()
         report_list_arg = []
         report_list_async = []
@@ -289,8 +334,11 @@ class AudioLogicLayer:
         popup_text = "Batch execution finished with {0} errors and {1} successes. Do you want to open the report?".format(n_errors, n_success)
         popup_ret == sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
         self._console_add(popup_text)
+        html_report = BatchCmdReport.export_report(report_list_arg, self.app.app_dir)
+        url_report = "file:///" + os.path.realpath(html_report)
         if popup_ret == AudioLogicLayer.STR_OK:
-            BatchCmdReport.export_report(report_list_arg)
+            webbrowser.open(url_report, new=2)
+
 
     @staticmethod
     def _exec_fuz_list(list_files, exec_path, list_exec_report):
@@ -359,7 +407,6 @@ class AudioLogicLayer:
                 self._console_add("Operation {0} was CANCELLED".format("audio_unfuz()"))
                 return
         ret_val = self.encoder.unfuz(sound_path)
-        print(">>>> ret_val:" + str(ret_val))
         if ret_val != SkyAudioEncoder.RET_SUCCESS:
             popup_text = "Error decoding file " + sound_path + "\nError Code:" + str(ret_val) + "\n. Error message:" + \
                          self.encoder.get_last_error()

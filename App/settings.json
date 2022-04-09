@@ -1,6 +1,6 @@
 {
     "skyrim-path": "./Sandbox/",
-    "dogen-dir": "./GenDocs/",
+    "dogen-dir": "./OUTPUT/",
     "log-level": "DEBUG",
     "actors-file": "./Actors.csv",
     "comments-file": "./Comments.csv",

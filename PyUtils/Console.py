@@ -40,9 +40,12 @@ class Console:
     def underline(printStr):
         print(f"{Console.UNDERLINE}{printStr}{Console.ENDC}")
 
-
     @staticmethod
     def execute(command: str):
+        bypass = False
+        if bypass:
+            print("$ " + command)
+            return [0, bytes(command, 'utf-8'), bytes("bypass test", 'utf-8')]
         ret = subprocess.run(command, shell=True, capture_output=True)
         return [ret.returncode, ret.stdout, ret.stderr]
 

@@ -27,6 +27,7 @@ class AudioWindow:
     # Text
     KEY_TEXT_CURRENT_TRACK = "key_text_current_track"
     KEY_TEXT_CURRENT_SUBTITLE = "key_text_current_subtitle"
+    KEY_TEXT_CURRENT_TRACK_INFORMATION = "key_text_current_track_information"
     KEY_TEXT_INIT_TIME = "key_text_init_time"
     KEY_TEXT_END_TIME = "key_text_end_time"
     KEY_TEXT_CONSOLE = "key_text_console"
@@ -55,11 +56,14 @@ class AudioWindow:
         self.current_row = -1
         self.current_track = ""
         self.current_subtitle = ""
+        self.current_track_information = ""
 
     def update_current_track(self, sound, subtitle):
         if not sound == "":
+            print(">>>>" + sound)
             self.current_track = str(sound)
             self.current_subtitle = str(subtitle)
+            self.current_track_information = self.get_file_stats(sound)
 
     def run(self):
         # Load table data
@@ -73,7 +77,11 @@ class AudioWindow:
         # table elements
         table_headings = ["Quest ID", "Actor", "Subtitles"]
         # Player Elements
-        track_information = [sg.Text(emojize(":radio:     ")), sg.Text('Audio Track:'), sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK)]
+        track_information = [sg.Text(emojize(":radio:     ")),
+                             sg.Text('Audio Track:'),
+                             sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK),
+                             sg.VerticalSeparator(),
+                             sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION)]
         track_sliders = [sg.Button(emojize(":arrow_forward:Play", language='alias'), key=AudioWindow.KEY_PLAY_BUTTON),
                          sg.Button(emojize("\u23F8\uFE0F     Pause", variant='emoji_type'),
                                    key=AudioWindow.KEY_PAUSE_BUTTON),
@@ -147,6 +155,7 @@ class AudioWindow:
                         window['-TABLE-'].update(new_table)
                         self.data = [self.data[0]] + new_table
                     window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
+                    window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
                     window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
             # todo debug
             # print("event:<" + str(event) + ">, values:<" + str(values) + ">")
@@ -187,7 +196,7 @@ class AudioWindow:
                 self.audio_logic_layer.audio_unfuz(self.current_track)
             if event == AudioWindow.KEY_GEN_FUZ_ALL_BUTTON:
                 print("Pressed button: " + AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
-                list_all_sounds = []
+                list_all_sounds = AudioWindow.list_all_sounds(list_audio_data)
                 self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1)
 
 
@@ -206,8 +215,6 @@ class AudioWindow:
                 window[AudioWindow.KEY_TEXT_CONSOLE].update(value=self.audio_logic_layer.get_console_output())
                 window[AudioWindow.KEY_TEXT_CONSOLE].set_vscroll_position(1.0)
         window.close()
-
-
 
     @staticmethod
     def sec_to_min(sec: int):
@@ -259,6 +266,15 @@ class AudioWindow:
                 sg.popup_error('Error in sort_table', 'Exception in sort_table', e)
         return table
 
+    @staticmethod
+    def list_all_sounds(audio_list):
+        item: AudioData
+        list_sounds = []
+        for item in audio_list:
+            list_sounds.append(item.file_path)
+        return list_sounds
+
+
     def get_filename(self, clicked_row: int):
         try:
             return self.data[clicked_row][4]
@@ -271,6 +287,11 @@ class AudioWindow:
         except:
             return ""
 
+    def get_file_stats(self, file_name: str):
+        try:
+            return self.audio_logic_layer.file_status(file_name)
+        except:
+            return ""
 
 
 
