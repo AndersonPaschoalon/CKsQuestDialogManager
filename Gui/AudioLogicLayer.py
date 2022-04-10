@@ -154,6 +154,8 @@ class AudioLogicLayer:
         """
         self._log.debug("-- open_folder()")
         self._console_add("open_folder() sound_path:" + sound_path)
+        mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
+        lip_file = FileUtils.change_ext(sound_path, Exts.EXT_LIP)
         wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
         fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
@@ -165,6 +167,12 @@ class AudioLogicLayer:
             return
         if exists(fuz_file):
             FileUtils.open_file_on_file_explorer(fuz_file)
+            return
+        if exists(lip_file):
+            FileUtils.open_file_on_file_explorer(lip_file)
+            return
+        if exists(mp3_file):
+            FileUtils.open_file_on_file_explorer(mp3_file)
             return
         popup_text = "File " + sound_path + " not found."
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
@@ -282,21 +290,35 @@ class AudioLogicLayer:
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
         self._console_add(popup_text)
 
-    def audio_gen_fuz_all(self, list_sound_path, parallel_method: int):
+    def audio_gen_fuz_all(self, list_sound_path, parallel_method: int, ask_popup=True):
         """
         Execute fuz command massively, and returns a report.
+        Tests with parallel methods, using the same dataset:
+        *Method 1*
+        (1) QuickTimer: 32.77095009999999 seconds
+        (2) QuickTimer: 19.1045664 seconds (after restart, fow apps)
+        (3) QuickTimer: 21.5257244 seconds (no restart, few apps)
+        *Method 2*
+        (1) QuickTimer: 29.6214035 seconds (many apps opened)
+        (2) QuickTimer: 25.2366236 seconds (after restart, fow apps)
+        (3) QuickTimer: 15.642155099999997 seconds (no restart, few apps)
         :param list_sound_path:
         :param parallel_method: 1 for one thread per core, 2 for thread ThreadPool (built-in).
         :return:
         """
-        popup_text = "This procedure will overwrite any .fuz and xwm pre-existing file.\n If the audios are recoded in mp3 format, wav files are going to be overwritten as well.\n\n Do you want to continue?"
-        self._console_add(popup_text)
-
-        popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
-                                       title=AudioLogicLayer.STR_INFO_POPUP)
-        self._console_add("User option: " + popup_ret)
-        if popup_ret == AudioLogicLayer.STR_CANCEL:
-            return
+        self._log.debug("audio_gen_fuz_all()")
+        self._console_add("audio_gen_fuz_all()")
+        # popup of confirmation
+        if ask_popup:
+            popup_text = "This procedure will overwrite any .fuz and xwm pre-existing file.\n If the audios are recoded in mp3 format, wav files are going to be overwritten as well.\n\n Do you want to continue?"
+            self._console_add(popup_text)
+            self._log.debug("popup_text:" + popup_text)
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                                           title=AudioLogicLayer.STR_INFO_POPUP)
+            self._console_add("User option: " + popup_ret)
+            if popup_ret == AudioLogicLayer.STR_CANCEL:
+                return
+        # init the batch generation
         self._console_add("audio_gen_fuz_all() list_sound_path:" + str(list_sound_path) + ", parallel_method:" +
                           str(parallel_method))
         curr_exec_path = self.encoder.get_exe_dir()
@@ -330,14 +352,18 @@ class AudioLogicLayer:
                 report_list_async.append(return_val)
         n_errors = BatchCmdReport.count_errors(report_list_arg)
         n_success = BatchCmdReport.count_success(report_list_arg)
-        popup_ret = ""
-        popup_text = "Batch execution finished with {0} errors and {1} successes. Do you want to open the report?".format(n_errors, n_success)
-        popup_ret == sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
-        self._console_add(popup_text)
-        html_report = BatchCmdReport.export_report(report_list_arg, self.app.app_dir)
-        url_report = "file:///" + os.path.realpath(html_report)
-        if popup_ret == AudioLogicLayer.STR_OK:
-            webbrowser.open(url_report, new=2)
+        self._log.debug("Batch finished. n_errors:" + str(n_errors) + ", n_success:" + str(n_success))
+        if ask_popup:
+            popup_ret = ""
+            popup_text = "Batch execution finished with {0} errors and {1} successes. Do you want to open the report?".format(n_errors, n_success)
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+            self._console_add(popup_text)
+            html_report = BatchCmdReport.export_report(report_list_arg, self.app.app_dir)
+            url_report = "file:///" + os.path.realpath(html_report)
+            print("url_report:" + url_report)
+            print("popup_ret:" + popup_ret)
+            if popup_ret != AudioLogicLayer.STR_CANCEL:
+                webbrowser.open(url_report, new=2)
 
 
     @staticmethod

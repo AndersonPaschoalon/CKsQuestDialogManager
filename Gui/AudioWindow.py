@@ -10,7 +10,8 @@ from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.AudioData import AudioData
 from Gui.TestData import *
 import datetime
-
+import timeit
+from PyUtils.QuickTimer import QuickTimer
 
 class AudioWindow:
 
@@ -197,8 +198,9 @@ class AudioWindow:
             if event == AudioWindow.KEY_GEN_FUZ_ALL_BUTTON:
                 print("Pressed button: " + AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
                 list_all_sounds = AudioWindow.list_all_sounds(list_audio_data)
-                self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1)
-
+                timer = QuickTimer()
+                self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1, True)
+                timer.delta()
 
             # update gui
             audio_prog = self.audio_logic_layer.get_current_track_progress()
