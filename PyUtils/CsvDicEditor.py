@@ -150,6 +150,67 @@ class CsvDicEditor(Frame):
                 self.cellList.remove(cell)
 
     def loadCells(self, filename):
+        ary = []
+        col = -1
+        rows = []
+        # get array size & get contents of rows
+        with open(filename, "r") as csvfile:
+            rd = csv.reader(csvfile, delimiter=",", quotechar='"')
+            for row in rd:
+                ary.append([])
+                col = len(row)
+                rows.append(row)
+        # create the array
+        for i in range(len(ary)):
+            for j in range(col):
+                ary[i].append([])
+        # fill the array
+        for i in range(len(ary)):
+            for j in range(col):
+                # print rows[i][j]
+                ary[i][j] = rows[i][j]
+        self.removeCells()
+        # get the max width of the cells
+        mx = 0
+        for i in range(len(ary)):
+            for j in range(len(ary[0])):
+                if(len(ary[i][j]) >= mx):
+                    mx = len(ary[i][j])
+        w = mx
+        loadCells = []
+        for i in range(len(ary)):
+            loadCells.append([])
+            for j in range(len(ary[0])):
+                loadCells[i].append([])
+        # create the new cells
+        for i in range(len(ary)):
+            for j in range(len(ary[0])):
+                tmp = Text(self, width=w, height=1)
+                tmp.bind("<Tab>", self.focus_tab)
+                tmp.bind("<Shift-Tab>", self.focus_sh_tab)
+                tmp.bind("<Return>", self.focus_down)
+                tmp.bind("<Shift-Return>", self.focus_up)
+                tmp.bind("<Right>", self.focus_right)
+                tmp.bind("<Left>", self.focus_left)
+                tmp.bind("<Up>", self.focus_up)
+                tmp.bind("<Down>", self.focus_down)
+                tmp.bind("<Control-a>", self.selectall)
+                tmp.bind("<Control-s>", self.saveFile)
+                tmp.insert(END, ary[i][j])
+                if j == 0:
+                    tmp.configure(state='disabled')
+                #if(i == 0):
+                #    tmp.config(font=("Helvetica", 10, tkinter.font.BOLD))
+                #    #tmp.config(relief=FLAT, bg=app.master.cget('bg'))
+                #    tmp.config(relief=FLAT, bg=self.master.cget('bg'))
+                loadCells[i][j] = tmp
+                tmp.focus_force()
+                self.cellList.append(tmp)
+                tmp.grid(padx=0, pady=0, column=j, row=i)
+        self.currentCells = loadCells
+        self.currentCell = self.currentCells[0][0]
+
+    def loadCells_bkp(self, filename):
         #filename = tkinter.filedialog.askopenfilename(initialdir=".", title="Select file",
         #                                        filetypes=(("csv files", "*.csv"), ("all files", "*.*")))
         ary = []
