@@ -8,12 +8,14 @@ class CsvReorderWindow:
 
     KEY_BUTTON_MOVE_UP = "key-btn-move-up"
     KEY_BUTTON_MOVE_DOWN = "key-btn-move-down"
+    KEY_TABLE_TUPLE_DIC = "key-table-tuple-dic"
 
-    def __init__(self):
+    def __init__(self, csv_delimiter=",", csv_cote_char='"'):
         self.current_row_int = 0
+        self.csv_delimiter = csv_delimiter
+        self.csv_cote_char = csv_cote_char
 
-
-    def run(self, filename="", label_key = "Actor ID", label_value = "Actor Name"):
+    def run(self, filename="", label_key="Key", label_value="Value"):
         if filename == "":
             popup_text = "File name is empty."
             return
@@ -23,7 +25,6 @@ class CsvReorderWindow:
         dic_tuple = CsvDicTuple(dic_file=filename)
         data = self.load_csv(filename)
         table_headings = [label_key, label_value]
-        layout_tools = []
         layout_table = [
                         [sg.Table(values=data[:][:],
                             headings=table_headings,
@@ -32,7 +33,7 @@ class CsvReorderWindow:
                             display_row_numbers=False,
                             justification='left',
                             num_rows=5,
-                            key='-TABLE-',
+                            key=CsvReorderWindow.KEY_TABLE_TUPLE_DIC,
                             selected_row_colors='red on yellow',
                             enable_events=True,
                             expand_x=True,
@@ -49,6 +50,7 @@ class CsvReorderWindow:
                            size=(500, 300),
                            element_justification='c')
         while True:
+            # update current row selected
             event, values = window.read(timeout=100000)
             curr_row = self.current_row(event, values)
             if curr_row != self.current_row_int:
@@ -61,18 +63,33 @@ class CsvReorderWindow:
                 break
 
             if event == CsvReorderWindow.KEY_BUTTON_MOVE_UP:
-                key = data[self.current_row_int]
-                value = data[self.current_row_int]
+                [key, value] = self.get_data_key_value(data)
                 dic_tuple.move_up(key, value)
                 data = self.load_csv(filename)
-                window['-TABLE-'].update(values=data[:][:])
+                abs_pos = dic_tuple.tuple_absolute_position(key, value)
+                if abs_pos > 0:
+                    self.current_row_int = abs_pos
+                    #current_row = data[self.current_row_int]
+                    #print("-- [key, value]=" + str([key, value]) + ", current_row:" + str(current_row) + "current_row_int:" + str(self.current_row_int))
+                    window[CsvReorderWindow.KEY_TABLE_TUPLE_DIC].update(values=data[:][:], select_rows=[self.current_row_int])
+                    window[CsvReorderWindow.KEY_TABLE_TUPLE_DIC].SetFocus(force=True)
+                else:
+                    popup_txt = ""
+                    if abs_pos == -1:
+                        popup_txt = "Error: tuple (" + str(key) + ", " + str(value) + ") could not be found!"
+                    elif abs_pos == -2:
+                        popup_txt = "Exception processing tuple (" + str(key) + ", " + str(value) + ")!"
+                    else:
+                        popup_txt = "Unknown Error!"
+
 
             if event == CsvReorderWindow.KEY_BUTTON_MOVE_DOWN:
-                key = data[self.current_row_int]
-                value = data[self.current_row_int]
+                [key, value] = self.get_data_key_value(data)
                 dic_tuple.move_down(key, value)
+                self.current_row_int = dic_tuple.tuple_absolute_position(key, value)
                 data = self.load_csv(filename)
-                window['-TABLE-'].update(values=data[:][:])
+                window[CsvReorderWindow.KEY_TABLE_TUPLE_DIC].update(values=data[:][:], select_rows=[self.current_row_int])
+                window[CsvReorderWindow.KEY_TABLE_TUPLE_DIC].SetFocus(force=True)
 
     def load_csv(self, filename):
         data = []
@@ -85,12 +102,19 @@ class CsvReorderWindow:
     def current_row(self, event, values):
         # print("event:<{0}>, values:<{1}>".format(str(event), str(values)))
         try:
-            cur_row = values["-TABLE-"][0]
+            cur_row = values[CsvReorderWindow.KEY_TABLE_TUPLE_DIC][0]
             return cur_row
         except:
             return self.current_row_int
 
-
+    def get_data_key_value(self, data):
+        key = ""
+        value = ""
+        try:
+            key = data[self.current_row_int][0]
+            value = data[self.current_row_int][1]
+        finally:
+            return [key, value]
 
 
 

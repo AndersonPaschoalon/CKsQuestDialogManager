@@ -63,11 +63,10 @@ class CsvDicTuple:
 
     def move_up(self, key: str, value: str):
         return self._move(key, value, -1)
-        # todo
 
     def tuple_position(self, key: str, value: str):
         """
-        Tells the position of a (key, value) tuple in the csv file.
+        Tells the position of a (key, value) tuple in the csv file among the tuples of the same key.
         If the tuple does not exits, returns -1, and if some error happened processing the csv file,
         returns -2.
         :param key: tuple key.
@@ -89,6 +88,31 @@ class CsvDicTuple:
             return position
         except:
             return -2
+
+    def tuple_absolute_position(self, key: str, value: str):
+        """
+        Tells the absolute position of a tuple in the csv file.
+        If the tuple does not exits, returns -1, and if some error happened processing the csv file,
+        returns -2.
+        :param key: tuple key.
+        :param value: tuple value.
+        :return: the tuple position.
+        """
+        position = 0
+        try:
+            has_tuple = self.has_tuple(key, value)
+            if not has_tuple:
+                return -1
+            with open(self._csv_file) as file:
+                csvreader = csv.reader(file, delimiter=self._delimiter)
+                for row in csvreader:
+                    if row[0] == key and row[1] == value:
+                        break
+                    position += 1
+            return position
+        except:
+            return -2
+
 
     def _sort_csv_file(self):
         """
@@ -149,7 +173,8 @@ class CsvDicTuple:
         if offset == 0:
             return True
         # if pos is 0, do nothing, otherwise move to position curr_pos - 1
-        if tup_new_pos <= 0:
+        # if tup_new_pos <= 0:
+        if tup_new_pos < 0:
             return True
         try:
             # Count the number of lines. If new position is larger, do nothing
@@ -157,7 +182,7 @@ class CsvDicTuple:
             with open(self._csv_file) as file:
                 csvreader = csv.reader(file, delimiter=self._delimiter, quotechar=self._quotechar)
                 dic_len = sum(1 for row in csvreader)
-            if tup_new_pos >=  dic_len - 1:
+            if tup_new_pos >= dic_len - 1:
                 return True
             # create updated list of tuples
             with open(self._csv_file) as file:
