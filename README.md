@@ -23,42 +23,30 @@ Docs/
 ### TODO
 
 01.[ok] Cenas e Aliases devem estar sendo exportados
-
 02.[ok]  Finalizar integração do SceneOrder nos metodos
-
 03.[ok]  SceneOrder deve estar no json se configuração
-
 04.[ok]  SceneOrder deve estar contido no logiclayer
+05.[ok]  Integrar com interface grafica
+06.[ok]  Remover todos do codigo
+07.[ok] Criar uma janela AudioTools, para facilitar gerenciamento e testes de audios
+07.a.[ok] Exibir audios em uma tabela
+07.b.[ok] Play/Stop
+07.c.[ok] Volume
+07.d.[ok] Duração e posição do audio.
+07.e.[ok] Exibir legendas
+07.f.[ok] Abir no file explorer
+07.g.[ok] Copiar Nome
+07.h.[ok] Copiar informação
+07.i.[ok] Converter entre formatos de audio
+08.[ok] Atualizar documentação
+9. [ok] adicionar metodos filepath wav, xwm, fuz, lip
 
-05.[nok]  Integrar com interface grafica
-
-06.[nok]  Remover todos do codigo
-
-07.[nok] Criar uma janela AudioTools, para facilitar gerenciamento e testes de audios
-
-07.a.[nok] Exibir audios em uma tabela
-
-07.b.[nok] Play/Stop
-
-07.c.[nok] Volume
-
-07.d.[nok] Duração e posição do audio.
-
-07.e.[nok] Exibir legendas
-
-07.f.[nok] Abir no file explorer 
-
-07.g.[nok] Copiar Nome
-
-07.h.[nok] Copiar informação
-
-07.i.[nok] Converter entre formatos de audio
-
-08.[nok] Atualizar documentação
-
-9. [nok] adicionar metodos filepath wav, xwm, fuz, lip
-
-
+10. [nok] App/db: mover Actors.csv, Comments.csv and SceneOrder.csv para App/db/ 
+11. [nok] MainWindow: botão Edit Comments.csv
+12. [nok] MainWindow: botão Edit Actors.csv
+13. [nok] MainWindow: botão Edit SceneOrder.csv
+14. [nok] Atualizar Tutorial
+15. [nok] Criar janela "About"
 
 
 
