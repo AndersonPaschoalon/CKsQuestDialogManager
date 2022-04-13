@@ -3,10 +3,14 @@ import webbrowser
 import PySimpleGUI as sg
 from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Logger import Logger
+from PyUtils.CsvDicEditor import CsvDicEditor
 from Gui.AppInfo import AppInfo
+from Gui.CsvReorderWindow import CsvReorderWindow
 from QuestExports.Scene import Scene
 import traceback
 import sys
+from multiprocessing import Process
+
 
 
 class CkLogicLayer:
@@ -213,7 +217,27 @@ class CkLogicLayer:
             self._log.error(sys.exc_info()[2])
             return "exception"
 
+    def open_actors_editor(self):
+        p = Process(target=self._exec_actor_editor)
+        p.start()
+        p.join()
 
+    def _exec_actor_editor(self):
+        editor = CsvDicEditor()
+        editor.run_app(self.app.settings_obj.actors_file, "Actors ID", "Actor Name")
+
+    def open_comments_editor(self):
+        p = Process(target=self._exec_comments_editor)
+        p.start()
+        p.join()
+
+    def _exec_comments_editor(self):
+        editor = CsvDicEditor()
+        editor.run_app(self.app.settings_obj.comments_file, "Objects ID", "Comment")
+
+    def open_scenes_editor(self):
+        reorder = CsvReorderWindow(self.app.app_dir)
+        reorder.run(self.app.settings_obj.scene_order_file)
 
 
 if __name__ == '__main__':

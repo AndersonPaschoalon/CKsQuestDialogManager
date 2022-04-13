@@ -39,6 +39,8 @@ class MainWindow:
             sg.Text(emojize(":scroll:     Documentation Generation", variant="emoji_type"), font=MainWindow.FONT_TITLE2)]
         layout_title_help = [
             sg.Text(emojize(":globe_with_meridians:     Help", variant="emoji_type"), font=MainWindow.FONT_TITLE2)]
+        layout_title_edit = [
+            sg.Text(emojize(":scroll:     Documentation Edit", variant="emoji_type"), font=MainWindow.FONT_TITLE2)]
         BTN_SETTINGS = "Settings"
         BTN_THEME = "Choose Theme"
         BTN_EXPORT_CSV = "Export Objects to CSV files"
@@ -46,15 +48,20 @@ class MainWindow:
         BTN_TUTORIAL = "Tutorial"
         BTN_GITHUB = "Github"
         BTN_NEXUS = "Nexus"
+        BTN_EDIT_SCENES = "Edit Scene Order"
+        BTN_EDIT_ACTORS = "Edit Actor's Names"
+        BTN_EDIT_COMMENTS = "Edit Comments"
         # Buttons
         layout_settings = [sg.Button(BTN_SETTINGS), sg.Button(BTN_THEME)]
         layout_export = [sg.Button(BTN_EXPORT_CSV), sg.Button(BTN_DOC_GEN)]
         layout_tutorial = [sg.Button(BTN_TUTORIAL), sg.Button(BTN_GITHUB), sg.Button(BTN_NEXUS)]
+        layout_edit = [sg.Button(BTN_EDIT_ACTORS), sg.Button(BTN_EDIT_COMMENTS), sg.Button(BTN_EDIT_SCENES)]
         # Layout
         layout = [layout_title_main, [sg.Text("", font=MainWindow.FONT_SKIPLINE1)],
                   layout_title_config, layout_settings, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   layout_title_export, layout_export, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   layout_title_help, layout_tutorial, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
+                  layout_title_edit, layout_edit, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   ]
         window = sg.Window(title=app.label_main_window, layout=layout, size=MainWindow.WINDOW_SIZE,
                            icon=app.app_icon_ico)
@@ -87,5 +94,15 @@ class MainWindow:
             elif event == BTN_NEXUS:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.open_nexus()
+
+            elif event == BTN_EDIT_SCENES:
+                _log.debug("event:" + event)
+                cd_dialog_docgen.open_scenes_editor()
+            elif event == BTN_EDIT_ACTORS:
+                _log.debug("event:" + event)
+                cd_dialog_docgen.open_actors_editor()
+            elif event == BTN_EDIT_COMMENTS:
+                _log.debug("event:" + event)
+                cd_dialog_docgen.open_comments_editor()
 
         window.close()
