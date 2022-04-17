@@ -1,5 +1,6 @@
 import logging
 
+
 class Logger:
     """"""
     LOGGER_NAME = "PyPro"

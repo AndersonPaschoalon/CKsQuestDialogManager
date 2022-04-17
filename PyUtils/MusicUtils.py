@@ -1,6 +1,7 @@
 import os
-from pygame import mixer
 import time
+from pygame import mixer
+
 
 class MusicUtils:
 

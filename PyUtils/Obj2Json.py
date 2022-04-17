@@ -1,5 +1,6 @@
 import json
 
+
 class Obj2Json:
     """This class is a helper for convertion of Python objects into a JSON string."""
 

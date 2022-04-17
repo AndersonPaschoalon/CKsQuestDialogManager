@@ -1,7 +1,7 @@
 import logging
-from QuestExports.QuestDialogs import QuestDialogs
 from PyUtils.Logger import Logger
-from PyUtils.Console import Console
+# from PyUtils.Console import Console
+from QuestExports.QuestDialogs import QuestDialogs
 from Gui.MainWindow import MainWindow
 from Gui.AudioWindow import AudioWindow
 from Gui.AudioLogicLayer import AudioLogicLayer

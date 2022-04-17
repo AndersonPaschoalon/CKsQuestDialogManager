@@ -7,6 +7,9 @@ from Gui.AppInfo import AppInfo
 
 
 class CsvReorderWindow:
+    """
+    This class manager the Csv Reorder Window.
+    """
 
     KEY_BUTTON_MOVE_UP = "key-btn-move-up"
     KEY_BUTTON_MOVE_DOWN = "key-btn-move-down"

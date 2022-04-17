@@ -16,17 +16,17 @@ def create_audio_list():
     s10 = "An example using Python's groupby and defaultdict to do the same task — posted 2014-10-09"
     s11 = "python enum types — posted 2012-10-10"
     audio_list = []
-    audio_list.append(AudioData('Sandbox\\audio\\01 - Unfinished Allegro.mp3', "Angels Cry", "Angra", s1))
-    audio_list.append(AudioData('Sandbox\\audio\\02 - Carry On.mp3', "Angels Cry", "Angra", s2))
-    audio_list.append(AudioData('Sandbox\\audio\\03 - Time.mp3', "Angels Cry", "Angra", s3))
-    audio_list.append(AudioData('Sandbox\\audio\\04 - Angels Cry.mp3', "Angels Cry", "Angra", s4))
-    audio_list.append(AudioData('Sandbox\\audio\\05 - Stand Away.mp3', "Angels Cry", "Angra", s5))
-    audio_list.append(AudioData('Sandbox\\audio\\06 - Never Understand.mp3', "Angels Cry", "Angra", s6))
-    audio_list.append(AudioData('Sandbox\\audio\\07 - Wuthering Heights.mp3', "Angels Cry", "Angra", s7))
-    audio_list.append(AudioData('Sandbox\\audio\\08 - Streets Of Tomorrow.mp3', "Angels Cry", "Angra", s8))
-    audio_list.append(AudioData('Sandbox\\audio\\09 - Evil Warning.mp3', "Angels Cry", "Angra", s9))
-    audio_list.append(AudioData('Sandbox\\audio\\10 - Lasting Child.mp3', "Angels Cry", "Angra", s10))
-    audio_list.append(AudioData('Sandbox\\audio\\11 - Rainy Nights.mp3', "Fireworks", "Angra", s11))
+    audio_list.append(AudioData('Sandbox\\audio\\01 - Unfinished Allegro.mp3', "Angels Cry", "Angra", s1, "01 - Unfinished Allegro"))
+    audio_list.append(AudioData('Sandbox\\audio\\02 - Carry On.mp3', "Angels Cry", "Angra", s2, "02 - Carry On"))
+    audio_list.append(AudioData('Sandbox\\audio\\03 - Time.mp3', "Angels Cry", "Angra", s3, "03 - Time"))
+    audio_list.append(AudioData('Sandbox\\audio\\04 - Angels Cry.mp3', "Angels Cry", "Angra", s4, "04 - Angels Cry"))
+    audio_list.append(AudioData('Sandbox\\audio\\05 - Stand Away.mp3', "Angels Cry", "Angra", s5, "05 - Stand Away"))
+    audio_list.append(AudioData('Sandbox\\audio\\06 - Never Understand.mp3', "Angels Cry", "Angra", s6, "06 - Never Understand"))
+    audio_list.append(AudioData('Sandbox\\audio\\07 - Wuthering Heights.mp3', "Angels Cry", "Angra", s7, "07 - Wuthering Heights"))
+    audio_list.append(AudioData('Sandbox\\audio\\08 - Streets Of Tomorrow.mp3', "Angels Cry", "Angra", s8, "08 - Streets Of Tomorrow"))
+    audio_list.append(AudioData('Sandbox\\audio\\09 - Evil Warning.mp3', "Angels Cry", "Angra", s9, "09 - Evil Warning"))
+    audio_list.append(AudioData('Sandbox\\audio\\10 - Lasting Child.mp3', "Angels Cry", "Angra", s10, "10 - Lasting Child"))
+    audio_list.append(AudioData('Sandbox\\audio\\11 - Rainy Nights.mp3', "Fireworks", "Angra", s11, "11 - Rainy Nights"))
     return audio_list
 
 def create_audio_list2():
@@ -41,6 +41,18 @@ def create_audio_list2():
     f09 = 'Sandbox\\audio\\09 - Evil Warning.mp3'
     f10 = 'Sandbox\\audio\\10 - Lasting Child.mp3'
     f11 = 'Sandbox\\audio\\11 - Rainy Nights.mp3'
+    g01 = '01 - Unfinished Allegro'
+    g02 = '02 - Carry On'
+    g03 = '03 - Time'
+    g04 = '04 - Angels Cry'
+    g05 = '05 - Stand Away'
+    g06 = '06 - Never Understand'
+    g07 = '07 - Wuthering Heights'
+    g08 = '08 - Streets Of Tomorrow'
+    g09 = '09 - Evil Warning'
+    g10 = '10 - Lasting Child'
+    g11 = '11 - Rainy Nights'
+
     s1 = f01 + "I have a 2-dimensional table of data implemented as a list of lists in Python. I would like to sort the data by an arbitrary column. This is a common task with tabular data."
     s2 = f02 + "For example, Windows Explorer allows me to sort the list of files by Name, Size, Type, or Date Modified. "
     s3 = f03 + "I tried the code from this article, however, if there are duplicate entries in the column being sorted, the duplicates are removed."
@@ -54,17 +66,17 @@ def create_audio_list2():
     s11 = f11 + "python enum types — posted 2012-10-10"
     s1 = s1 + s1  + s1  + s1  + s1
     audio_list = []
-    audio_list.append(AudioData(f01, "Angels Cry", "Angra", s1))
-    audio_list.append(AudioData(f02, "Angels Cry", "Angra", s2))
-    audio_list.append(AudioData(f03, "Angels Cry", "Angra", s3))
-    audio_list.append(AudioData(f04, "Angels Cry", "Angra", s4))
-    audio_list.append(AudioData(f05, "Angels Cry", "Angra", s5))
-    audio_list.append(AudioData(f06, "Angels Cry", "Angra", s6))
-    audio_list.append(AudioData(f07, "Angels Cry", "Angra", s7))
-    audio_list.append(AudioData(f08, "Angels Cry", "Angra", s8))
-    audio_list.append(AudioData(f09, "Angels Cry", "Angra", s9))
-    audio_list.append(AudioData(f10, "Angels Cry", "Angra", s10))
-    audio_list.append(AudioData(f11, "Fireworks", "Angra", s11))
+    audio_list.append(AudioData(f01, "Angels Cry", "Angra", s1, g01))
+    audio_list.append(AudioData(f02, "Angels Cry", "Angra", s2, g02))
+    audio_list.append(AudioData(f03, "Angels Cry", "Angra", s3, g03))
+    audio_list.append(AudioData(f04, "Angels Cry", "Angra", s4, g04))
+    audio_list.append(AudioData(f05, "Angels Cry", "Angra", s5, g05))
+    audio_list.append(AudioData(f06, "Angels Cry", "Angra", s6, g06))
+    audio_list.append(AudioData(f07, "Angels Cry", "Angra", s7, g07))
+    audio_list.append(AudioData(f08, "Angels Cry", "Angra", s8, g08))
+    audio_list.append(AudioData(f09, "Angels Cry", "Angra", s9, g09))
+    audio_list.append(AudioData(f10, "Angels Cry", "Angra", s10, g10))
+    audio_list.append(AudioData(f11, "Fireworks", "Angra", s11, g11))
     return audio_list
 
 

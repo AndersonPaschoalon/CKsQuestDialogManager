@@ -64,6 +64,53 @@ class TopicDialogs:
         self._list_topic_data = sorted_topic_list
         return sorted_topic_list
 
+    def get_topic_data_len(self):
+        """
+        Retruns the size of the list of topic data.
+        :return:
+        """
+        return len(self._list_topic_data)
+
+    def get_topic_index(self, position: int):
+        """
+        Returns the index data at a given position in the topic data.
+        :param position:
+        :return:
+        """
+        return self._list_topic_data[position][0]
+
+    def get_topic_response(self, position: int):
+        """
+        Returns the response data at a given position in the topic data.
+        :param position:
+        :return:
+        """
+        return self.get_topic_data()[position][1]
+
+    def get_topic_mood(self, position: int):
+        """
+        Returns the mood data at a given position in the topic data.
+        :param position:
+        :return:
+        """
+        return self.get_topic_data()[position][2]
+
+    def get_topic_file_path(self, position: int):
+        """
+        Returns the file path data at a given position in the topic data.
+        :param position:
+        :return:
+        """
+        return self.get_topic_data()[position][3]
+
+    def get_topic_file_name(self, position: int):
+        """
+        Returns the file name data at a given position in the topic data.
+        :param position:
+        :return:
+        """
+        return self.get_topic_data()[position][4]
+
     def clear(self):
         """Clear _list_topic_data."""
         self._list_topic_data.clear()

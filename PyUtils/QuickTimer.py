@@ -1,5 +1,6 @@
 import timeit
 
+
 class QuickTimer:
 
     def __init__(self):

@@ -102,14 +102,21 @@ class AudioData:
                 for tp in br.list_topic_dialogs:
                     actor_name = tp.actor_name
                     topic_id = tp.topic_name
-                    tp_data = tp.get_topic_data()
-                    subtitle = tp_data[0][1]
-                    emotion = tp_data[0][2]
-                    filepath = tp_data[0][3]
-                    # todo: adicionar file_path verdadeiro
-                    filename = tp_data[0][4]
-                    list_audio_data.append(AudioData(filepath, quest_id, actor_name, subtitle, filename, dialog_type,
-                                                     emotion, voice_type, topic_id, branch_id, scene_id, scene_phase))
+                    i = 0
+                    tpdata_len = tp.get_topic_data_len()
+                    while i < tpdata_len:
+                        subtitle = tp.get_topic_response(i)
+                        emotion = tp.get_topic_mood(i)
+                        filepath = tp.get_topic_file_path(i)
+                        filename = tp.get_topic_file_name(i)
+                        print("filename:" + filename)
+                        print("filepath:" + filepath)
+                        list_audio_data.append(AudioData(file_path=filepath, quest_id=quest_id, actor_name=actor_name,
+                                                         subtitle=subtitle, file_name=filename, dialog_type=dialog_type,
+                                                         emotion=emotion, voice_type=voice_type, topic_id=topic_id,
+                                                         branch_id=branch_id, scene_id=scene_id,
+                                                         scene_phase=scene_phase))
+                        i += 1
             branch_id = ""
             topic_id = ""
             for scene in quest.list_scenes:
@@ -127,7 +134,6 @@ class AudioData:
                         list_audio_data.append(
                             AudioData(filepath, quest_id, actor_name, subtitle, filename, dialog_type,
                                       emotion, voice_type, topic_id, branch_id, scene_id, scene_phase))
-
         return list_audio_data
 
 

@@ -1,29 +1,29 @@
-import datetime
-import os
+# import datetime
+# import os
+# import threading
 import webbrowser
-import PySimpleGUI as sg
 import pyperclip
+import multiprocessing
+import PySimpleGUI as sg
 from os.path import exists
+from threading import Thread
+from threading import Lock
+from multiprocessing.pool import ThreadPool
 from PyUtils.SkyAudioEncoder import SkyAudioEncoder
 from PyUtils.MusicUtils import MusicUtils
 from PyUtils.FileUtils import FileUtils
 from PyUtils.FileUtils import Exts
 from PyUtils.Functions import *
-from Gui.AudioData import AudioData
 from PyUtils.Logger import Logger
+# from PyUtils.Obj2Json import Obj2Json
+from Gui.AudioData import AudioData
 from Gui.AppInfo import AppInfo
-from PyUtils.Obj2Json import Obj2Json
-from QuestExports.QuestDialogs import QuestDialogs
-from QuestExports.Scene import Scene
-from QuestExports.SceneTopic import SceneTopic
-from QuestExports.BranchDialogs import BranchDialogs
-from QuestExports.TopicDialogs import TopicDialogs
-import multiprocessing
-import threading
-from threading import Thread
-from threading import Lock
-from multiprocessing.pool import ThreadPool
 from Gui.BatchCmdReport import BatchCmdReport
+# from QuestExports.QuestDialogs import QuestDialogs
+# from QuestExports.Scene import Scene
+# from QuestExports.SceneTopic import SceneTopic
+# from QuestExports.BranchDialogs import BranchDialogs
+# from QuestExports.TopicDialogs import TopicDialogs
 
 
 class AudioLogicLayer:
@@ -60,6 +60,7 @@ class AudioLogicLayer:
         Return a string with the file status.
         :return:
         """
+        print("** sound_path:" + sound_path)
         if sound_path == "":
             return ""
         mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)

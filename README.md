@@ -42,11 +42,14 @@ Docs/
 9. [ok] adicionar metodos filepath wav, xwm, fuz, lip
 
 10. [nok] App/db: mover Actors.csv, Comments.csv and SceneOrder.csv para App/db/ 
-11. [nok] MainWindow: botão Edit Comments.csv
-12. [nok] MainWindow: botão Edit Actors.csv
-13. [nok] MainWindow: botão Edit SceneOrder.csv
-14. [nok] Atualizar Tutorial
-15. [nok] Criar janela "About"
+11. [ok] MainWindow: botão Edit Comments.csv
+12. [ok] MainWindow: botão Edit Actors.csv
+13. [ok] MainWindow: botão Edit SceneOrder.csv
+14. [ok] Atualizar Tutorial
+15. [ok] Criar janela "About"
+
+
+
 
 
 

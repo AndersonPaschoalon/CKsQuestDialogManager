@@ -4,6 +4,7 @@ from PyUtils.Console import Console
 from PyUtils.FileUtils import FileUtils
 from PyUtils.FileUtils import Exts
 
+
 class SkyAudioEncoder:
 
     RET_SUCCESS = 0

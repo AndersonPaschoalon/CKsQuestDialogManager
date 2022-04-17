@@ -1,16 +1,13 @@
 # pylint: disable=C0103,C0111,W0614,W0401,C0200,C0325
+import csv
 import tkinter
 import tkinter.font
 import tkinter.messagebox
 import tkinter.filedialog
 import tkinter.font
 from tkinter import *
-import csv
+from PyUtils.ScreenInfo import ScreenInfo
 
-##
-# This is an implementation based on the original implementation @ https://github.com/ssebs/csveditor.git
-# 2022 Anderson Paschoalon
-##
 
 class CsvDicEditor(Frame):
 
@@ -25,6 +22,10 @@ class CsvDicEditor(Frame):
         self.filename = ""
         self.label_key = "Key"
         self.label_value = "Value"
+        screen = ScreenInfo.screen_resolution()
+        print(screen)
+        # self.master.wm_maxsize(screen[0], screen[1])
+        self.master.wm_maxsize(1366, 768)
 
     def run_app(self, filename="", label_key="Key", label_value="Value"):
         self.filename = filename
@@ -93,7 +94,7 @@ class CsvDicEditor(Frame):
         for i in range(len(self.currentCells)):
             for j in range(len(self.currentCells[0])):
                 if widget == self.currentCells[i][j]:
-                    if( i >= len(self.currentCells) - 1):
+                    if i >= len(self.currentCells) - 1:
                         i = -1
                     self.currentCells[i+1][j].focus()
         return "break"
@@ -167,7 +168,7 @@ class CsvDicEditor(Frame):
         # fill the array
         for i in range(len(ary)):
             for j in range(col):
-                # print rows[i][j]
+                print("row=<" + rows[i][j] + ">")
                 ary[i][j] = rows[i][j]
         self.removeCells()
         # get the max width of the cells
@@ -205,6 +206,7 @@ class CsvDicEditor(Frame):
                 #    tmp.config(relief=FLAT, bg=self.master.cget('bg'))
                 loadCells[i][j] = tmp
                 tmp.focus_force()
+                #tmp.wraplength=300
                 self.cellList.append(tmp)
                 tmp.grid(padx=0, pady=0, column=j, row=i)
         self.currentCells = loadCells
@@ -296,7 +298,13 @@ class CsvDicEditor(Frame):
 
 if __name__ == "__main__":
     # test
-    filename = "../Sandbox/ActorsTest01.csv"
-    app = CsvDicEditor()
-    app.run_app(filename)
-
+    test01 = False
+    test02 = True
+    if test01:
+        filename = "../Sandbox/ActorsTest01.csv"
+        app = CsvDicEditor()
+        app.run_app(filename)
+    if test02:
+        filename = "../Sandbox/Comments.csv"
+        app = CsvDicEditor()
+        app.run_app(filename)

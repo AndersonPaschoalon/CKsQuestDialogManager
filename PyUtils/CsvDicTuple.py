@@ -5,7 +5,7 @@ import operator
 
 class CsvDicTuple:
     """
-    todo
+    This class help the management of a Dictionary tuple into a CSC file.
     """
 
     def __init__(self, dic_file, delimiter=",", quotechar='"'):

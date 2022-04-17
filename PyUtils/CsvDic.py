@@ -1,6 +1,7 @@
 import csv
 import os
 
+
 class CsvDic:
     """
     This class handles a simple CSV file with two columns: a key column and a value column.

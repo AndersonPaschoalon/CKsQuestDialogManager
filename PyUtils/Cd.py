@@ -1,7 +1,9 @@
 import os
 
+
 class Cd:
     """Context manager for changing the current working directory"""
+
     def __init__(self, new_path):
         self.newPath = os.path.expanduser(new_path)
 
@@ -11,3 +13,11 @@ class Cd:
 
     def __exit__(self, etype, value, traceback):
         os.chdir(self.savedPath)
+
+    @staticmethod
+    def pwd():
+        """
+        Returns the current working directory.
+        :return:
+        """
+        return os.getcwd()

@@ -1,5 +1,6 @@
 import subprocess
 
+
 class Console:
 
     HEADER = '\033[95m'

@@ -3,6 +3,7 @@ import os
 import logging
 from PyUtils.Obj2Json import Obj2Json
 
+
 class AppSettings:
     """
     Store all settings from the application.
@@ -67,12 +68,18 @@ class AppSettings:
 
 
 class AppInfo:
+    APP_VERSION = "v1.0.0"
+    APP_NAME = "Snowberry Crostata"
+
     def __init__(self, app_dir=".\\App\\"):
         self.app_dir = app_dir
         self.audio_encoder_dir = app_dir + "Bin\\"
         self.img_dir = self.app_dir + "Img\\"
         self.pages_dir = self.app_dir + "Pages\\"
         self.log_dir = self.app_dir + "Logs\\"
+        self.csv_actors = self.app_dir + "Db\\Actors.csv"
+        self.csv_comments = self.app_dir + "Db\\Comments.csv"
+        self.csv_scene_order = self.app_dir + "Db\\SceneOrder.csv"
         self.app_icon_ico = self.img_dir + "sbc.ico"
         self.app_icon_png = self.img_dir + "Snowberry_crostata.png"
         self.log_file = self.log_dir + "ck-dialog-docgen.log"
@@ -83,6 +90,7 @@ class AppInfo:
         self.settings_file = self.app_dir + "settings.json"
         self.label_main_window = "CK Quest Dialog Manager"
         self.label_audio_window = "CK Quest Audio Manager"
+        self.app_version = AppInfo.APP_VERSION + " -- " + AppInfo.APP_NAME
         self.settings_obj = AppSettings(self.settings_file)
 
     def tutorial_url(self):
@@ -95,6 +103,9 @@ class AppInfo:
         obj.add("img_dir", self.img_dir)
         obj.add("pages_dir", self.pages_dir)
         obj.add("log_dir", self.log_dir)
+        obj.add("csv_actors", self.csv_actors)
+        obj.add("csv_comments", self.csv_comments)
+        obj.add("csv_scene_order", self.csv_scene_order)
         obj.add("app_icon_ico", self.app_icon_ico)
         obj.add("app_icon_png", self.app_icon_png)
         obj.add("log_file", self.log_file)
@@ -102,9 +113,11 @@ class AppInfo:
         obj.add("settings_file", self.settings_file)
         obj.add("label_main_window", self.label_main_window)
         obj.add("label_audio_window", self.label_audio_window)
+        obj.add("app_version", self.app_version)
         settings = str(self.settings_obj.data)
         obj.add("settings_obj", settings)
         return obj.json()
+
 
 if __name__ == '__main__':
     aa = AppInfo()

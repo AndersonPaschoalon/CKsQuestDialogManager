@@ -1,6 +1,7 @@
 from datetime import datetime
 from Gui.AppInfo import *
 
+
 class BatchCmdReport:
 
     HTML_REPORT_HEADER = """<!DOCTYPE html>
