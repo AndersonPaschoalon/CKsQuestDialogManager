@@ -85,11 +85,13 @@ class CkLogicLayer:
             actors_csv = self.app.settings_obj.actors_file
             scene_order_csv = self.app.settings_obj.scene_order_file
             docs_dir = self.app.settings_obj.docgen_dir
+            app_name = self.app.app_name_short
+            github_url = self.app.url_github
             self._log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path +
                             ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv + ", docs_dir:" + docs_dir +
                             ", scene_order_csv:" + scene_order_csv)
             qlist = QuestDialogs.generate_quest_documentation(skyrim_path, comments_csv, actors_csv,
-                                                              scene_order_csv, docs_dir)
+                                                              scene_order_csv, docs_dir, app_name, github_url)
             i = 0
             poup_text = "\n * Documentation generated for the following quests:\n"
             for f in qlist:

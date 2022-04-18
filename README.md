@@ -48,6 +48,10 @@ Docs/
 14. [ok] Atualizar Tutorial
 15. [ok] Criar janela "About"
 
+Remover ’ do html
+
+BatchCmdReport -> add titulo ao header
+def export_report(list_batch_cmds_reports, app_dir: str):
 
 
 

@@ -25,7 +25,7 @@ class CsvDicEditor(Frame):
         screen = ScreenInfo.screen_resolution()
         print(screen)
         # self.master.wm_maxsize(screen[0], screen[1])
-        self.master.wm_maxsize(1366, 768)
+        self.master.wm_maxsize(1200, 650)
 
     def run_app(self, filename="", label_key="Key", label_value="Value"):
         self.filename = filename
@@ -120,7 +120,7 @@ class CsvDicEditor(Frame):
 
         for i in range(self.sizeY):
             for j in range(self.sizeX):
-                tmp = Text(self, width=w, height=h)
+                tmp = Text(self, width=w, height=h, wrap=tkinter.WORD)
                 tmp.bind("<Tab>", self.focus_tab)
                 tmp.bind("<Shift-Tab>", self.focus_sh_tab)
                 tmp.bind("<Return>", self.focus_down)
@@ -161,6 +161,9 @@ class CsvDicEditor(Frame):
                 ary.append([])
                 col = len(row)
                 rows.append(row)
+                print("col:" + str(col))
+                print("row:" + str(row))
+
         # create the array
         for i in range(len(ary)):
             for j in range(col):
@@ -168,7 +171,7 @@ class CsvDicEditor(Frame):
         # fill the array
         for i in range(len(ary)):
             for j in range(col):
-                print("row=<" + rows[i][j] + ">")
+                print("row(i,j)=<" + str(rows[i][j]) + ">")
                 ary[i][j] = rows[i][j]
         self.removeCells()
         # get the max width of the cells
@@ -186,7 +189,9 @@ class CsvDicEditor(Frame):
         # create the new cells
         for i in range(len(ary)):
             for j in range(len(ary[0])):
-                tmp = Text(self, width=w, height=1)
+                txt_width = w if w < 100 else 100
+                tmp = Text(self, width=txt_width, height=1, wrap=tkinter.NONE)
+                #tmp = Text(self, width=w, height=1)
                 tmp.bind("<Tab>", self.focus_tab)
                 tmp.bind("<Shift-Tab>", self.focus_sh_tab)
                 tmp.bind("<Return>", self.focus_down)

@@ -1,7 +1,7 @@
 {
   "quest_name": "DSilHand_M80AssaultJor",
   "comment": "",
-  "skyrim_path": "./Sandbox/",
+  "skyrim_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim",
   "list_branch_dialogs": [
     {
       "branch_name": "DSilHand_M80_FjolBeforeDiscourse",
@@ -22,7 +22,8 @@
               "1",
               "Good brother. We've been waiting for you. All the brothers are here. Let's begin...",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FB__00042850_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FB__00042850_1.xwm",
+              "DSilHand_M_DSilHand_M80FB__00042850_1"
             ]
           ]
         }
@@ -47,13 +48,15 @@
               "1",
               "I have one thing to ask. Three of the fragments in possession of the Companions are displayed on the wall, but one is missing... ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435C_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435C_1.xwm",
+              "DSilHand_M_DSilHand_M80FS__0004435C_1"
             ],
             [
               "2",
               "We need to find it. We need your help.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435C_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435C_2.xwm",
+              "DSilHand_M_DSilHand_M80FS__0004435C_2"
             ]
           ]
         },
@@ -67,19 +70,22 @@
               "1",
               "Thanks. Come to me if you find it.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435E_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435E_1.xwm",
+              "DSilHand_M_DSilHand_M80FS__0004435E_1"
             ],
             [
               "2",
               "It must be hidden somewhere in the basement. ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435E_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435E_2.xwm",
+              "DSilHand_M_DSilHand_M80FS__0004435E_2"
             ],
             [
               "3",
               "We will be cleaning the mess and preparing the bodies for the funerals.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435E_3.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FS__0004435E_3.xwm",
+              "DSilHand_M_DSilHand_M80FS__0004435E_3"
             ]
           ]
         }
@@ -104,13 +110,15 @@
               "1",
               "So that's it! Thanks to you all Wuuthrad pieces are once again together...",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FF__00044363_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FF__00044363_1.xwm",
+              "DSilHand_M_DSilHand_M80FF__00044363_1"
             ],
             [
               "2",
               "Follow me to the Skyforge  brother...",
               "Happy 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FF__00044363_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M80FF__00044363_2.xwm",
+              "DSilHand_M_DSilHand_M80FF__00044363_2"
             ]
           ]
         }
@@ -132,7 +140,7 @@
       "quest_id": "DSilHand_M80AssaultJor",
       "scene_id": "DSilHand_M80_SceneAssault",
       "scene_position": 0,
-      "comment": "?scene-comment?",
+      "comment": "",
       "list_scene_topics": [
         {
           "actor_name": "Fjol",
@@ -180,39 +188,9 @@
     },
     {
       "quest_id": "DSilHand_M80AssaultJor",
-      "scene_id": "DSilHand_M80_SceneArmisticeCall",
-      "scene_position": 1,
-      "comment": "?scene-comment?",
-      "list_scene_topics": [
-        {
-          "actor_name": "Fjol",
-          "sd_scene_id": "DSilHand_M80_SceneArmisticeCall",
-          "sd_alias": "Fjol",
-          "sd_voice_type": "MaleEvenTonedAccented",
-          "sd_scene_phase": 0,
-          "de_actor_id": "DSilHand_Fjol",
-          "de_actor_race": "NordRace",
-          "de_dialog_type": "Scene",
-          "sd_list_dialog_lines": [
-            {
-              "response_index": "1",
-              "filename": "DSilHand_M80AssaultJor__0004A4BF_1",
-              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M80AssaultJor__0004A4BF_1.xwm",
-              "dialogue": "Brothers, put down your weapons!!",
-              "emotion": "Anger 50",
-              "notes": "",
-              "flag_dialog_export": true,
-              "flag_scene_dialog": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "quest_id": "DSilHand_M80AssaultJor",
       "scene_id": "DSilHand_M80_SceneArmistice2",
-      "scene_position": 2,
-      "comment": "?scene-comment?",
+      "scene_position": 1,
+      "comment": "",
       "list_scene_topics": [
         {
           "actor_name": "Fjol",
@@ -822,9 +800,39 @@
     },
     {
       "quest_id": "DSilHand_M80AssaultJor",
+      "scene_id": "DSilHand_M80_SceneArmisticeCall",
+      "scene_position": 2,
+      "comment": "",
+      "list_scene_topics": [
+        {
+          "actor_name": "Fjol",
+          "sd_scene_id": "DSilHand_M80_SceneArmisticeCall",
+          "sd_alias": "Fjol",
+          "sd_voice_type": "MaleEvenTonedAccented",
+          "sd_scene_phase": 0,
+          "de_actor_id": "DSilHand_Fjol",
+          "de_actor_race": "NordRace",
+          "de_dialog_type": "Scene",
+          "sd_list_dialog_lines": [
+            {
+              "response_index": "1",
+              "filename": "DSilHand_M80AssaultJor__0004A4BF_1",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M80AssaultJor__0004A4BF_1.xwm",
+              "dialogue": "Brothers, put down your weapons!!",
+              "emotion": "Anger 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "quest_id": "DSilHand_M80AssaultJor",
       "scene_id": "DSilHand_M80_SceneFjolCallToSkyforge",
       "scene_position": 3,
-      "comment": "?scene-comment?",
+      "comment": "",
       "list_scene_topics": [
         {
           "actor_name": "Fjol",
@@ -854,7 +862,7 @@
       "quest_id": "DSilHand_M80AssaultJor",
       "scene_id": "DSilHand_M80_SceneWuuthradReassemble",
       "scene_position": 4,
-      "comment": "?scene-comment?",
+      "comment": "",
       "list_scene_topics": [
         {
           "actor_name": "Fjol",

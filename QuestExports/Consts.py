@@ -66,7 +66,3 @@ class Consts:
     DOC_MD_EXT = ".md"
 
 
-    # this application
-    URL_GITHUB = "https://github.com/AndersonPaschoalon/CreationKit-DialogDocGen"
-    APP_NAME = "CkDiagDocGen"
-

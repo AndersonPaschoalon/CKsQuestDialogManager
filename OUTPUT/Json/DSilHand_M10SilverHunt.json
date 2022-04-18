@@ -6,7 +6,7 @@
     {
       "branch_name": "DSilHand_M10_DrunkenHuntsman",
       "comment": "Here the Dragonborn will meet the Silver Hand spy on Whiterun, and he will send you to Gallows Rock to start the quest.",
-      "actor_name": "Irrokas Head Torn",
+      "actor_name": "Irrokas Head Torn*",
       "actor_voice_type": "MaleNord",
       "actor_race": "NordRace",
       "dialog_type": "PlayerDialogue",
@@ -14,7 +14,7 @@
       "list_topic_dialogs": [
         {
           "topic_name": "DSilHand_M10DH_Topic01",
-          "actor_name": "Irrokas Head Torn",
+          "actor_name": "Irrokas Head Torn*",
           "player_dialog": "You seems worried about something...",
           "form_id": "FormID 02009875",
           "_list_topic_data": [
@@ -22,13 +22,14 @@
               "1",
               "I can smell a dirty wolf's stink in this city... My senses do not fool me. There is daedric influence nearby.",
               "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009875_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009875_1.xwm",
+              "DSilHand_M_DSilHand_M10DH__00009875_1"
             ]
           ]
         },
         {
           "topic_name": "DSilHand_M10DH_Topic02",
-          "actor_name": "Irrokas Head Torn",
+          "actor_name": "Irrokas Head Torn*",
           "player_dialog": "What are you talking about? I can't understand...",
           "form_id": "FormID 02009878",
           "_list_topic_data": [
@@ -36,7 +37,8 @@
               "1",
               "I can sense the presence of evil daedra here in this city. Go to Gallows Rock, if you want to know the truth.",
               "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009878_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009878_1.xwm",
+              "DSilHand_M_DSilHand_M10DH__00009878_1"
             ]
           ]
         }
@@ -61,7 +63,8 @@
               "1",
               "Stop right there. What do you want?",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DE3_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DE3_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DE3_1"
             ]
           ]
         },
@@ -75,7 +78,8 @@
               "1",
               "So get out of here!",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DE5_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DE5_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DE5_1"
             ]
           ]
         },
@@ -89,7 +93,8 @@
               "1",
               "We are the Silver Hand. We are werewolf hunters.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DE7_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DE7_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DE7_1"
             ]
           ]
         },
@@ -103,13 +108,15 @@
               "1",
               "That is not a simple question. As I said, our group hunts and is persecuted by powerful enemies. ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DEE_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DEE_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DEE_1"
             ],
             [
               "2",
               "First we have to know if you are trustful and worth joining us. Therefore, you must complete an initiation task.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DEE_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DEE_2.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DEE_2"
             ]
           ]
         },
@@ -123,7 +130,8 @@
               "1",
               "That's because we have powerful enemies out there...",
               "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF1_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF1_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF1_1"
             ]
           ]
         },
@@ -137,7 +145,8 @@
               "1",
               "So get you of here before I kill you.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF6_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF6_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF6_1"
             ]
           ]
         },
@@ -151,7 +160,8 @@
               "1",
               "So get you of here before I kill you.",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF4_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF4_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF4_1"
             ]
           ]
         },
@@ -165,7 +175,8 @@
               "1",
               "So get you of here before I kill you.",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF5_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF5_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF5_1"
             ]
           ]
         },
@@ -179,13 +190,15 @@
               "1",
               "Go to Cold Rock Pass and kill the Frost Troll that is living there, the bigger one, and come back with a proof of your hunt. Than we may talk again.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF0_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF0_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF0_1"
             ],
             [
               "2",
               "If  you are unable to kill that frost troll, you will be unable to kill werewolves anyway.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF0_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF0_2.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF0_2"
             ]
           ]
         },
@@ -199,7 +212,8 @@
               "1",
               "The Companions in Whiterun...",
               "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF3_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF3_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF3_1"
             ]
           ]
         },
@@ -213,7 +227,8 @@
               "1",
               "Good look out there. May the divines and Ysgramor guide your path. ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF9_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DF9_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DF9_1"
             ]
           ]
         },
@@ -227,7 +242,8 @@
               "1",
               "Good look out there. May the divines and Ysgramor guide your path. ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DFA_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M10GG__00009DFA_1.xwm",
+              "DSilHand_M_DSilHand_M10GG__00009DFA_1"
             ]
           ]
         }
@@ -252,7 +268,8 @@
               "1",
               "I know you would be able to do it. Go talk to \"Krev the Skinner\", our leader. He is inside, on the main Hall. Go talk to him. Good Luck!",
               "Happy 70",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSIlHand_M10GAT_0000DEA3_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSIlHand_M10GAT_0000DEA3_1.xwm",
+              "DSilHand_M_DSIlHand_M10GAT_0000DEA3_1"
             ]
           ]
         }
@@ -277,13 +294,15 @@
               "1",
               "Yes I'm! Welcome! You did well against the frost troll on the Cold Rock Pass. Congratulations! You proceed well on our initiation.",
               "Happy 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96B_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96B_1.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000E96B_1"
             ],
             [
               "2",
               "But, before we proceed, I have a question. Why do you want to join the Silver Hands?",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96B_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96B_2.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000E96B_2"
             ]
           ]
         },
@@ -297,13 +316,15 @@
               "1",
               "An adventure seeker eh? We need more people like you here.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96D_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96D_1.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000E96D_1"
             ],
             [
               "2",
               "But I have more things to say before you can join us. ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96D_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96D_2.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000E96D_2"
             ]
           ]
         },
@@ -317,13 +338,15 @@
               "1",
               "This is an honor cause that every sons and daughters of Skyrim who wish to go Sovngarde one day, must fight for.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96F_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96F_1.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000E96F_1"
             ],
             [
               "2",
               "But I have more things to say before you can join us. ",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96F_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000E96F_2.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000E96F_2"
             ]
           ]
         },
@@ -337,37 +360,43 @@
               "1",
               "We fight against these beasts to cleanse this foul daedric disease that has taken the sanity of many of our brothers and sisters here on Skyrim.",
               "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_1.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED4_1"
             ],
             [
               "2",
               "But worst than that, have corrupted the souls of many sons of Skyrim, and take them away from Sovngarde in exchange of an ephemeral power in life.",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_2.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED4_2"
             ],
             [
               "3",
               "But, you must be aware. No only beggars and forgotten people have lycanthropy here on Skyrim.",
               "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_3.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_3.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED4_3"
             ],
             [
               "4",
               "Many influential and powerful  people have this curse... or \"gift\" as many of them say. ",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_4.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_4.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED4_4"
             ],
             [
               "5",
               "If you become a Silver Hand, you will have to fight not only physically, but also politically and economically powerful people.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_5.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_5.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED4_5"
             ],
             [
               "6",
               "After all I said, do you still want to become a Silver Hand?",
               "Puzzled 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_6.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED4_6.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED4_6"
             ]
           ]
         },
@@ -381,43 +410,50 @@
               "1",
               "Now, you are officially a silver hand initiate. Take this armor and shield.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_1.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_1"
             ],
             [
               "2",
               "They are not expensive ones, but are especially good to protect against the cold weather of the ice fields.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_2.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_2.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_2"
             ],
             [
               "3",
               "Take this weapon, it is a Silver sword. It will protect you against foul creatures we fight against.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_3.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_3.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_3"
             ],
             [
               "4",
               "I will give you one book too, it is called Songs of Return, volume seven.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_4.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_4.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_4"
             ],
             [
               "5",
               "Read it, you will learn more about the Ysgramor and its legacy.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_5.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_5.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_5"
             ],
             [
               "6",
               "Each Silver Hand must read one of this.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_6.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_6.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_6"
             ],
             [
               "7",
               "Downstairs, there is a library, where you will find other useful book, if you are interested to learn more.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_7.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10GMK_0000EED7_7.xwm",
+              "DSilHand_M_DSilHand_M10GMK_0000EED7_7"
             ]
           ]
         }
@@ -442,7 +478,8 @@
               "1",
               "Stop right there. What do you want?",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009879_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009879_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__00009879_1"
             ]
           ]
         },
@@ -456,7 +493,8 @@
               "1",
               "So get out of here!",
               "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__0000987B_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__0000987B_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__0000987B_1"
             ]
           ]
         },
@@ -470,7 +508,8 @@
               "1",
               "I'm a Silver Hand. We are werewolf hunters.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE0_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE0_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__00009DE0_1"
             ]
           ]
         },
@@ -484,7 +523,8 @@
               "1",
               "It is not an easy task. But if you want to know if you are worth, go to Gallows Rock.",
               "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm"
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__00009DE2_1"
             ]
           ]
         }

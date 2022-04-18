@@ -68,8 +68,10 @@ class AppSettings:
 
 
 class AppInfo:
+    APP_NAME_SHORT = "CKQuestDialogManager"
+    APP_NAME_LARGE = "CK -- Quest Dialog Manager"
     APP_VERSION = "v1.0.0"
-    APP_NAME = "Snowberry Crostata"
+    APP_VERSION_NAME = "Snowberry Crostata"
 
     def __init__(self, app_dir=".\\App\\"):
         self.app_dir = app_dir
@@ -90,7 +92,9 @@ class AppInfo:
         self.settings_file = self.app_dir + "settings.json"
         self.label_main_window = "CK Quest Dialog Manager"
         self.label_audio_window = "CK Quest Audio Manager"
-        self.app_version = AppInfo.APP_VERSION + " -- " + AppInfo.APP_NAME
+        self.app_version = AppInfo.APP_VERSION + " -- " + AppInfo.APP_VERSION_NAME
+        self.app_name_short = AppInfo.APP_NAME_SHORT
+        self.app_name_LARGE = AppInfo.APP_NAME_LARGE
         self.settings_obj = AppSettings(self.settings_file)
 
     def tutorial_url(self):
