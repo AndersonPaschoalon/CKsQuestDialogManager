@@ -10,6 +10,7 @@ from emoji import emojize
 from PyUtils.QuickTimer import QuickTimer
 from PyUtils.Cd import Cd
 from PyUtils.Logger import Logger
+from PyUtils.ScreenInfo import ScreenInfo
 from Gui.AppInfo import AppInfo
 from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.TestData import *
@@ -21,11 +22,9 @@ class AudioWindow:
     Audio Window class.
     """
     # window size
-    FI = 1.618
-    WINDOW_HIGH = 675
-    WINDOW_WIDTH = int(WINDOW_HIGH * FI)
-    WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HIGH)
-    SUBTITLE_SIZE = int(WINDOW_HIGH / 5.5)
+    WINDOW_HEIGHT = 675
+    WINDOW_SIZE = ScreenInfo.golden_display_pair(WINDOW_HEIGHT)
+    SUBTITLE_SIZE = int(WINDOW_HEIGHT / 5.5)
     # default values
     DEFAULT_INIT_PROGRESS = "0:00"
     DEFAULT_END_PROGRESS = ""

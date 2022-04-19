@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 from emoji import emojize
 from Gui.CkLogicLayer import CkLogicLayer
 from PyUtils.Logger import Logger
+from PyUtils.ScreenInfo import ScreenInfo
 from Gui.AppInfo import AppInfo
 
 
@@ -10,10 +11,8 @@ class MainWindow:
     Main window class.
     """
     # Style
-    FI = 1.618
     WINDOW_HIGH = 500
-    WINDOW_WIDTH = int(WINDOW_HIGH * FI)
-    WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HIGH)
+    WINDOW_SIZE = ScreenInfo.golden_display_pair(WINDOW_HIGH)
     FONT_TEXT = ('MS Sans Serif', 10, 'bold')
     FONT_TITLE2 = ('Any', 14)
     FONT_TITLE1 = ('Any', 18,)

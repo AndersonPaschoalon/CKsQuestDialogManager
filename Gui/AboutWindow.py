@@ -1,14 +1,14 @@
 import PySimpleGUI as sg
 from Gui.AppInfo import AppInfo
 from PyUtils.Logger import Logger
+from PyUtils.ScreenInfo import ScreenInfo
 from emoji import emojize
 
 class AboutWindow:
 
-    FI = 1.618
-    WINDOW_HIGH = 350
-    WINDOW_WIDTH = int(WINDOW_HIGH * FI)
-    WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HIGH)
+    # FI = 1.618
+    WINDOW_HEIGHT = 350
+    WINDOW_SIZE = ScreenInfo.golden_display_pair(WINDOW_HEIGHT)
     FONT_TITLE2 = ('Any', 11)
     FONT_TITLE1 = ('Any', 14,)
     FONT_SKIPLINE1 = ('Any', 20,)
