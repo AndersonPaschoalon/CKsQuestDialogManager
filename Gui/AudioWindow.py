@@ -1,7 +1,3 @@
-# import random
-# import string
-# import timeit
-# import textwrap
 import os
 import datetime
 import operator
@@ -14,7 +10,7 @@ from PyUtils.ScreenInfo import ScreenInfo
 from Gui.AppInfo import AppInfo
 from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.TestData import *
-# from Gui.AudioData import AudioData
+
 
 
 class AudioWindow:

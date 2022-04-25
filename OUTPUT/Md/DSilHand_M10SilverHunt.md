@@ -3,29 +3,6 @@
 _It is the first quest for the mod Down of the Silver Hand. The player to start it must talk with three different people: a spy on The Drunk Huntsman on Whiterun, the Gallow’s Rock’s guard, or the Driftshade Refuge’s guar. In any case, the Gallows Rock’s guard will give a quest to kill a Frost Troll, and bring its Skull. After that, you will be allowed to talk to the Silver Hand leader: Krev the Skinner, and ask permission to join. Note: if you join the Companions before completing this quest, it will fail, and the Silver Hands will become hostile to you._
 
 ## Branches
-### DSilHand_M10_DrunkenHuntsman
-> _Here the Dragonborn will meet the Silver Hand spy on Whiterun, and he will send you to Gallows Rock to start the quest._
-> 
-> Dialog Type:``PlayerDialogue``, Actor Race:``NordRace``, Voice Type:``MaleNord``.
-
-#### DSilHand_M10DH_Topic01
-
-**Player**: You seems worried about something...
-
-**Irrokas Head Torn*** (*Disgust 50*): I can smell a dirty wolf's stink in this city... My senses do not fool me. There is daedric influence nearby.    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleNord\DSilHand_M_DSilHand_M10DH__00009875_1.xwm``    
-
-
-#### DSilHand_M10DH_Topic02
-
-**Player**: What are you talking about? I can't understand...
-
-**Irrokas Head Torn*** (*Disgust 50*): I can sense the presence of evil daedra here in this city. Go to Gallows Rock, if you want to know the truth.    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleNord\DSilHand_M_DSilHand_M10DH__00009878_1.xwm``    
-
-
 ### DSilHand_M10_GallowsGreetings
 > _This dialog tree is enabled if you go to Gallows Rock before joining the Silver Hand. The Gallows Rock Guard will force greet you. Then, you may request to join the faction._
 > 
@@ -148,7 +125,7 @@ _It is the first quest for the mod Down of the Silver Hand. The player to start 
 
 
 ### DSIlHand_M10_GallowsAfterTroll
-> __
+> _After you kill the Frost Troll on the Cold Rock Pass, you must talk with the Gallows Rock's Guard again._
 > 
 > Dialog Type:``PlayerDialogue``, Actor Race:``NordRace``, Voice Type:``MaleCommoner``.
 
@@ -161,8 +138,72 @@ _It is the first quest for the mod Down of the Silver Hand. The player to start 
 ``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleCommoner\DSilHand_M_DSIlHand_M10GAT_0000DEA3_1.xwm``    
 
 
+### DSilHand_M10_Driftshade
+> _This dialog tree is enabled if you go to Driftshade Refuge before joining the Silver Hand. If you ask to join, the guard will ask for you to go to Gallows Rock._
+> 
+> Dialog Type:``PlayerDialogue``, Actor Race:``NordRace``, Voice Type:``MaleBrute``.
+
+#### DSilHand_M10Ds_Topic01
+
+**Player**: ...
+
+**Haknrm Ebon Fingers** (*Anger 50*): Stop right there. What do you want?    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__00009879_1.xwm``    
+
+
+#### DSilHand_M10Ds_Topic02
+
+**Player**: I'm just passing by...
+
+**Haknrm Ebon Fingers** (*Anger 50*): So get out of here!    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__0000987B_1.xwm``    
+
+
+#### DSilHand_M10Ds_Topic03
+
+**Player**: Wait...Who are you?
+
+**Haknrm Ebon Fingers** (*Neutral 50*): I'm a Silver Hand. We are werewolf hunters.    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__00009DE0_1.xwm``    
+
+
+#### DSilHand_M10Ds_Topic04
+
+**Player**: Can I join the Silver Hand?
+
+**Haknrm Ebon Fingers** (*Neutral 50*): It is not an easy task. But if you want to know if you are worth, go to Gallows Rock.    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm``    
+
+
+### DSilHand_M10_DrunkenHuntsman
+> _Here the Dragonborn will meet the Silver Hand spy on Whiterun, and he will send you to Gallows Rock to start the quest._
+> 
+> Dialog Type:``PlayerDialogue``, Actor Race:``NordRace``, Voice Type:``MaleNord``.
+
+#### DSilHand_M10DH_Topic01
+
+**Player**: You seems worried about something...
+
+**Irrokas Head Torn** (*Disgust 50*): I can smell a dirty wolf's stink in this city... My senses do not fool me. There is daedric influence nearby.    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleNord\DSilHand_M_DSilHand_M10DH__00009875_1.xwm``    
+
+
+#### DSilHand_M10DH_Topic02
+
+**Player**: What are you talking about? I can't understand...
+
+**Irrokas Head Torn** (*Disgust 50*): I can sense the presence of evil daedra here in this city. Go to Gallows Rock, if you want to know the truth.    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleNord\DSilHand_M_DSilHand_M10DH__00009878_1.xwm``    
+
+
 ### DSilHand_M10_GallowsMeetKrev
-> __
+> _This dialog is enabled to deliver tre Frost Troll skull to Krev, as proof of your hunt. After that, you can join the Silver Hand._
 > 
 > Dialog Type:``PlayerDialogue``, Actor Race:``NordRace``, Voice Type:``MaleNord``.
 
@@ -265,47 +306,6 @@ _It is the first quest for the mod Down of the Silver Hand. The player to start 
 **Krev The Skinner** (*Neutral 50*): Downstairs, there is a library, where you will find other useful book, if you are interested to learn more.    
 
 ``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleNord\DSilHand_M_DSilHand_M10GMK_0000EED7_7.xwm``    
-
-
-### DSilHand_M10_Driftshade
-> __
-> 
-> Dialog Type:``PlayerDialogue``, Actor Race:``NordRace``, Voice Type:``MaleBrute``.
-
-#### DSilHand_M10Ds_Topic01
-
-**Player**: ...
-
-**Haknrm Ebon Fingers** (*Anger 50*): Stop right there. What do you want?    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__00009879_1.xwm``    
-
-
-#### DSilHand_M10Ds_Topic02
-
-**Player**: I'm just passing by...
-
-**Haknrm Ebon Fingers** (*Anger 50*): So get out of here!    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__0000987B_1.xwm``    
-
-
-#### DSilHand_M10Ds_Topic03
-
-**Player**: Wait...Who are you?
-
-**Haknrm Ebon Fingers** (*Neutral 50*): I'm a Silver Hand. We are werewolf hunters.    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__00009DE0_1.xwm``    
-
-
-#### DSilHand_M10Ds_Topic04
-
-**Player**: Can I join the Silver Hand?
-
-**Haknrm Ebon Fingers** (*Neutral 50*): It is not an easy task. But if you want to know if you are worth, go to Gallows Rock.    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleBrute\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm``    
 
 
 

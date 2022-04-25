@@ -1,5 +1,4 @@
 import markdown
-from htmldocx import HtmlToDocx
 
 
 class Md:

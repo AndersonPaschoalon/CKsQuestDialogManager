@@ -1,8 +1,9 @@
+from emoji import emojize
 import PySimpleGUI as sg
-from Gui.AppInfo import AppInfo
 from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
-from emoji import emojize
+from Gui.AppInfo import AppInfo
+
 
 class AboutWindow:
 

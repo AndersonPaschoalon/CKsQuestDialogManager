@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 from emoji import emojize
-from Gui.CkLogicLayer import CkLogicLayer
 from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
 from Gui.AppInfo import AppInfo
+from Gui.CkLogicLayer import CkLogicLayer
 
 
 class MainWindow:

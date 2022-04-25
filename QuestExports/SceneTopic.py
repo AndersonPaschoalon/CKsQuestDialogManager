@@ -1,6 +1,6 @@
 from typing import List
 from PyUtils.Obj2Json import Obj2Json
-from .DialogLine import DialogLine
+from QuestExports.DialogLine import DialogLine
 
 
 class SceneTopic:

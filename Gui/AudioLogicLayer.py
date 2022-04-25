@@ -1,6 +1,3 @@
-# import datetime
-# import os
-# import threading
 import webbrowser
 import pyperclip
 import multiprocessing
@@ -15,15 +12,9 @@ from PyUtils.FileUtils import FileUtils
 from PyUtils.FileUtils import Exts
 from PyUtils.Functions import *
 from PyUtils.Logger import Logger
-# from PyUtils.Obj2Json import Obj2Json
 from Gui.AudioData import AudioData
 from Gui.AppInfo import AppInfo
 from Gui.BatchCmdReport import BatchCmdReport
-# from QuestExports.QuestDialogs import QuestDialogs
-# from QuestExports.Scene import Scene
-# from QuestExports.SceneTopic import SceneTopic
-# from QuestExports.BranchDialogs import BranchDialogs
-# from QuestExports.TopicDialogs import TopicDialogs
 
 
 class AudioLogicLayer:

@@ -1,5 +1,4 @@
 import os
-import subprocess
 from PyUtils.Console import Console
 from PyUtils.FileUtils import FileUtils
 from PyUtils.FileUtils import Exts

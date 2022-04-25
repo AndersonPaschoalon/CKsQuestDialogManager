@@ -1,18 +1,17 @@
 import logging
 import webbrowser
+import traceback
+import sys
 import PySimpleGUI as sg
-from QuestExports.QuestDialogs import QuestDialogs
+from multiprocessing import Process
 from PyUtils.Logger import Logger
-from PyUtils.CsvDicEditor import CsvDicEditor
+from PyUtils.CsvDicEditor2 import CsvDicEditor2
+from QuestExports.QuestDialogs import QuestDialogs
+from QuestExports.Scene import Scene
 from Gui.AppInfo import AppInfo
 from Gui.CsvReorderWindow import CsvReorderWindow
 from Gui.AboutWindow import AboutWindow
-from Gui.AudioData import AudioData
 from Gui.AudioWindow import AudioWindow
-from QuestExports.Scene import Scene
-import traceback
-import sys
-from multiprocessing import Process
 
 
 class CkLogicLayer:
@@ -253,12 +252,12 @@ class CkLogicLayer:
             self._log.error(sys.exc_info()[2])
 
     def _exec_actor_editor(self):
-        editor = CsvDicEditor()
-        editor.run_app(self.app.settings_obj.actors_file, "Actors ID", "Actor Name")
+        editor = CsvDicEditor2()
+        editor.run_app(self.app.settings_obj.actors_file)
 
     def _exec_comments_editor(self):
-        editor = CsvDicEditor()
-        editor.run_app(self.app.settings_obj.comments_file, "Objects ID", "Comment")
+        editor = CsvDicEditor2()
+        editor.run_app(self.app.settings_obj.comments_file)
 
 
 if __name__ == '__main__':

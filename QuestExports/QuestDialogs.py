@@ -1,6 +1,6 @@
+import markdown
 from os import listdir
 from os.path import isfile, join
-import markdown
 from htmldocx import HtmlToDocx
 from PyUtils.Console import Console
 from PyUtils.Cd import Cd
@@ -26,35 +26,6 @@ class QuestDialogs:
     """
     This class stores information about the quest dialogs, parsers the Creation Kit exported files,
     and generates the documentation.
-    """
-    """
-    # file
-    LABEL_FILE_FULL_PATH = 'FULL PATH'
-    EXPORT_DIALOG_PREFIX = "dialogueExport"
-    EXPORT_DIALOG_EXT = ".txt"
-    # quest
-    LABEL_QUEST_QUEST = 'QUEST'
-    LABEL_QUEST_BRANCH = 'BRANCH'
-    LABEL_QUEST_TOPIC = 'TOPIC'
-    LABEL_QUEST_TYPE = 'TYPE'
-    LABEL_QUEST_FORM_ID = 'TOPICINFO'
-    # player
-    LABEL_PLAYER_PROMPT = 'PROMPT'  # player dialog text
-    # npc 1xbranch
-    LABEL_NPC_SPEAKER = 'SPEAKER'
-    LABEL_NPC_RACE = 'RACE'
-    LABEL_NPC_VOICE_TYPE = 'VOICE TYPE'
-    # NPC nxbranch
-    LABEL_NPC_RESPONSE_INDEX = 'RESPONSE INDEX'
-    LABEL_NPC_RESPONSE_TEXT = 'RESPONSE TEXT'  # npc dialog text
-    LABEL_NPC_EMOTION = 'EMOTION'
-    # default values
-    DEFAULT_BRANCH_DESCRIPTION = "?banch-comment?"
-    DEFAULT_QUEST_DESCRIPTION = "?quest-comment?"
-    # CSV dics
-    CSV_COMMENTS_DELIMITER = ","
-    CSV_ACTOR_DELIMITER = ","
-    CSV_EMPTY_COLUMN = "--"
     """
     _log = None
 

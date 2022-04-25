@@ -1,49 +1,8 @@
 {
   "quest_name": "DSilHand_M10SilverHunt",
-  "comment": "It is the first quest for the mod Down of the Silver Hand. The player to start it must talk with three different people: a spy on The Drunk Huntsman on Whiterun, the Gallow\u2019s Rock\u2019s guard, or the Driftshade Refuge\u2019s guar. In any case, the Gallows Rock\u2019s guard will give a quest to kill a Frost Troll, and bring its Skull. After that, you will be allowed to talk to the Silver Hand leader: Krev the Skinner, and ask permission to join. Note: if you join the Companions before completing this quest, it will fail, and the Silver Hands will become hostile to you. ",
-  "skyrim_path": "./Sandbox/",
+  "comment": "It is the first quest for the mod Down of the Silver Hand. The player to start it must talk with three different people: a spy on The Drunk Huntsman on Whiterun, the Gallow\u2019s Rock\u2019s guard, or the Driftshade Refuge\u2019s guar. In any case, the Gallows Rock\u2019s guard will give a quest to kill a Frost Troll, and bring its Skull. After that, you will be allowed to talk to the Silver Hand leader: Krev the Skinner, and ask permission to join. Note: if you join the Companions before completing this quest, it will fail, and the Silver Hands will become hostile to you.",
+  "skyrim_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim",
   "list_branch_dialogs": [
-    {
-      "branch_name": "DSilHand_M10_DrunkenHuntsman",
-      "comment": "Here the Dragonborn will meet the Silver Hand spy on Whiterun, and he will send you to Gallows Rock to start the quest.",
-      "actor_name": "Irrokas Head Torn*",
-      "actor_voice_type": "MaleNord",
-      "actor_race": "NordRace",
-      "dialog_type": "PlayerDialogue",
-      "is_read": true,
-      "list_topic_dialogs": [
-        {
-          "topic_name": "DSilHand_M10DH_Topic01",
-          "actor_name": "Irrokas Head Torn*",
-          "player_dialog": "You seems worried about something...",
-          "form_id": "FormID 02009875",
-          "_list_topic_data": [
-            [
-              "1",
-              "I can smell a dirty wolf's stink in this city... My senses do not fool me. There is daedric influence nearby.",
-              "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009875_1.xwm",
-              "DSilHand_M_DSilHand_M10DH__00009875_1"
-            ]
-          ]
-        },
-        {
-          "topic_name": "DSilHand_M10DH_Topic02",
-          "actor_name": "Irrokas Head Torn*",
-          "player_dialog": "What are you talking about? I can't understand...",
-          "form_id": "FormID 02009878",
-          "_list_topic_data": [
-            [
-              "1",
-              "I can sense the presence of evil daedra here in this city. Go to Gallows Rock, if you want to know the truth.",
-              "Disgust 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009878_1.xwm",
-              "DSilHand_M_DSilHand_M10DH__00009878_1"
-            ]
-          ]
-        }
-      ]
-    },
     {
       "branch_name": "DSilHand_M10_GallowsGreetings",
       "comment": "This dialog tree is enabled if you go to Gallows Rock before joining the Silver Hand. The Gallows Rock Guard will force greet you. Then, you may request to join the faction.",
@@ -251,7 +210,7 @@
     },
     {
       "branch_name": "DSIlHand_M10_GallowsAfterTroll",
-      "comment": "",
+      "comment": "After you kill the Frost Troll on the Cold Rock Pass, you must talk with the Gallows Rock's Guard again.",
       "actor_name": "Kylmir Shade Skinner",
       "actor_voice_type": "MaleCommoner",
       "actor_race": "NordRace",
@@ -276,8 +235,120 @@
       ]
     },
     {
+      "branch_name": "DSilHand_M10_Driftshade",
+      "comment": "This dialog tree is enabled if you go to Driftshade Refuge before joining the Silver Hand. If you ask to join, the guard will ask for you to go to Gallows Rock.",
+      "actor_name": "Haknrm Ebon Fingers",
+      "actor_voice_type": "MaleBrute",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M10Ds_Topic01",
+          "actor_name": "Haknrm Ebon Fingers",
+          "player_dialog": "...",
+          "form_id": "FormID 02009879",
+          "_list_topic_data": [
+            [
+              "1",
+              "Stop right there. What do you want?",
+              "Anger 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009879_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__00009879_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M10Ds_Topic02",
+          "actor_name": "Haknrm Ebon Fingers",
+          "player_dialog": "I'm just passing by...",
+          "form_id": "FormID 0200987B",
+          "_list_topic_data": [
+            [
+              "1",
+              "So get out of here!",
+              "Anger 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__0000987B_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__0000987B_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M10Ds_Topic03",
+          "actor_name": "Haknrm Ebon Fingers",
+          "player_dialog": "Wait...Who are you?",
+          "form_id": "FormID 02009DE0",
+          "_list_topic_data": [
+            [
+              "1",
+              "I'm a Silver Hand. We are werewolf hunters.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE0_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__00009DE0_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M10Ds_Topic04",
+          "actor_name": "Haknrm Ebon Fingers",
+          "player_dialog": "Can I join the Silver Hand?",
+          "form_id": "FormID 02009DE2",
+          "_list_topic_data": [
+            [
+              "1",
+              "It is not an easy task. But if you want to know if you are worth, go to Gallows Rock.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm",
+              "DSilHand_M_DSilHand_M10Ds__00009DE2_1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M10_DrunkenHuntsman",
+      "comment": "Here the Dragonborn will meet the Silver Hand spy on Whiterun, and he will send you to Gallows Rock to start the quest.",
+      "actor_name": "Irrokas Head Torn",
+      "actor_voice_type": "MaleNord",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M10DH_Topic01",
+          "actor_name": "Irrokas Head Torn",
+          "player_dialog": "You seems worried about something...",
+          "form_id": "FormID 02009875",
+          "_list_topic_data": [
+            [
+              "1",
+              "I can smell a dirty wolf's stink in this city... My senses do not fool me. There is daedric influence nearby.",
+              "Disgust 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009875_1.xwm",
+              "DSilHand_M_DSilHand_M10DH__00009875_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M10DH_Topic02",
+          "actor_name": "Irrokas Head Torn",
+          "player_dialog": "What are you talking about? I can't understand...",
+          "form_id": "FormID 02009878",
+          "_list_topic_data": [
+            [
+              "1",
+              "I can sense the presence of evil daedra here in this city. Go to Gallows Rock, if you want to know the truth.",
+              "Disgust 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleNord\\DSilHand_M_DSilHand_M10DH__00009878_1.xwm",
+              "DSilHand_M_DSilHand_M10DH__00009878_1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
       "branch_name": "DSilHand_M10_GallowsMeetKrev",
-      "comment": "",
+      "comment": "This dialog is enabled to deliver tre Frost Troll skull to Krev, as proof of your hunt. After that, you can join the Silver Hand.",
       "actor_name": "Krev The Skinner",
       "actor_voice_type": "MaleNord",
       "actor_race": "NordRace",
@@ -458,98 +529,7 @@
           ]
         }
       ]
-    },
-    {
-      "branch_name": "DSilHand_M10_Driftshade",
-      "comment": "",
-      "actor_name": "Haknrm Ebon Fingers",
-      "actor_voice_type": "MaleBrute",
-      "actor_race": "NordRace",
-      "dialog_type": "PlayerDialogue",
-      "is_read": true,
-      "list_topic_dialogs": [
-        {
-          "topic_name": "DSilHand_M10Ds_Topic01",
-          "actor_name": "Haknrm Ebon Fingers",
-          "player_dialog": "...",
-          "form_id": "FormID 02009879",
-          "_list_topic_data": [
-            [
-              "1",
-              "Stop right there. What do you want?",
-              "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009879_1.xwm",
-              "DSilHand_M_DSilHand_M10Ds__00009879_1"
-            ]
-          ]
-        },
-        {
-          "topic_name": "DSilHand_M10Ds_Topic02",
-          "actor_name": "Haknrm Ebon Fingers",
-          "player_dialog": "I'm just passing by...",
-          "form_id": "FormID 0200987B",
-          "_list_topic_data": [
-            [
-              "1",
-              "So get out of here!",
-              "Anger 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__0000987B_1.xwm",
-              "DSilHand_M_DSilHand_M10Ds__0000987B_1"
-            ]
-          ]
-        },
-        {
-          "topic_name": "DSilHand_M10Ds_Topic03",
-          "actor_name": "Haknrm Ebon Fingers",
-          "player_dialog": "Wait...Who are you?",
-          "form_id": "FormID 02009DE0",
-          "_list_topic_data": [
-            [
-              "1",
-              "I'm a Silver Hand. We are werewolf hunters.",
-              "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE0_1.xwm",
-              "DSilHand_M_DSilHand_M10Ds__00009DE0_1"
-            ]
-          ]
-        },
-        {
-          "topic_name": "DSilHand_M10Ds_Topic04",
-          "actor_name": "Haknrm Ebon Fingers",
-          "player_dialog": "Can I join the Silver Hand?",
-          "form_id": "FormID 02009DE2",
-          "_list_topic_data": [
-            [
-              "1",
-              "It is not an easy task. But if you want to know if you are worth, go to Gallows Rock.",
-              "Neutral 50",
-              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleBrute\\DSilHand_M_DSilHand_M10Ds__00009DE2_1.xwm",
-              "DSilHand_M_DSilHand_M10Ds__00009DE2_1"
-            ]
-          ]
-        }
-      ]
     }
   ],
-  "list_scenes": [
-    {
-      "quest_id": "DSilHand_M10SilverHunt",
-      "scene_id": "",
-      "scene_position": -1,
-      "comment": "?scene-comment?",
-      "list_scene_topics": [
-        {
-          "actor_name": "",
-          "sd_scene_id": "",
-          "sd_alias": "",
-          "sd_voice_type": "",
-          "sd_scene_phase": -1,
-          "de_actor_id": "",
-          "de_actor_race": "",
-          "de_dialog_type": "",
-          "sd_list_dialog_lines": []
-        }
-      ]
-    }
-  ]
+  "list_scenes": []
 }
