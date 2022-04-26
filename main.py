@@ -1,5 +1,6 @@
 import logging
 from PyUtils.Logger import Logger
+from PyUtils.CsvDicEditor2 import CsvDicEditor2
 from QuestExports.QuestDialogs import QuestDialogs
 from Gui.MainWindow import MainWindow
 from Gui.AudioWindow import AudioWindow
@@ -28,6 +29,10 @@ def test_audio_logic_layer_enerate_list_audio_data():
     audll = AudioLogicLayer(".\\App\\")
     list_audio_data = audll.generate_list_audio_data()
 
+
+def test_csv_editor_2():
+    editor = CsvDicEditor2()
+    editor.run_app("./App/Db/Comments.csv")
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

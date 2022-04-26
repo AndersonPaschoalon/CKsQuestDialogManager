@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\App\Db\Comments.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\Sandbox\DicT01.csv">
           <value>
             <Attribute>
@@ -35,13 +42,6 @@
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\dist\Comments.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>

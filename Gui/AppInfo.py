@@ -88,7 +88,7 @@ class AppInfo:
         self.tutorial_html = self.pages_dir + "tutorial.html"
         self.url_github = "https://github.com/AndersonPaschoalon/CreationKit-DialogDocGen.git"
         self.url_nexus = "https://www.nexusmods.com/skyrim"
-        self.tutorial_html = self.pages_dir + "sample.html"
+        self.tutorial_html = self.pages_dir + "tutorial.html"
         self.settings_file = self.app_dir + "settings.json"
         self.label_main_window = "CK Quest Dialog Manager"
         self.label_audio_window = "CK Quest Audio Manager"
