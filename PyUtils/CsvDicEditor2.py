@@ -1,23 +1,24 @@
 import csv
-import tkinter
 import tkinter.font
 import tkinter.messagebox
 import tkinter.filedialog
 import tkinter.font
-from tkinter import *
+import tkinter as tk
+#from tkinter import *
 from PyUtils.ScreenInfo import ScreenInfo
 from PyUtils.ScrollFrame import ScrollFrame
 
 
-class CsvDicEditor2(Frame):
+class CsvDicEditor2(tk.Frame):
 
     cellList = []
     currentCells = []
     currentCell = None
 
     def __init__(self, master=None, height=650):
+        print("CsvDicEditor2")
         (width, height) = ScreenInfo.golden_display_pair(height)
-        Frame.__init__(self, master, width=width, height=height)
+        tk.Frame.__init__(self, master, width=width, height=height)
         self.pack_propagate(0)
         self.scroll_frame = ScrollFrame(self)  # add a new scrollable frame.
         self.scroll_frame.pack(side="top", fill="both", expand=True)
@@ -25,9 +26,10 @@ class CsvDicEditor2(Frame):
         self.filename = ""
 
     def run_app(self, filename=""):
+        print("CsvDicEditor2.run_app()")
         self.filename = filename
-        menubar = Menu(self)
-        filemenu = Menu(menubar, tearoff=0)
+        menubar = tk.Menu(self)
+        filemenu = tk.Menu(menubar, tearoff=0)
         menubar.add_command(label="Save Values", command=self.saveCells)
         menubar.add_command(label="Exit", command=self.quit)
         self.master.title("CsvDic Editor [" + filename + "]")
@@ -35,7 +37,12 @@ class CsvDicEditor2(Frame):
         default_font = tkinter.font.nametofont("TkTextFont")
         default_font.configure(family="Helvetica")
         self.option_add("*Font", default_font)
-        self.loadCells(filename)
+        if filename != "" and filename != None:
+            print("Opening file " + filename)
+            self.loadCells(filename)
+        else:
+            print("No filename was provided.")
+            self.createDefaultWidgets()
         self.pack(side="top", fill="both", expand=True)
         self.mainloop()
 
@@ -49,13 +56,13 @@ class CsvDicEditor2(Frame):
 
     def focus_right(self, event):
         widget = event.widget.focus_get()
-        position = widget.index(INSERT)
+        position = widget.index(tk.INSERT)
         widget.icursor(position + 1)
         return "break"
 
     def focus_left(self, event):
         widget = event.widget.focus_get()
-        position = widget.index(INSERT)
+        position = widget.index(tk.INSERT)
         widget.icursor(position - 1)
         return "break"
 
@@ -80,6 +87,7 @@ class CsvDicEditor2(Frame):
         return "break"
 
     def saveFile(self, event):
+        print("CsvDicEditor2.saveFile()")
         self.saveCells()
 
     def createDefaultWidgets(self):
@@ -94,10 +102,10 @@ class CsvDicEditor2(Frame):
         for i in range(self.sizeY):
             for j in range(self.sizeX):
                 # create cell and place it into a grid
-                sv = StringVar()
+                sv = tk.StringVar()
                 sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
                 sv.set("")
-                tmp = Entry(self.scroll_frame.viewPort, textvariable=sv, width=15)
+                tmp = tk.Entry(self.scroll_frame.viewPort, textvariable=sv, width=15)
                 tmp.grid(padx=0, pady=0, column=j, row=i)
                 # create binding keys
                 tmp.bind("<Tab>", self.focus_tab)
@@ -164,13 +172,13 @@ class CsvDicEditor2(Frame):
         for i in range(len(ary)):
             for j in range(len(ary[0])):
                 # create cell and place it into the grid
-                sv = StringVar()
+                sv = tk.StringVar()
                 sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
                 if j == 0:
-                    tmp = Entry(self.scroll_frame.viewPort, textvariable=sv, width=width_1)
+                    tmp = tk.Entry(self.scroll_frame.viewPort, textvariable=sv, width=width_1)
                     tmp.configure(state='disabled')
                 else:
-                    tmp = Entry(self.scroll_frame.viewPort, textvariable=sv, width=width_2)
+                    tmp = tk.Entry(self.scroll_frame.viewPort, textvariable=sv, width=width_2)
                 tmp.grid(padx=0, pady=0, column=j, row=i)
                 sv.set(str(ary[i][j]))
                 # binding keys

@@ -1,7 +1,10 @@
 import logging
+import os
 import webbrowser
 import traceback
 import sys
+import subprocess
+
 import PySimpleGUI as sg
 from multiprocessing import Process
 from PyUtils.Logger import Logger
@@ -12,6 +15,7 @@ from Gui.AppInfo import AppInfo
 from Gui.CsvReorderWindow import CsvReorderWindow
 from Gui.AboutWindow import AboutWindow
 from Gui.AudioWindow import AudioWindow
+from Gui.AppEditorCmd import AppEditorCmd
 
 
 class CkLogicLayer:
@@ -226,14 +230,36 @@ class CkLogicLayer:
         about.run()
 
     def open_actors_editor(self):
-        p = Process(target=self._exec_actor_editor)
-        p.start()
-        p.join()
+        self._log.debug("-- open_actors_editor() start")
+        cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
+        if cmd.is_process():
+            self._log.debug("-- _exec_actor_editor() process start")
+            p = Process(target=self._exec_actor_editor)
+            p.start()
+            p.join()
+            self._log.debug("-- _exec_actor_editor() process finish")
+        else:
+            cmd_str = cmd.get_batch(self.app.settings_obj.actors_file)
+            self._log.debug("command: " + cmd_str)
+            print(cmd_str)
+            subprocess.Popen(cmd_str)
+        self._log.debug("-- open_actors_editor() finish")
 
     def open_comments_editor(self):
-        p = Process(target=self._exec_comments_editor)
-        p.start()
-        p.join()
+        self._log.debug("-- open_actors_editor() start")
+        cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
+        if cmd.is_process():
+            self._log.debug("-- _exec_comments_editor() process start")
+            p = Process(target=self._exec_comments_editor)
+            p.start()
+            p.join()
+            self._log.debug("-- _exec_comments_editor() process finish")
+        else:
+            cmd_str = cmd.get_batch(self.app.settings_obj.comments_file)
+            self._log.debug("command: " + cmd_str)
+            print(cmd_str)
+            subprocess.Popen(cmd_str)
+        self._log.debug("-- open_actors_editor() finish")
 
     def open_scenes_editor(self):
         reorder = CsvReorderWindow(self.app.app_dir)
@@ -243,21 +269,23 @@ class CkLogicLayer:
         self._log = Logger.get()
         try:
             self._log.debug("-- launch_audio_manager()")
-            skyrim_path = self.app.settings_obj.skyrim_path
             audio_window = AudioWindow(self.app.app_dir)
-            #audio_window.set_test_mode(True)
             audio_window.run()
         except:
             self._log.error(traceback.format_exc())
             self._log.error(sys.exc_info()[2])
 
     def _exec_actor_editor(self):
+        self._log.debug("-- _exec_actor_editor() start")
         editor = CsvDicEditor2()
         editor.run_app(self.app.settings_obj.actors_file)
+        self._log.debug("-- _exec_actor_editor() finish")
 
     def _exec_comments_editor(self):
+        self._log.debug("-- open_comments_editor() start")
         editor = CsvDicEditor2()
         editor.run_app(self.app.settings_obj.comments_file)
+        self._log.debug("-- _exec_comments_editor() finish")
 
 
 if __name__ == '__main__':

@@ -14,6 +14,8 @@ class AppSettings:
     COMMENTS_FILE = "./Comments.csv"
     SCENE_ORDER_FILE = "./SceneOrder.csv"
     TOPIC_SORT_BY_NAME = "true"
+    CMD_COMMENT = "Use \"Process\" string for multiprocessing import, otherwise will be executed as a batch command. Use {file} variable to pass the csv file full path. Any other command line application can be set as editor."
+    DEFAULT_THEME = "DarkBlue12"
 
     def __init__(self, json_file):
         self.settings_file = json_file
@@ -27,6 +29,8 @@ class AppSettings:
         self.scene_order_file = self.data["scene-order-file"]
         self.topic_sort_by_name = self.data["topic-sort-by-name"]
         self.app_theme = self.data["app_theme"]
+        self.csv_editor_cmd_comments = self.data["csv_editor_cmd_comments"]
+        self.csv_editor_cmd = self.data["csv_editor_cmd"]
 
     def save(self):
         self.data["skyrim-path"] = self.skyrim_path
@@ -37,6 +41,7 @@ class AppSettings:
         self.data["scene-order-file"] = self.scene_order_file
         self.data["topic-sort-by-name"] = self.topic_sort_by_name
         self.data["app_theme"] = self.app_theme
+        self.data["csv_editor_cmd"] = self.csv_editor_cmd
         with open(self.settings_file, "w") as a_file:
             json.dump(self.data, a_file, indent=4)
 
@@ -61,6 +66,7 @@ class AppSettings:
         self.comments_file = AppSettings.COMMENTS_FILE
         self.scene_order_file = AppSettings.SCENE_ORDER_FILE
         self.topic_sort_by_name = AppSettings.TOPIC_SORT_BY_NAME
+        self.app_theme = AppSettings.DEFAULT_THEME
 
     def reset_and_save(self):
         self.reset()
