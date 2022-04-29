@@ -1,0 +1,310 @@
+{
+  "quest_name": "DSilHand_M30ScholarFragment",
+  "comment": "This quest is given to the player by Krev The Skinner after he completes the second quest. He will ask you to meet Fjol at Driftshade Refugee. Fjol will send you to Winterhold and talk to Nelacar. Nelacar will give you a letter with the results of his investigations, telling the mages of are studying a fragment of Wuuthrad. The player's mission will be to enter the college and retrieve it. Once the player retrieves the fragment, you will be able to deliver it to Fjol and complete the quest.",
+  "skyrim_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim",
+  "list_branch_dialogs": [
+    {
+      "branch_name": "DSilHand_M30_WinterInformant_Branch",
+      "comment": "The player talks to Nelacar the password, and Nelacar gives to you a letter.",
+      "actor_name": "Nelacar",
+      "actor_voice_type": "MaleElfHaughty",
+      "actor_race": "HighElfRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M30_WITopic01",
+          "actor_name": "Nelacar",
+          "player_dialog": "Do you still have that silver ring to sell?",
+          "form_id": "FormID 02015AD6",
+          "_list_topic_data": [
+            [
+              "1",
+              "...",
+              "Happy 60",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleElfHaughty\\DSilHand_M_DSilHand_M30_WI_00015AD6_1.xwm",
+              "DSilHand_M_DSilHand_M30_WI_00015AD6_1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M30_FjolMeet_Branch",
+      "comment": "The player talks to Fjol for the first time. Fjol will give to you the next steps for the quest. Fjol send you to retrieve information from Nelacar who is located in the inn near the College. He gives to you a password, so you will be able to retrive the information without taking attention.",
+      "actor_name": "Fjol",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M30_FMTopic01",
+          "actor_name": "Fjol",
+          "player_dialog": "Are you Fjol?",
+          "form_id": "FormID 02015AC9",
+          "_list_topic_data": [
+            [
+              "1",
+              "Yes. I'm. I believe you are the new recruit, I'm right?",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AC9_1.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AC9_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FMTopic02",
+          "actor_name": "Fjol",
+          "player_dialog": "Yes, you are. We found the Wuuthrad fragment on Angarvunde's treasure.",
+          "form_id": "FormID 02015ACB",
+          "_list_topic_data": [
+            [
+              "1",
+              " Is that true? Brave! We are one piece closer to finish that puzzle.",
+              "Happy 100",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACB_1.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACB_1"
+            ],
+            [
+              "2",
+              "As Krev may have told you, we the Silver Hand have been search for the pieces of Wuuthrad for some centuries from now.",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACB_2.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACB_2"
+            ],
+            [
+              "3",
+              "It was broken into twelve pieces hundreds of years ago. Right now, the Dogs in Whiterun have four pieces.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACB_3.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACB_3"
+            ],
+            [
+              "4",
+              "But, thanks to your help, we do have five fragments right now. ",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACB_4.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACB_4"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FMTopic03",
+          "actor_name": "Fjol",
+          "player_dialog": "Dogs in Whiterun?",
+          "form_id": "FormID 02015ACD",
+          "_list_topic_data": [
+            [
+              "1",
+              "Yes. The Companions. The members of the circle. They are werewolves. All of them.",
+              "Disgust 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACD_1.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACD_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FMTopic04",
+          "actor_name": "Fjol",
+          "player_dialog": " Members of the Circle?",
+          "form_id": "FormID 02015ACF",
+          "_list_topic_data": [
+            [
+              "1",
+              "Yes. Their leaders. They say they are all equals. That was true on the past. Centuries ago. ",
+              "Anger 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACF_1.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACF_1"
+            ],
+            [
+              "2",
+              "Before they started to worship Hircine. Now, all the members of the circle share the same beast blood.",
+              "Anger 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015ACF_2.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015ACF_2"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FMTopic05",
+          "actor_name": "Fjol",
+          "player_dialog": "How do you know that?",
+          "form_id": "FormID 02015AD1",
+          "_list_topic_data": [
+            [
+              "1",
+              "This is a long history. Let's I and Krev were invited to become beasts, and refused the \"gift\". ",
+              "Sad 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AD1_1.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AD1_1"
+            ],
+            [
+              "2",
+              "But we didn't want to stay quiet as well. Now, they are persecuting us. ",
+              "Anger 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AD1_2.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AD1_2"
+            ],
+            [
+              "3",
+              "Enough talk about the past...  Soon we may talk more about that. Now I need a favor.",
+              "Puzzled 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AD1_3.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AD1_3"
+            ],
+            [
+              "4",
+              "Could you please talk to an informant we have on Winterhold? He is called Nelacar. ",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AD1_4.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AD1_4"
+            ],
+            [
+              "5",
+              "Just ask him, if he still have that silver ring to sell. If he has any good news, he will find a way to tell you. ",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AD1_5.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AD1_5"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FMTopic06",
+          "actor_name": "Fjol",
+          "player_dialog": "Consider the task done!",
+          "form_id": "FormID 02015AD3",
+          "_list_topic_data": [
+            [
+              "1",
+              "Good Brother! That's the spirit! Please, be discrete as possible. No one should know he is our informant.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FM_00015AD3_1.xwm",
+              "DSilHand_M_DSilHand_M30_FM_00015AD3_1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M30_FjolFragLetter_Branch",
+      "comment": "The player gives to Fjol the fragment he found in the College of Winterhold, and deliver Nelacar's Letter.",
+      "actor_name": "Fjol",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M30_FFLTopic01",
+          "actor_name": "Fjol",
+          "player_dialog": "I found another fragment. The mages were studding it.",
+          "form_id": "FormID 02015AD9",
+          "_list_topic_data": [
+            [
+              "1",
+              "I can't believe it. Ysgramor must be helping us from Sovngarde.",
+              "Happy 70",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_00015AD9_1.xwm",
+              "DSilHand_M_DSilHand_M30_FF_00015AD9_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FFLTopic02",
+          "actor_name": "Fjol",
+          "player_dialog": "Also, Nelacar has given to me this letter.",
+          "form_id": "FormID 0201603D",
+          "_list_topic_data": [
+            [
+              "1",
+              "Let me see...",
+              "Puzzled 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_1.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_1"
+            ],
+            [
+              "2",
+              "That is amazing! The mages of the college have discovered another possible location for the next fragment!",
+              "Happy 70",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_2.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_2"
+            ],
+            [
+              "3",
+              "Dustman's Cairn... I know where this place is.",
+              "Puzzled 60",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_3.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_3"
+            ],
+            [
+              "4",
+              "The letter says they were going to inform the Companions about the location... ",
+              "Puzzled 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_4.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_4"
+            ],
+            [
+              "5",
+              "We must hurry! We must go fast and be there as soon as possible. ",
+              "Surprise 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_5.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_5"
+            ],
+            [
+              "6",
+              "I'll mark the location on your map. I'll make the arrangements and gather some manpower for the excavations. ",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_6.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_6"
+            ],
+            [
+              "7",
+              " Meet me there in a few hours. I'll make the location on your map.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603D_7.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603D_7"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M30_FFLTopic03",
+          "actor_name": "Fjol",
+          "player_dialog": "I'll be there!",
+          "form_id": "FormID 0201603F",
+          "_list_topic_data": [
+            [
+              "1",
+              "Good! Before we continue, I need to thank you for your efforts.",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603F_1.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603F_1"
+            ],
+            [
+              "2",
+              "Take this sword as a reward for your efforts. It is a silver sword, but with a secret tempering method that uses dwemer oil.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603F_2.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603F_2"
+            ],
+            [
+              "3",
+              "This tempering makes it become as hard and sharp as ebony.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603F_3.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603F_3"
+            ],
+            [
+              "4",
+              "Go talk with Kurdak if you want to learn more about it.",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M30_FF_0001603F_4.xwm",
+              "DSilHand_M_DSilHand_M30_FF_0001603F_4"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "list_scenes": []
+}
