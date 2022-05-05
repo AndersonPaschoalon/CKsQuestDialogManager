@@ -1,0 +1,412 @@
+{
+  "quest_name": "DSilHand_M60Retaliation",
+  "comment": "In this quest, the player will have to defeat all the Companions inside Gallows Rock, including Aela and Skjol. Arriving in the main chamber, you will discover that Krev was killed by the Companions. Senaar will talk to you and ask you o go to Driftshade and tell to Fjol what happened. At this point, you may call him to be your follower.  In Diftshade you will be able to tell Fjol what happened. He will tell you things about Krev's past, and make a discourse for all the Silver Hands telling that Krev has perished bravely. After the discourse, he will talk to you in particular and offer the leadership of Gallows Rock fort.",
+  "skyrim_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim",
+  "list_branch_dialogs": [
+    {
+      "branch_name": "DSilHand_M60_FjolPlans",
+      "comment": "In this conversation, Fjol will talk about Krev past.",
+      "actor_name": "Fjol",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M60FP_Topic01",
+          "actor_name": "Fjol",
+          "player_dialog": "Fjol!",
+          "form_id": "FormID 0202581D",
+          "_list_topic_data": [
+            [
+              "1",
+              "Come on in. What brings you here?",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__0002581D_1.xwm",
+              "DSilHand_M_DSilHand_M60FP__0002581D_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60FP_Topic02",
+          "actor_name": "Fjol",
+          "player_dialog": "The companions have just attacked Gallows Rock. But we defeated them...",
+          "form_id": "FormID 0202581F",
+          "_list_topic_data": [
+            [
+              "1",
+              "By the nine!  Did we had many casualties?",
+              "Surprise 60",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__0002581F_1.xwm",
+              "DSilHand_M_DSilHand_M60FP__0002581F_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60FP_Topic03",
+          "actor_name": "Fjol",
+          "player_dialog": "Yes... many brothers  have fallen, including our leader Krev...",
+          "form_id": "FormID 02025824",
+          "_list_topic_data": [
+            [
+              "1",
+              "No... Krev... My best friend...  but... He must be better than us now, for sure!",
+              "Sad 70",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025824_1.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025824_1"
+            ],
+            [
+              "2",
+              "He must be drinking the most delicious mead, with the most delightful woman in Sovngarde.",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025824_2.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025824_2"
+            ],
+            [
+              "3",
+              "And about the Companions... How many of them were werewolves?",
+              "Puzzled 70",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025824_3.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025824_3"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60FP_Topic04",
+          "actor_name": "Fjol",
+          "player_dialog": "Three, including  Aela and Skjor!",
+          "form_id": "FormID 02025825",
+          "_list_topic_data": [
+            [
+              "1",
+              "Even though many of us have perished, this was a great victory for sure.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025825_1.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025825_1"
+            ],
+            [
+              "2",
+              "You know... I must tell you some things...",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025825_2.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025825_2"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60FP_Topic05",
+          "actor_name": "Fjol",
+          "player_dialog": "What things?",
+          "form_id": "FormID 02025826",
+          "_list_topic_data": [
+            [
+              "1",
+              "A long time ago... Krev and I were Companions too. We were almost like twin brothers, we were inseparable in the battles.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025826_1.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025826_1"
+            ],
+            [
+              "2",
+              "But one day...  We both were invited to ascend to the circle.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025826_2.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025826_2"
+            ],
+            [
+              "3",
+              "Fortunately, Krev noticed what the circle was about, and we fled before being forced to drink the cursed wolf blood.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025826_3.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025826_3"
+            ],
+            [
+              "4",
+              "Since then, we have been fighting for the Silver Hand. They didn't know but Krev's mother was murdered by a werewolf...",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025826_4.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025826_4"
+            ],
+            [
+              "5",
+              "We have been hiring valiant warriors who hate werewolves and Daedra more than anything.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025826_5.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025826_5"
+            ],
+            [
+              "6",
+              "Now, the Silver Hand had grown stronger than ever. But enough talk. We must celebrate our victory. Come on, let's celebrate!",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FP__00025826_6.xwm",
+              "DSilHand_M_DSilHand_M60FP__00025826_6"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M60_FjolParticular",
+      "comment": "In this conversation Fjol you invite you to be Gallows Rock's Chief. The quest will be completed.",
+      "actor_name": "Fjol",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M60FPt_Topic01",
+          "actor_name": "Fjol",
+          "player_dialog": "...",
+          "form_id": "FormID 0202582C",
+          "_list_topic_data": [
+            [
+              "1",
+              "And as a reward for the bravery and efforts annihilating wolfes, I offer you the leadership of the Gallows Rock fort. Do you accept?",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FPt_0002582C_1.xwm",
+              "DSilHand_M_DSilHand_M60FPt_0002582C_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60FPt_Topic02",
+          "actor_name": "Fjol",
+          "player_dialog": "Yes, I accept!",
+          "form_id": "FormID 0202582E",
+          "_list_topic_data": [
+            [
+              "1",
+              "Now you are officially an Stronghold Chief, and the second on the succession line of our group. Congratulations! Please, accept these gifts.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M_DSilHand_M60FPt_0002582E_1.xwm",
+              "DSilHand_M_DSilHand_M60FPt_0002582E_1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M60_Sennar",
+      "comment": "This is the conversation with Senaar after the battle. He will ask you to tell Fjol what happened. He may become your follower after that.",
+      "actor_name": "Senaar",
+      "actor_voice_type": "MaleKhajiit",
+      "actor_race": "KhajiitRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M60SE_Topic01",
+          "actor_name": "Senaar",
+          "player_dialog": "Its's done...",
+          "form_id": "FormID 02024D52",
+          "_list_topic_data": [
+            [
+              "1",
+              "Yes, we did it, we won the battle... But we lost our Leader, Krev. May his soul rest in peace in Sovngarde.",
+              "Sad 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleKhajiit\\DSilHand_M_DSilHand_M60SE__00024D52_1.xwm",
+              "DSilHand_M_DSilHand_M60SE__00024D52_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60SE_Topic02",
+          "actor_name": "Senaar",
+          "player_dialog": "Any idea did they decide to attack us?",
+          "form_id": "FormID 0202581A",
+          "_list_topic_data": [
+            [
+              "1",
+              "We were waiting to be attacked in retaliation to Farkas and Njada's death. But they attacked sooner than we expected.",
+              "Anger 70",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleKhajiit\\DSilHand_M_DSilHand_M60SE__0002581A_1.xwm",
+              "DSilHand_M_DSilHand_M60SE__0002581A_1"
+            ],
+            [
+              "2",
+              "Anyway, we had an important victory tonight. Krev must be proud of all of us now. Listen, Fjol needs to be notified of what happened. ",
+              "Happy 40",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleKhajiit\\DSilHand_M_DSilHand_M60SE__0002581A_2.xwm",
+              "DSilHand_M_DSilHand_M60SE__0002581A_2"
+            ],
+            [
+              "3",
+              "Since he was the second in charge, he must claim our leadership now. ",
+              "Puzzled 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleKhajiit\\DSilHand_M_DSilHand_M60SE__0002581A_3.xwm",
+              "DSilHand_M_DSilHand_M60SE__0002581A_3"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60SE_Topic03",
+          "actor_name": "Senaar",
+          "player_dialog": "I'll notify him!",
+          "form_id": "FormID 02025819",
+          "_list_topic_data": [
+            [
+              "1",
+              "Good! We will be taking care of things here. We must clean up this mess, rebuild our defenses,  and make the proper funerals.",
+              "Happy 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleKhajiit\\DSilHand_M_DSilHand_M60SE__00025819_1.xwm",
+              "DSilHand_M_DSilHand_M60SE__00025819_1"
+            ],
+            [
+              "2",
+              "Fjol will tell us the next steps.",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleKhajiit\\DSilHand_M_DSilHand_M60SE__00025819_2.xwm",
+              "DSilHand_M_DSilHand_M60SE__00025819_2"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "DSilHand_M60_GallowsGuard",
+      "comment": "You can engage in a conversation with Kylmir Shade-Skinner. He will tell that the Companions have assaulted the fort.",
+      "actor_name": "Kylmir Shade Skinner",
+      "actor_voice_type": "MaleCommoner",
+      "actor_race": "NordRace",
+      "dialog_type": "PlayerDialogue",
+      "is_read": true,
+      "list_topic_dialogs": [
+        {
+          "topic_name": "DSilHand_M60GG_Topic01",
+          "actor_name": "Kylmir Shade Skinner",
+          "player_dialog": "What happened?",
+          "form_id": "FormID 0201C14A",
+          "_list_topic_data": [
+            [
+              "1",
+              "Companions... th-they came sneaky, assault the fort. They released those beasts on the cages... Please brother... avenge our shed blood.... ohhh",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M60GG__0001C14A_1.xwm",
+              "DSilHand_M_DSilHand_M60GG__0001C14A_1"
+            ]
+          ]
+        },
+        {
+          "topic_name": "DSilHand_M60GG_Topic02",
+          "actor_name": "Kylmir Shade Skinner",
+          "player_dialog": "And what about you?",
+          "form_id": "FormID 0201C14C",
+          "_list_topic_data": [
+            [
+              "1",
+              "I'll be fine... I have a healing potion... You must hurry inside help our brothers...",
+              "Neutral 50",
+              "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleCommoner\\DSilHand_M_DSilHand_M60GG__0001C14C_1.xwm",
+              "DSilHand_M_DSilHand_M60GG__0001C14C_1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "branch_name": "(none)",
+      "comment": "--",
+      "actor_name": "Fjol",
+      "actor_voice_type": "MaleEvenTonedAccented",
+      "actor_race": "NordRace",
+      "dialog_type": "SceneDialogue",
+      "is_read": true,
+      "list_topic_dialogs": []
+    }
+  ],
+  "list_scenes": [
+    {
+      "quest_id": "DSilHand_M60Retaliation",
+      "scene_id": "DSilHand_M60_SceneFjolDiscourse",
+      "scene_position": 0,
+      "comment": "In this scene, Fjol will tell the Silver Hands that Krev has perished bravely fighting the Companions.",
+      "list_scene_topics": [
+        {
+          "actor_name": "Fjol",
+          "sd_scene_id": "DSilHand_M60_SceneFjolDiscourse",
+          "sd_alias": "Fjol",
+          "sd_voice_type": "MaleEvenTonedAccented",
+          "sd_scene_phase": 0,
+          "de_actor_id": "DSilHand_Fjol",
+          "de_actor_race": "NordRace",
+          "de_dialog_type": "Scene",
+          "sd_list_dialog_lines": [
+            {
+              "response_index": "1",
+              "filename": "DSilHand_M60Retaliation__00030A66_1",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M60Retaliation__00030A66_1.xwm",
+              "dialogue": "Listen to brothers! We have important news from Gallows Rock!",
+              "emotion": "Neutral 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            }
+          ]
+        },
+        {
+          "actor_name": "Fjol",
+          "sd_scene_id": "DSilHand_M60_SceneFjolDiscourse",
+          "sd_alias": "Fjol",
+          "sd_voice_type": "MaleEvenTonedAccented",
+          "sd_scene_phase": 2,
+          "de_actor_id": "DSilHand_Fjol",
+          "de_actor_race": "NordRace",
+          "de_dialog_type": "Scene",
+          "sd_list_dialog_lines": [
+            {
+              "response_index": "1",
+              "filename": "DSilHand_M60Retaliation__00030A69_1",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M60Retaliation__00030A69_1.xwm",
+              "dialogue": "Listen brothers of Hunt! We just had a victory over the Companions. They assaulted Gallows Rock, but we were able to defeat them!",
+              "emotion": "Happy 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            },
+            {
+              "response_index": "2",
+              "filename": "DSilHand_M60Retaliation__00030A69_2",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M60Retaliation__00030A69_2.xwm",
+              "dialogue": "Three members of the circle have fallen, including Aela and Skjor.",
+              "emotion": "Neutral 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            },
+            {
+              "response_index": "3",
+              "filename": "DSilHand_M60Retaliation__00030A69_3",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M60Retaliation__00030A69_3.xwm",
+              "dialogue": "Unfortunately our leader Krev have perished in the battle.",
+              "emotion": "Neutral 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            },
+            {
+              "response_index": "4",
+              "filename": "DSilHand_M60Retaliation__00030A69_4",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M60Retaliation__00030A69_4.xwm",
+              "dialogue": "He guided us for our these years, and turned the Silver Hands stronger than ever.",
+              "emotion": "Neutral 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            },
+            {
+              "response_index": "5",
+              "filename": "DSilHand_M60Retaliation__00030A69_5",
+              "filepath": "Data\\Sound\\Voice\\DawnOfTheSilverHand.esp\\MaleEvenTonedAccented\\DSilHand_M60Retaliation__00030A69_5.xwm",
+              "dialogue": "Now we celebrate for the honor of his name, and his glorious entrance to Sovngarde!",
+              "emotion": "Neutral 50",
+              "notes": "",
+              "flag_dialog_export": true,
+              "flag_scene_dialog": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

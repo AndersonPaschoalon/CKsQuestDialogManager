@@ -147,7 +147,7 @@ class QuestDialogs:
                             format(st.dialog_type(), st.actor_race(), st.voice_type())
                         dl: DialogLine
                         for dl in st.sd_list_dialog_lines:
-                            md += "({0}): {1}    \n\n".format(dl.emotion(), dl.dialogue())
+                            md += "**{0}** (*{1}*): {2}    \n\n".format(st.actor_name(), dl.emotion(), dl.dialogue())
                             md += "``{0}``    \n\n".format(dl.filepath())
                             if dl.notes() != "":
                                 md += "Notes: *{0}*    \n\n".format(dl.notes())

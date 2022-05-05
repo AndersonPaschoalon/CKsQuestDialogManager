@@ -3,20 +3,6 @@
 _This quest is given to the player by Krev The Skinner after he completes the second quest. He will ask you to meet Fjol at Driftshade Refugee. Fjol will send you to Winterhold and talk to Nelacar. Nelacar will give you a letter with the results of his investigations, telling the mages of are studying a fragment of Wuuthrad. The player's mission will be to enter the college and retrieve it. Once the player retrieves the fragment, you will be able to deliver it to Fjol and complete the quest._
 
 ## Branches
-### DSilHand_M30_WinterInformant_Branch
-> _The player talks to Nelacar the password, and Nelacar gives to you a letter._
-> 
-> Dialog Type:``PlayerDialogue``, Actor Race:``HighElfRace``, Voice Type:``MaleElfHaughty``.
-
-#### DSilHand_M30_WITopic01
-
-**Player**: Do you still have that silver ring to sell?
-
-**Nelacar** (*Happy 60*): ...    
-
-``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleElfHaughty\DSilHand_M_DSilHand_M30_WI_00015AD6_1.xwm``    
-
-
 ### DSilHand_M30_FjolMeet_Branch
 > _The player talks to Fjol for the first time. Fjol will give to you the next steps for the quest. Fjol send you to retrieve information from Nelacar who is located in the inn near the College. He gives to you a password, so you will be able to retrive the information without taking attention._
 > 
@@ -106,6 +92,20 @@ _This quest is given to the player by Krev The Skinner after he completes the se
 **Fjol** (*Neutral 50*): Good Brother! That's the spirit! Please, be discrete as possible. No one should know he is our informant.    
 
 ``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleEvenTonedAccented\DSilHand_M_DSilHand_M30_FM_00015AD3_1.xwm``    
+
+
+### DSilHand_M30_WinterInformant_Branch
+> _The player talks to Nelacar the password, and Nelacar gives to you a letter._
+> 
+> Dialog Type:``PlayerDialogue``, Actor Race:``HighElfRace``, Voice Type:``MaleElfHaughty``.
+
+#### DSilHand_M30_WITopic01
+
+**Player**: Do you still have that silver ring to sell?
+
+**Nelacar** (*Happy 60*): ...    
+
+``Data\Sound\Voice\DawnOfTheSilverHand.esp\MaleElfHaughty\DSilHand_M_DSilHand_M30_WI_00015AD6_1.xwm``    
 
 
 ### DSilHand_M30_FjolFragLetter_Branch
