@@ -23,6 +23,7 @@ class CkLogicLayer:
     """
     # DEFAULT_THEME = "DarkGrey13"
     DEFAULT_THEME = "DarkBlue12"
+    POPUP_TEXT_MAX_LEN = 1200
 
     def __init__(self):
         self.app = AppInfo()
@@ -74,6 +75,8 @@ class CkLogicLayer:
                 else:
                     poup_text += ", " + f
                 i = i + 1
+            self._log.info("** IMPORT OBJECT FROM CREATION KIT SUMMARY: " + poup_text)
+            poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Exported Objects Summary")
         except:
             self._log.error(traceback.format_exc())
@@ -103,6 +106,8 @@ class CkLogicLayer:
                 else:
                     poup_text += ", " + f
                 i = i + 1
+            self._log.info("** DOCUMENT GENERATION SUMMARY: " + poup_text)
+            poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Documentation Generation Summary")
         except:
             self._log.error(traceback.format_exc())
@@ -286,6 +291,18 @@ class CkLogicLayer:
         editor = CsvDicEditor2()
         editor.run_app(self.app.settings_obj.comments_file)
         self._log.debug("-- _exec_comments_editor() finish")
+
+    def _popup_text(self, popup_raw_text):
+        """
+        Just format the text into a smaller and displayable size
+        :param popup_raw_text: text to be displayed.
+        :return:
+        """
+        if len(popup_raw_text) > CkLogicLayer.POPUP_TEXT_MAX_LEN:
+            poup_text_display = popup_raw_text[:CkLogicLayer.POPUP_TEXT_MAX_LEN] + "..."
+        else:
+            poup_text_display = popup_raw_text
+        return  poup_text_display
 
 
 if __name__ == '__main__':
