@@ -23,7 +23,7 @@ class AudioWindow:
     SUBTITLE_SIZE = int(WINDOW_HEIGHT / 5.5)
     # default values
     DEFAULT_INIT_PROGRESS = "0:00"
-    DEFAULT_END_PROGRESS = ""
+    DEFAULT_END_PROGRESS = "x:xx"
     DEFAULT_CURRENT_TRACK = ""
     # Text
     KEY_TEXT_CURRENT_TRACK = "key_text_current_track"
@@ -101,34 +101,60 @@ class AudioWindow:
             # Player Elements
             track_information = [sg.Text(emojize(":radio:     ")),
                                  sg.Text('Audio Track:'),
-                                 sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK),
+                                 sg.Text("",
+                                         key=AudioWindow.KEY_TEXT_CURRENT_TRACK),
                                  sg.VerticalSeparator(),
-                                 sg.Text("", key=AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION)]
-            track_sliders = [sg.Button(emojize(":arrow_forward:Play", language='alias'), key=AudioWindow.KEY_PLAY_BUTTON),
-                             sg.Button(emojize("\u23F8\uFE0F     Pause", variant='emoji_type'),
+                                 sg.Text("",
+                                         key=AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION)]
+            track_sliders = [sg.Button(emojize(":arrow_forward:Play",
+                                               language='alias'),
+                                       key=AudioWindow.KEY_PLAY_BUTTON),
+                             sg.Button(emojize("\u23F8\uFE0F     Pause",
+                                               variant='emoji_type'),
                                        key=AudioWindow.KEY_PAUSE_BUTTON),
-                             sg.Button(emojize(":stop_button:     Stop", variant='emoji_type'),
+                             sg.Button(emojize(":stop_button:     Stop",
+                                               variant='emoji_type'),
                                        key=AudioWindow.KEY_STOP_BUTTON),
                              sg.VerticalSeparator(),
-                             sg.Slider(range=(0, 100), key=AudioWindow.KEY_SLIDER_VOLUME, orientation='h', size=(20, 10),
-                                       default_value=80, enable_events=True, tooltip="Volume"),
+                             sg.Slider(range=(0, 100),
+                                       key=AudioWindow.KEY_SLIDER_VOLUME,
+                                       orientation='h',
+                                       size=(20, 10),
+                                       default_value=80,
+                                       enable_events=True,
+                                       tooltip="Volume"),
                              sg.VerticalSeparator(),
-                             sg.Text(AudioWindow.DEFAULT_INIT_PROGRESS, key=AudioWindow.KEY_TEXT_INIT_TIME),
-                             sg.Slider(range=(0, 100), key=AudioWindow.KEY_SLIDER_PROGRESS, orientation='h', size=(80, 10),
-                                       default_value=70, enable_events=True, tooltip="Progress"),
-                             sg.Text(AudioWindow.DEFAULT_END_PROGRESS, key=AudioWindow.KEY_TEXT_END_TIME)]
-            tool_box = [sg.Button(emojize(":file_folder:     Open Folder", variant='emoji_type'),
+                             sg.Text(AudioWindow.DEFAULT_INIT_PROGRESS,
+                                     key=AudioWindow.KEY_TEXT_INIT_TIME),
+                             sg.Slider(range=(0, 100),
+                                       key=AudioWindow.KEY_SLIDER_PROGRESS,
+                                       orientation='h',
+                                       size=(50, 10),
+                                       default_value=70,
+                                       enable_events=True,
+                                       tooltip="Progress"),
+                             sg.Text(AudioWindow.DEFAULT_END_PROGRESS,
+                                     key=AudioWindow.KEY_TEXT_END_TIME)]
+            tool_box = [sg.Button(emojize(":file_folder:     Open Folder",
+                                          variant='emoji_type'),
                                   key=AudioWindow.KEY_OPEN_BUTTON),
-                        sg.Button(emojize(":sparkle:Copy Track Name", language='alias'),
+                        sg.Button(emojize(":sparkle:Copy Track Name",
+                                          language='alias'),
                                   key=AudioWindow.KEY_COPY_NAME_BUTTON),
-                        sg.Button(emojize(":speech_balloon:    Track Info Details", language='alias'),
+                        sg.Button(emojize(":speech_balloon:    Track Info Details",
+                                          language='alias'),
                                   key="key_copy_info_button"),
-                        sg.Button(emojize(":musical_note:     Generate XWM", language='alias'),
+                        sg.Button(emojize(":musical_note:     Generate XWM",
+                                          language='alias'),
                                   key=AudioWindow.KEY_GEN_XWM_BUTTON),
-                        sg.Button(emojize(":studio_microphone:Generate FUZ", language='alias'),
+                        sg.Button(emojize(":studio_microphone:Generate FUZ",
+                                          language='alias'),
                                   key=AudioWindow.KEY_GEN_FUZ_BUTTON),
-                        sg.Button(emojize(":headphones:     UnFUZ", language='alias'), key=AudioWindow.KEY_UNFUZ_BUTTON),
-                        sg.Button(emojize(":package:     Generate FUZ for all", language='alias'),
+                        sg.Button(emojize(":headphones:     UnFUZ",
+                                          language='alias'),
+                                  key=AudioWindow.KEY_UNFUZ_BUTTON),
+                        sg.Button(emojize(":package:     Generate FUZ for all",
+                                          language='alias'),
                                   key=AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
                         ]
             # ------ Window Layout ------
@@ -149,13 +175,17 @@ class AudioWindow:
                                 tooltip='Audio list')],
                       [sg.HorizontalSeparator()],
                       track_information,
-                      [sg.Text("", size=(AudioWindow.SUBTITLE_SIZE, None), key=AudioWindow.KEY_TEXT_CURRENT_SUBTITLE)],
+                      [sg.Text("",
+                               size=(AudioWindow.SUBTITLE_SIZE, None),
+                               key=AudioWindow.KEY_TEXT_CURRENT_SUBTITLE)],
                       track_sliders,
                       [sg.Text('')],
                       [sg.HorizontalSeparator()],
                       [sg.Text(emojize(":desktop_computer:").strip()), sg.Text('System & Tools')],
                       tool_box,
-                      [sg.Multiline(size=(170, 5), enter_submits=False, key=AudioWindow.KEY_TEXT_CONSOLE,
+                      [sg.Multiline(size=(170, 5),
+                                    enter_submits=False,
+                                    key=AudioWindow.KEY_TEXT_CONSOLE,
                                     do_not_clear=False,
                                     write_only=True)],
                       [sg.Text(''),
@@ -240,14 +270,16 @@ class AudioWindow:
                     timer = QuickTimer()
                     self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1, True)
                     timer.delta()
-
                 # update gui
                 audio_prog = self.audio_logic_layer.get_current_track_progress()
                 audio_len = self.audio_logic_layer.get_current_track_len()
                 if audio_len == 0:
                     audio_len = 1
                 # debug
-                # print("Current progress is " + str(audio_prog) + "/" + str(audio_len) + " for " + self.current_track)
+                # prog_msg = " -- Current progress is " + str(audio_prog) + "/" + str(AudioWindow.sec_to_min(audio_len)) + " for " + \
+                #            self.current_track
+                # print(prog_msg)
+                # self._log.info(prog_msg)
                 # update audio elements
                 window[AudioWindow.KEY_SLIDER_PROGRESS].update(value=audio_prog, range=(0, audio_len))
                 window[AudioWindow.KEY_TEXT_END_TIME].update(value=AudioWindow.sec_to_min(audio_len))
