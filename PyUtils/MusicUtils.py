@@ -10,6 +10,22 @@ class MusicUtils:
         self.sound = None
         self.track = ""
 
+    def set_sound(self, sound_path):
+        """
+        Set a sound file, but do not play it. It stops the previous track.
+        :param sound_path: The sound file
+        :return:
+        """
+        # it is not a empty track
+        if sound_path != "":
+            # a new song was selected
+            if self.track != sound_path:
+                self.stop()
+                self.sound = mixer.Sound(sound_path)
+                mixer.music.load(sound_path)
+                self.track = sound_path
+            # It is the same song selected, just continue
+
     def play(self, sound_path):
         """
         Play song.

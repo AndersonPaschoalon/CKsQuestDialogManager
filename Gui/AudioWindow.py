@@ -197,19 +197,19 @@ class AudioWindow:
                                resizable=False,
                                size=AudioWindow.WINDOW_SIZE,
                                icon=icon_abs_path)
-                               # icon=self.app.app_icon_ico)
             # ------ Event Loop ------
             while True:
 
                 # Handle events
-                event, values = window.read(timeout=500)
+                event, values = window.read(timeout=5000)
                 if isinstance(event, tuple):
                     # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                     self.current_row = AudioWindow.clicked_row(event)
                     print("@@ get_filepath" + self.get_filepath(self.current_row))
                     print("@@ get_track" + self.get_track(self.current_row))
                     print("@@ get_subtitle" + self.get_subtitle(self.current_row))
-                    self.update_current_track(self.get_filepath(self.current_row), self.get_track(self.current_row),
+                    self.update_current_track(self.get_filepath(self.current_row),
+                                              self.get_track(self.current_row),
                                               self.get_subtitle(self.current_row))
                     if event[0] == '-TABLE-':
                         if event[2][0] == -1 and event[2][1] != -1:  # Header was clicked and wasn't the "row" column
@@ -217,19 +217,21 @@ class AudioWindow:
                             new_table = AudioWindow.sort_table(self.data[1:][:], (col_num_clicked, 0))
                             window['-TABLE-'].update(new_table)
                             self.data = [self.data[0]] + new_table
+                        else:
+                            # the click was in a row
+                            print("todo")
+
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
                         window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
                 # todo debug
                 # print("event:<" + str(event) + ">, values:<" + str(values) + ">")
 
-                # self.update_current_track(self.current_track, self.current_subtitle)
                 if event == sg.WIN_CLOSED:
                     print("Pressed button: sg.WIN_CLOSED")
                     break
                 if event == AudioWindow.KEY_PLAY_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_PLAY_BUTTON)
-                    # self.audio_logic_layer.play_sound(self.current_track)
                     self.audio_logic_layer.play_sound(self.current_filepath)
                 if event == AudioWindow.KEY_STOP_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_STOP_BUTTON)
@@ -242,7 +244,6 @@ class AudioWindow:
                     self.audio_logic_layer.set_volume(values[AudioWindow.KEY_SLIDER_VOLUME])
                 if event == AudioWindow.KEY_OPEN_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_OPEN_BUTTON)
-                    # self.audio_logic_layer.open_folder(self.current_track)
                     print("=======>>>>>>" + self.current_filepath)
                     self.audio_logic_layer.open_folder(self.current_filepath)
                 if event == AudioWindow.KEY_COPY_NAME_BUTTON:
