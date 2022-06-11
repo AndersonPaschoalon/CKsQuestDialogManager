@@ -85,6 +85,26 @@ class AudioLogicLayer:
             msg += "fuz[missing] "
         return msg
 
+    def set_sound(self, sound_path: str):
+        """
+        Screen Element: Select row
+        :param sound_path:
+        :return:
+        """
+        # self._console_add("set_sound() sound_path: " + sound_path)
+        self._log.debug("-- set_sound() sound_path:" + sound_path)
+        if sound_path.strip() == "":
+            return
+        ret_val = self.encoder.try_to_gen_wav(sound_path, force_generation=False)
+        if ret_val == SkyAudioEncoder.RET_SUCCESS:
+            wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
+            self.player.set(wav_file)
+        else:
+            ret_msg = self.encoder.get_last_error()
+            err_description = self.encoder.get_last_stdout()
+            popup_text = "Error selecting track " + sound_path + ": " + ret_msg + "\n\n" + err_description
+            sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Play Audio Error")
+            self._console_add(popup_text)
 
     def play_sound(self, sound_path: str):
         """

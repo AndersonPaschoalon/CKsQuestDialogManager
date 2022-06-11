@@ -219,11 +219,12 @@ class AudioWindow:
                             self.data = [self.data[0]] + new_table
                         else:
                             # the click was in a row
-                            print("todo")
-
+                            self.audio_logic_layer.set_sound(self.get_filepath(self.current_row))
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
                         window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
+                        self._log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
+                        window[AudioWindow.KEY_TEXT_END_TIME].update(str(self.audio_logic_layer.get_current_track_len()))
                 # todo debug
                 # print("event:<" + str(event) + ">, values:<" + str(values) + ">")
 

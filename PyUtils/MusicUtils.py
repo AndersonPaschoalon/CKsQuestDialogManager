@@ -10,7 +10,7 @@ class MusicUtils:
         self.sound = None
         self.track = ""
 
-    def set_sound(self, sound_path):
+    def set(self, sound_path):
         """
         Set a sound file, but do not play it. It stops the previous track.
         :param sound_path: The sound file
