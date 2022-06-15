@@ -23,7 +23,7 @@ class MusicUtils:
                 self.stop()
                 self.sound = mixer.Sound(sound_path)
                 mixer.music.load(sound_path)
-                self.track = sound_path
+                # self.track = sound_path
             # It is the same song selected, just continue
 
     def play(self, sound_path):

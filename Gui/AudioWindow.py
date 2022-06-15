@@ -201,7 +201,8 @@ class AudioWindow:
             while True:
 
                 # Handle events
-                event, values = window.read(timeout=5000)
+                # event, values = window.read(timeout=5000)
+                event, values = window.read(timeout=500)
                 if isinstance(event, tuple):
                     # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                     self.current_row = AudioWindow.clicked_row(event)
@@ -275,16 +276,9 @@ class AudioWindow:
                 # update gui
                 audio_prog = self.audio_logic_layer.get_current_track_progress()
                 audio_len = self.audio_logic_layer.get_current_track_len()
-                if audio_len == 0:
-                    audio_len = 1
-                # debug
-                # prog_msg = " -- Current progress is " + str(audio_prog) + "/" + str(AudioWindow.sec_to_min(audio_len)) + " for " + \
-                #            self.current_track
-                # print(prog_msg)
-                # self._log.info(prog_msg)
-                # update audio elements
-                window[AudioWindow.KEY_SLIDER_PROGRESS].update(value=audio_prog, range=(0, audio_len))
-                window[AudioWindow.KEY_TEXT_END_TIME].update(value=AudioWindow.sec_to_min(audio_len))
+                if audio_len != 0:
+                    window[AudioWindow.KEY_SLIDER_PROGRESS].update(value=audio_prog, range=(0, audio_len))
+                    window[AudioWindow.KEY_TEXT_END_TIME].update(value=AudioWindow.sec_to_min(audio_len))
                 # update console
                 if self.audio_logic_layer.console_has_change():
                     window[AudioWindow.KEY_TEXT_CONSOLE].update(value=self.audio_logic_layer.get_console_output())

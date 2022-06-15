@@ -91,7 +91,7 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
-        # self._console_add("set_sound() sound_path: " + sound_path)
+        self._console_add("set_sound() sound_path: " + sound_path)
         self._log.debug("-- set_sound() sound_path:" + sound_path)
         if sound_path.strip() == "":
             return

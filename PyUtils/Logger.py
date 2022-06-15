@@ -1,12 +1,15 @@
 import logging
-
+from logging.handlers import TimedRotatingFileHandler
 
 class Logger:
     """"""
-    LOGGER_NAME = "PyPro"
+    LOGGER_NAME = "PyLogger"
     FORMAT_CONSOLE = '%(levelname)s - %(message)s'
     FORMAT_LOGFILE = '%(asctime)s - %(levelname)s - %(filename)s - Line: %(lineno)d - %(message)s'
     DEFAULT_LOGGER = "default_logger.log"
+    # 0 - single file | 1 = time rotating
+    _rotating_method = 1
+    _backup_count = 50
     _logger = None
 
     @staticmethod
@@ -21,7 +24,12 @@ class Logger:
         Logger._logger = logging.getLogger(Logger.LOGGER_NAME)
         Logger._logger.setLevel(level_log)
         # create file handler which logs even debug messages
+        # default _rotating_method == 0
         fh = logging.FileHandler(log_file)
+        if Logger._rotating_method == 1:
+            fh = TimedRotatingFileHandler(log_file,
+                                          when='midnight',
+                                          backupCount=Logger._backup_count)
         fh.setLevel(level_log)
         # create console handler with a higher log level
         ch = logging.StreamHandler()
