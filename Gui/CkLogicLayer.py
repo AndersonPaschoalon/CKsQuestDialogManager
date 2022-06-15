@@ -16,6 +16,7 @@ from Gui.CsvReorderWindow import CsvReorderWindow
 from Gui.AboutWindow import AboutWindow
 from Gui.AudioWindow import AudioWindow
 from Gui.AppEditorCmd import AppEditorCmd
+from Gui.LicenseWindow import LicenseWindow
 
 
 class CkLogicLayer:
@@ -232,6 +233,10 @@ class CkLogicLayer:
 
     def open_about_window(self):
         about = AboutWindow(self.app.app_dir)
+        about.run()
+
+    def open_license_window(self):
+        about = LicenseWindow(self.app.app_dir)
         about.run()
 
     def open_actors_editor(self):

@@ -75,7 +75,7 @@ class AppSettings:
 
 class AppInfo:
     APP_NAME_SHORT = "CKQuestDialogManager"
-    APP_NAME_LARGE = "CK -- Quest Dialog Manager"
+    APP_NAME_LARGE = "Quest Dialog Manager for CreationKit"
     APP_VERSION = "v1.0.0"
     APP_VERSION_NAME = "Snowberry Crostata"
 
@@ -96,11 +96,12 @@ class AppInfo:
         self.url_nexus = "https://www.nexusmods.com/skyrim"
         self.tutorial_html = self.pages_dir + "tutorial.html"
         self.settings_file = self.app_dir + "settings.json"
-        self.label_main_window = "CK Quest Dialog Manager"
-        self.label_audio_window = "CK Quest Audio Manager"
+        self.label_main_window = "Quest Dialog Manager for CK"
+        self.label_audio_window = "Quest Audio Manager for CK"
         self.app_version = AppInfo.APP_VERSION + " -- " + AppInfo.APP_VERSION_NAME
         self.app_name_short = AppInfo.APP_NAME_SHORT
         self.app_name_LARGE = AppInfo.APP_NAME_LARGE
+        self.license = self.app_dir + "Misc\\LICENSE.md"
         self.settings_obj = AppSettings(self.settings_file)
 
     def tutorial_url(self):

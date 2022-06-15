@@ -11,7 +11,7 @@ class MainWindow:
     Main window class.
     """
     # Style
-    WINDOW_HIGH = 500
+    WINDOW_HIGH = 550
     WINDOW_SIZE = ScreenInfo.golden_display_pair(WINDOW_HIGH)
     FONT_TEXT = ('MS Sans Serif', 10, 'bold')
     FONT_TITLE2 = ('Any', 14)
@@ -22,6 +22,7 @@ class MainWindow:
     BTN_SETTINGS = "Settings"
     BTN_THEME = "Choose Theme"
     BTN_ABOUT = "About"
+    BTN_LICENSE = "License"
     # Documentation Generation
     BTN_EXPORT_CSV = "Import Objects from Creation Kit"
     BTN_EDIT_SCENES = "Edit Scene Order"
@@ -52,7 +53,7 @@ class MainWindow:
         #
         sg.theme(str_theme)
         layout_title_main = [
-            sg.Text(emojize(":fleur-de-lis: CK -- Quest Dialog Manager :fleur-de-lis:", variant="emoji_type"),
+            sg.Text(emojize(":fleur-de-lis: " + app.APP_NAME_LARGE +" :fleur-de-lis:", variant="emoji_type"),
                     font=('Any', 32))]
         layout_title_config = [
             sg.Text(emojize(":hammer_and_wrench:Application Settings", variant="emoji_type"), font=MainWindow.FONT_TITLE2)]
@@ -63,7 +64,8 @@ class MainWindow:
         # Buttons
         layout_settings = [sg.Button(MainWindow.BTN_SETTINGS),
                            sg.Button(MainWindow.BTN_THEME),
-                           sg.Button(MainWindow.BTN_ABOUT)]
+                           sg.Button(MainWindow.BTN_ABOUT),
+                           sg.Button(MainWindow.BTN_LICENSE)]
         layout_export_l1 = [sg.Text("Step 1: Import Objects                "),
                             sg.Button(MainWindow.BTN_EXPORT_CSV)]
         layout_export_l2 = [sg.Text("Step 2: Edit                                "),
@@ -99,6 +101,9 @@ class MainWindow:
             elif event == MainWindow.BTN_ABOUT:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.open_about_window()
+            elif event == MainWindow.BTN_LICENSE:
+                _log.debug("event:" + event)
+                cd_dialog_docgen.open_license_window()
             # Documentation Generation
             elif event == MainWindow.BTN_EXPORT_CSV:
                 _log.debug("event:" + event)
