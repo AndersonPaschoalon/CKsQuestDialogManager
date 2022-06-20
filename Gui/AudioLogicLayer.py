@@ -14,8 +14,8 @@ from PyUtils.Functions import *
 from PyUtils.Logger import Logger
 from Gui.AudioData import AudioData
 from Gui.AppInfo import AppInfo
-from Gui.BatchCmdReport import BatchCmdReport
-
+from Gui.ReportBatchCmd import ReportBatchCmd
+from Gui.ReportAudioDetails import ReportAudioDetails
 
 class AudioLogicLayer:
 
@@ -46,7 +46,92 @@ class AudioLogicLayer:
         list_audio_data = AudioData.generate_list_audio_data(skyrim_path, comments_csv, actors_csv, scene_order_csv)
         return list_audio_data
 
-    def file_status(self, sound_path: str):
+    def create_audio_details_report(self, list_audio_data, ask_popup=True):
+        self._log.debug(" -- create_audio_details_report()")
+        list_details = []
+        item: AudioData
+        for item in list_audio_data:
+            status_dict = AudioLogicLayer.file_status_dic(item.file_path)
+            details = ReportAudioDetails()
+            # audio status
+            details.mp3 = status_dict["mp3"]
+            details.wav = status_dict["wav"]
+            details.xwm = status_dict["xwm"]
+            details.lip = status_dict["lip"]
+            details.fuz = status_dict["fuz"]
+            # dialog data
+            details.quest_id = item.quest_id
+            details.actor = item.actor_name
+            details.file = item.file_name
+            details.subtitle = item.subtitle
+            details.file_path = item.file_path
+            details.dialog_type = item.dialog_type
+            details.emotion = item.emotion
+            details.voice_type = item.voice_type
+            details.topic_id = item.topic_id
+            details.branch_id = item.branch_id
+            details.scene_id = item.scene_id
+            details.scene_phase = item.scene_phase
+            list_details.append(details)
+        file_name = ReportAudioDetails.export_report(list_details, self.app)
+        self._log.debug("file_name:" + str(file_name))
+        self._log.debug("Report generation finished.")
+        self._console_add("Report generation finished.")
+        if ask_popup:
+            popup_ret = ""
+            popup_text = "Report generation finished. Do you want to open it?"
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
+            self._console_add(popup_text)
+            url_report = "file:///" + os.path.realpath(file_name)
+            print("url_report:" + url_report)
+            print("popup_ret:" + popup_ret)
+            if popup_ret != AudioLogicLayer.STR_CANCEL:
+                webbrowser.open(url_report, new=2)
+
+
+        return file_name
+
+    @staticmethod
+    def file_status_dic(sound_path: str):
+        """
+        Return a dict with the file status.
+        :param sound_path:
+        :return:
+        """
+        if sound_path == "":
+            return ""
+        file_status_dict = {
+            "mp3": "missing",
+            "wav": "missing",
+            "xwm": "missing",
+            "lip": "missing",
+            "fuz": "missing"
+        }
+        mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
+        wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
+        xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
+        lip_file = FileUtils.change_ext(sound_path, Exts.EXT_LIP)
+        fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
+        msg = ""
+        # mp3
+        if exists(mp3_file):
+            file_status_dict["mp3"] = "ok"
+        # wav
+        if exists(wav_file):
+            file_status_dict["wav"] = "ok"
+        # xwm
+        if exists(xwm_file):
+            file_status_dict["xwm"] = "ok"
+        # lip
+        if exists(lip_file):
+            file_status_dict["lip"] = "ok"
+        # fuz
+        if exists(fuz_file):
+            file_status_dict["fuz"] = "ok"
+        return file_status_dict
+
+    @staticmethod
+    def file_status(sound_path: str):
         """
         Return a string with the file status.
         :return:
@@ -222,6 +307,29 @@ class AudioLogicLayer:
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
         self._console_add(popup_text)
 
+    def audio_gen_lip(self, sound_path: str, list_audio_data):
+        "NOT WORKING PROPERLY"
+        self._log.debug("-- audio_gen_lip()")
+        self._console_add("audio_gen_lip() sound_path:" + sound_path)
+        data: AudioData
+        subtitles = ""
+        wavfile = sound_path + ".wav"
+        if exists(wavfile) != True:
+            msg = "Error, could not find WAV file " + wavfile + " required to generate the lip file!"
+            self._log.warning("**WARNING** " + msg)
+            self._console_add(msg)
+            sg.popup_ok_cancel(msg, keep_on_top=True, icon=self.app.app_icon_ico,
+                               title=AudioLogicLayer.STR_ERROR_POPUP)
+            return False
+        for data in list_audio_data:
+            if data.file_path == sound_path:
+                subtitles = data.subtitle
+        # 0 - Creation Kit Exe
+        # 1 - WAV file
+        # 3 - Subtitle
+        cmd = "{0}  -GenerateSingleLip:\"{1}\" \"{2}\"".format(self.app.creation_kit_exe, sound_path, subtitles)
+        print("##############" + cmd)
+
     def audio_gen_xwm(self, sound_path: str):
         """
         Generate XWM file.
@@ -363,21 +471,20 @@ class AudioLogicLayer:
             for item in async_result_list:
                 return_val = item.get()
                 report_list_async.append(return_val)
-        n_errors = BatchCmdReport.count_errors(report_list_arg)
-        n_success = BatchCmdReport.count_success(report_list_arg)
+        n_errors = ReportBatchCmd.count_errors(report_list_arg)
+        n_success = ReportBatchCmd.count_success(report_list_arg)
         self._log.debug("Batch finished. n_errors:" + str(n_errors) + ", n_success:" + str(n_success))
         if ask_popup:
             popup_ret = ""
             popup_text = "Batch execution finished with {0} errors and {1} successes. Do you want to open the report?".format(n_errors, n_success)
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             self._console_add(popup_text)
-            html_report = BatchCmdReport.export_report(report_list_arg, self.app.app_dir)
+            html_report = ReportBatchCmd.export_report(report_list_arg, self.app.app_dir)
             url_report = "file:///" + os.path.realpath(html_report)
             print("url_report:" + url_report)
             print("popup_ret:" + popup_ret)
             if popup_ret != AudioLogicLayer.STR_CANCEL:
                 webbrowser.open(url_report, new=2)
-
 
     @staticmethod
     def _exec_fuz_list(list_files, exec_path, list_exec_report):
@@ -395,7 +502,7 @@ class AudioLogicLayer:
         if len(list_files) == 0:
             return thread_report
         for sound_path in list_files:
-            report = BatchCmdReport()
+            report = ReportBatchCmd()
             fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
             ret_val = encoder.fuz(sound_path)
             report.error_code = ret_val
@@ -548,11 +655,9 @@ class AudioLogicLayer:
         self._console_add(str([ret_flag, ret_val, ret_msg, ret_stdout]))
         return [ret_flag, ret_val, ret_msg, ret_stdout]
 
-
     def _console_clear(self):
         self.console_output = ""
         self._console_has_change = True
-
 
     def _console_add(self, msg: str):
         self.console_output += msg + "\n"

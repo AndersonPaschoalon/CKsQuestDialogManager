@@ -8,11 +8,11 @@ class AppSettings:
     """
     Store all settings from the application.
     """
-    SKYRIM_PATH = "./Sandbox/"
-    DOGEN_DIR = "./OUTPUT/"
-    ACTORS_FILE = "./Actors.csv"
-    COMMENTS_FILE = "./Comments.csv"
-    SCENE_ORDER_FILE = "./SceneOrder.csv"
+    SKYRIM_PATH = ".\\Sandbox\\"
+    DOGEN_DIR = ".\\OUTPUT\\"
+    ACTORS_FILE = ".\\Actors.csv"
+    COMMENTS_FILE = ".\\Comments.csv"
+    SCENE_ORDER_FILE = ".\\SceneOrder.csv"
     TOPIC_SORT_BY_NAME = "true"
     CMD_COMMENT = "Use \"Process\" string for multiprocessing import, otherwise will be executed as a batch command. Use {file} variable to pass the csv file full path. Any other command line application can be set as editor."
     DEFAULT_THEME = "DarkBlue12"
@@ -22,7 +22,7 @@ class AppSettings:
         with open(json_file) as f:
             self.data = json.load(f)
         self.skyrim_path = self.data["skyrim-path"]
-        self.docgen_dir = self.data["dogen-dir"]
+        self.docgen_dir = os.path.abspath(self.data["dogen-dir"])
         self.log_level = self.data["log-level"]
         self.actors_file = self.data["actors-file"]
         self.comments_file = self.data["comments-file"]
@@ -31,6 +31,12 @@ class AppSettings:
         self.app_theme = self.data["app_theme"]
         self.csv_editor_cmd_comments = self.data["csv_editor_cmd_comments"]
         self.csv_editor_cmd = self.data["csv_editor_cmd"]
+        # derivated settings
+        self.docgen_dir_md = self.docgen_dir + "\\Md\\"
+        self.docgen_dir_json = self.docgen_dir + "\\Json\\"
+        self.docgen_dir_html = self.docgen_dir + "\\Html\\"
+        self.docgen_dir_docx = self.docgen_dir + "\\Docx\\"
+        self.docgen_reports = self.docgen_dir + "\\Reports\\"
 
     def save(self):
         self.data["skyrim-path"] = self.skyrim_path
@@ -80,8 +86,8 @@ class AppInfo:
     APP_VERSION_NAME = "Snowberry Crostata"
 
     def __init__(self, app_dir=".\\App\\"):
-        self.app_dir = app_dir
-        self.audio_encoder_dir = app_dir + "Bin\\"
+        self.app_dir = os.path.abspath(app_dir) + "\\"
+        self.audio_encoder_dir = self.app_dir + "Bin\\"
         self.img_dir = self.app_dir + "Img\\"
         self.pages_dir = self.app_dir + "Pages\\"
         self.log_dir = self.app_dir + "Logs\\"
@@ -103,6 +109,7 @@ class AppInfo:
         self.app_name_LARGE = AppInfo.APP_NAME_LARGE
         self.license = self.app_dir + "Misc\\LICENSE.md"
         self.settings_obj = AppSettings(self.settings_file)
+        self.creation_kit_exe = self.settings_obj.skyrim_path + "\\CreationKit.exe"
 
     def tutorial_url(self):
         url_tutorial = "file:///" + os.path.realpath(self.tutorial_html)

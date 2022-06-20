@@ -18,9 +18,12 @@ class AudioWindow:
     Audio Window class.
     """
     # window size
-    WINDOW_HEIGHT = 675
+    WINDOW_HEIGHT = 700
     WINDOW_SIZE = ScreenInfo.golden_display_pair(WINDOW_HEIGHT)
     SUBTITLE_SIZE = int(WINDOW_HEIGHT / 5.5)
+    # PySimpleGui constants
+    KEY_UP = "Up:38"
+    KEY_DOWN = "Down:40"
     # default values
     DEFAULT_INIT_PROGRESS = "0:00"
     DEFAULT_END_PROGRESS = "x:xx"
@@ -32,17 +35,22 @@ class AudioWindow:
     KEY_TEXT_INIT_TIME = "key_text_init_time"
     KEY_TEXT_END_TIME = "key_text_end_time"
     KEY_TEXT_CONSOLE = "key_text_console"
-    # Button
-    KEY_PLAY_BUTTON = "key_play_button"
-    KEY_PAUSE_BUTTON = "key_pause_button"
-    KEY_STOP_BUTTON = "key_stop_button"
+    # Button Tools L1
     KEY_OPEN_BUTTON = "key_open_button"
     KEY_COPY_NAME_BUTTON = "key_copy_name_button"
     KEY_COPY_INFO_BUTTON = "key_copy_info_button"
+    KEY_GENERATE_REPORT = "key_generate_report"
+    # Button Tools L2
     KEY_GEN_XWM_BUTTON = "key_gen_xwm_button"
+    KEY_GEN_LIP_BUTTON = "key_gen_lip_button"
     KEY_GEN_FUZ_BUTTON = "key_gen_fuz_button"
     KEY_UNFUZ_BUTTON = "key_unfuz_button"
     KEY_GEN_FUZ_ALL_BUTTON = "key_fuz_all_button"
+    # Button Player
+    KEY_PLAY_BUTTON = "key_play_button"
+    KEY_PAUSE_BUTTON = "key_pause_button"
+    KEY_STOP_BUTTON = "key_stop_button"
+
     # Slider
     KEY_SLIDER_VOLUME = "key_slider_volume"
     KEY_SLIDER_PROGRESS = "key_slider_progress"
@@ -135,7 +143,8 @@ class AudioWindow:
                                        tooltip="Progress"),
                              sg.Text(AudioWindow.DEFAULT_END_PROGRESS,
                                      key=AudioWindow.KEY_TEXT_END_TIME)]
-            tool_box = [sg.Button(emojize(":file_folder:     Open Folder",
+            tool_box_l1 = [
+                        sg.Button(emojize(":file_folder:     Open Folder",
                                           variant='emoji_type'),
                                   key=AudioWindow.KEY_OPEN_BUTTON),
                         sg.Button(emojize(":sparkle:Copy Track Name",
@@ -143,10 +152,18 @@ class AudioWindow:
                                   key=AudioWindow.KEY_COPY_NAME_BUTTON),
                         sg.Button(emojize(":speech_balloon:    Track Info Details",
                                           language='alias'),
-                                  key="key_copy_info_button"),
+                                  key=AudioWindow.KEY_COPY_INFO_BUTTON),
+                        sg.Button(emojize(":memo:    Generate Dialogues' Report",
+                                          language='alias'),
+                                  key=AudioWindow.KEY_GENERATE_REPORT),
+                        ]
+            tool_box_l2 = [
                         sg.Button(emojize(":musical_note:     Generate XWM",
                                           language='alias'),
                                   key=AudioWindow.KEY_GEN_XWM_BUTTON),
+                        #sg.Button(emojize(":lips:     Generate LIP",
+                        #          language='alias'),
+                        #          key=AudioWindow.KEY_GEN_LIP_BUTTON),
                         sg.Button(emojize(":studio_microphone:Generate FUZ",
                                           language='alias'),
                                   key=AudioWindow.KEY_GEN_FUZ_BUTTON),
@@ -157,6 +174,7 @@ class AudioWindow:
                                           language='alias'),
                                   key=AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
                         ]
+
             # ------ Window Layout ------
             layout = [[sg.Table(values=self.data[:][:],  # values=self.data[1:][:],
                                 headings=table_headings,
@@ -182,7 +200,8 @@ class AudioWindow:
                       [sg.Text('')],
                       [sg.HorizontalSeparator()],
                       [sg.Text(emojize(":desktop_computer:").strip()), sg.Text('System & Tools')],
-                      tool_box,
+                      tool_box_l1,
+                      tool_box_l2,
                       [sg.Multiline(size=(170, 5),
                                     enter_submits=False,
                                     key=AudioWindow.KEY_TEXT_CONSOLE,
@@ -196,42 +215,58 @@ class AudioWindow:
                                ttk_theme='clam',
                                resizable=False,
                                size=AudioWindow.WINDOW_SIZE,
-                               icon=icon_abs_path)
+                               icon=icon_abs_path,
+                               return_keyboard_events=True)
             # ------ Event Loop ------
             while True:
 
                 # Handle events
-                # event, values = window.read(timeout=5000)
+                #event, values = window.read(timeout=5000)
                 event, values = window.read(timeout=500)
                 if isinstance(event, tuple):
                     # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                     self.current_row = AudioWindow.clicked_row(event)
-                    print("@@ get_filepath" + self.get_filepath(self.current_row))
-                    print("@@ get_track" + self.get_track(self.current_row))
-                    print("@@ get_subtitle" + self.get_subtitle(self.current_row))
                     self.update_current_track(self.get_filepath(self.current_row),
                                               self.get_track(self.current_row),
                                               self.get_subtitle(self.current_row))
+
                     if event[0] == '-TABLE-':
-                        if event[2][0] == -1 and event[2][1] != -1:  # Header was clicked and wasn't the "row" column
-                            col_num_clicked = event[2][1]
-                            new_table = AudioWindow.sort_table(self.data[1:][:], (col_num_clicked, 0))
-                            window['-TABLE-'].update(new_table)
-                            self.data = [self.data[0]] + new_table
-                        else:
-                            # the click was in a row
+                        if event[0] == AudioWindow.KEY_UP or event[0] == AudioWindow.KEY_DOWN:
                             self.audio_logic_layer.set_sound(self.get_filepath(self.current_row))
+                        else:
+                            if event[2][0] == -1 and event[2][1] != -1:  # Header was clicked and wasn't the "row" column
+                                col_num_clicked = event[2][1]
+                                new_table = AudioWindow.sort_table(self.data[1:][:], (col_num_clicked, 0))
+                                window['-TABLE-'].update(new_table)
+                                self.data = [self.data[0]] + new_table
+                            else:
+                                # the click was in a row
+                                self.audio_logic_layer.set_sound(self.get_filepath(self.current_row))
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
                         window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
                         self._log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
                         window[AudioWindow.KEY_TEXT_END_TIME].update(str(self.audio_logic_layer.get_current_track_len()))
-                # todo debug
-                # print("event:<" + str(event) + ">, values:<" + str(values) + ">")
 
+                if event == AudioWindow.KEY_UP or event == AudioWindow.KEY_DOWN:
+                    self.current_row = AudioWindow.selected_row(layout)
+                    self.update_current_track(self.get_filepath(self.current_row),
+                                              self.get_track(self.current_row),
+                                              self.get_subtitle(self.current_row))
+                    self.audio_logic_layer.set_sound(self.get_filepath(self.current_row))
+                    window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
+                    window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
+                    window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
+                    self._log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
+                    window[AudioWindow.KEY_TEXT_END_TIME].update(str(self.audio_logic_layer.get_current_track_len()))
+
+                print(event)
+                # print("SELECTED ROW: " + str(self.current_row ))
+                # print("layout[0].SelectedRows:" + str(layout[0][0].SelectedRows))
                 if event == sg.WIN_CLOSED:
                     print("Pressed button: sg.WIN_CLOSED")
                     break
+                # Audio Player
                 if event == AudioWindow.KEY_PLAY_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_PLAY_BUTTON)
                     self.audio_logic_layer.play_sound(self.current_filepath)
@@ -244,28 +279,31 @@ class AudioWindow:
                 if event == AudioWindow.KEY_SLIDER_VOLUME:
                     print("Pressed button: " + AudioWindow.KEY_SLIDER_VOLUME)
                     self.audio_logic_layer.set_volume(values[AudioWindow.KEY_SLIDER_VOLUME])
+                # Audio Tools Line 1
                 if event == AudioWindow.KEY_OPEN_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_OPEN_BUTTON)
-                    print("=======>>>>>>" + self.current_filepath)
                     self.audio_logic_layer.open_folder(self.current_filepath)
                 if event == AudioWindow.KEY_COPY_NAME_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_COPY_NAME_BUTTON)
                     self.audio_logic_layer.copy_track_name(self.current_track)
                 if event == AudioWindow.KEY_COPY_INFO_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_COPY_INFO_BUTTON)
-                    # self.audio_logic_layer.copy_track_info(self.current_track, list_audio_data)
                     self.audio_logic_layer.copy_track_info(self.current_filepath, list_audio_data)
+                if event == AudioWindow.KEY_GENERATE_REPORT:
+                    print("Pressed button: " + AudioWindow.KEY_GENERATE_REPORT)
+                    html_file = self.audio_logic_layer.create_audio_details_report(list_audio_data)
+                # Audio Tools Line 2
                 if event == AudioWindow.KEY_GEN_XWM_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_GEN_XWM_BUTTON)
-                    # self.audio_logic_layer.audio_gen_xwm(self.current_track)
                     self.audio_logic_layer.audio_gen_xwm(self.current_filepath)
+                #if event == AudioWindow.KEY_GEN_LIP_BUTTON:
+                #    print("Pressed button: " + AudioWindow.KEY_GEN_LIP_BUTTON)
+                #    self.audio_logic_layer.audio_gen_lip(self.current_filepath, list_audio_data)
                 if event == AudioWindow.KEY_GEN_FUZ_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_GEN_FUZ_BUTTON)
-                    # self.audio_logic_layer.audio_gen_fuz(self.current_track)
                     self.audio_logic_layer.audio_gen_fuz(self.current_filepath)
                 if event == AudioWindow.KEY_UNFUZ_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_UNFUZ_BUTTON)
-                    # self.audio_logic_layer.audio_unfuz(self.current_track)
                     self.audio_logic_layer.audio_unfuz(self.current_filepath)
                 if event == AudioWindow.KEY_GEN_FUZ_ALL_BUTTON:
                     print("Pressed button: " + AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
@@ -287,7 +325,24 @@ class AudioWindow:
         self._log.info("Current working directory: " + Cd.pwd())
 
     @staticmethod
+    def selected_row(layout):
+        _log = Logger.get()
+        selected_row_index = 0
+        try:
+            str_selected_row = str(layout[0][0].SelectedRows[0])
+            selected_row_index = int(str_selected_row)
+            _log.debug("selected_row_index:" + str(selected_row_index))
+        except:
+            _log.warning("**WARNING** INVALID CONVERSION OF layout[0][0].SelectedRows TO INTEGER")
+        return selected_row_index
+
+    @staticmethod
     def sec_to_min(sec: int):
+        """
+        Convert a number of seconds to minute format.
+        :param sec:
+        :return:
+        """
         return str(datetime.timedelta(seconds=sec))
 
     @staticmethod

@@ -1,0 +1,153 @@
+Date : 2022-06-18 23:17:47
+Directory : c:\Users\Usuario\PycharmProjects\CkDialogDocGen
+Total : 105 files,  10359 codes, 1694 comments, 1560 blanks, all 13613 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| Python             |         54 |      4,939 |      1,694 |        705 |      7,338 |
+| JSON               |          8 |      2,671 |          0 |          0 |      2,671 |
+| HTML               |          9 |      1,405 |          0 |         17 |      1,422 |
+| Markdown           |         12 |        842 |          0 |        827 |      1,669 |
+| CSV                |         12 |        305 |          0 |         10 |        315 |
+| XML                |          7 |        126 |          0 |          0 |        126 |
+| pip requirements   |          1 |         54 |          0 |          1 |         55 |
+| JSON with Comments |          1 |         12 |          0 |          0 |         12 |
+| Batch              |          1 |          5 |          0 |          0 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                             | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                |        105 |     10,359 |      1,694 |      1,560 |     13,613 |
+| .idea                                                                                            |          7 |        126 |          0 |          0 |        126 |
+| .idea\inspectionProfiles                                                                         |          1 |          6 |          0 |          0 |          6 |
+| App                                                                                              |         10 |        452 |          0 |         97 |        549 |
+| App\Db                                                                                           |          3 |        126 |          0 |          3 |        129 |
+| App\Misc                                                                                         |          1 |         17 |          0 |          5 |         22 |
+| App\Pages                                                                                        |          4 |        287 |          0 |         89 |        376 |
+| Gui                                                                                              |         14 |      1,947 |        502 |        191 |      2,640 |
+| OUTPUT                                                                                           |         21 |      4,572 |          0 |        731 |      5,303 |
+| OUTPUT\Html                                                                                      |          7 |      1,219 |          0 |         14 |      1,233 |
+| OUTPUT\Json                                                                                      |          7 |      2,661 |          0 |          0 |      2,661 |
+| OUTPUT\Md                                                                                        |          7 |        692 |          0 |        717 |      1,409 |
+| PyUtils                                                                                          |         17 |      1,297 |        452 |        218 |      1,967 |
+| QuestExports                                                                                     |          9 |      1,048 |        570 |        124 |      1,742 |
+| Sandbox                                                                                          |          9 |        179 |          0 |          7 |        186 |
+| Test                                                                                             |          9 |        560 |        165 |        150 |        875 |
+| Test\audio                                                                                       |          1 |         22 |         12 |         12 |         46 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                         | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\CkDialogDocGen.iml                         | XML                |         10 |          0 |          0 |         10 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\csv-plugin.xml                             | XML                |         86 |          0 |          0 |         86 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\encodings.xml                              | XML                |          6 |          0 |          0 |          6 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\inspectionProfiles\profiles_settings.xml   | XML                |          6 |          0 |          0 |          6 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\misc.xml                                   | XML                |          4 |          0 |          0 |          4 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\modules.xml                                | XML                |          8 |          0 |          0 |          8 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\.idea\vcs.xml                                    | XML                |          6 |          0 |          0 |          6 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Db\Actors.csv                                | CSV                |         15 |          0 |          1 |         16 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Db\Comments.csv                              | CSV                |        105 |          0 |          1 |        106 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Db\SceneOrder.csv                            | CSV                |          6 |          0 |          1 |          7 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Misc\LICENSE.md                              | Markdown           |         17 |          0 |          5 |         22 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Pages\md_to_html.py                          | Python             |          8 |          0 |          1 |          9 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Pages\sample.html                            | HTML               |         10 |          0 |          1 |         11 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Pages\tutorial.html                          | HTML               |        176 |          0 |          2 |        178 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\Pages\tutorial.md                            | Markdown           |         93 |          0 |         85 |        178 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\settings.backup.json                         | JSON               |         10 |          0 |          0 |         10 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\App\settings.json                                | JSON with Comments |         12 |          0 |          0 |         12 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\CKQuestDialogManager.py                          | Python             |         22 |          4 |          6 |         32 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\CsvDicEditorApp.py                               | Python             |         18 |          0 |          3 |         21 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\AboutWindow.py                               | Python             |         54 |          1 |          7 |         62 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\AppEditorCmd.py                              | Python             |         14 |          0 |          6 |         20 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\AppInfo.py                                   | Python             |        124 |          4 |         17 |        145 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\AudioData.py                                 | Python             |        106 |         23 |         18 |        147 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\AudioLogicLayer.py                           | Python             |        480 |        134 |         34 |        648 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\AudioWindow.py                               | Python             |        354 |         92 |         30 |        476 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\CkLogicLayer.py                              | Python             |        278 |         14 |         23 |        315 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\CsvReorderWindow.py                          | Python             |        118 |          5 |         15 |        138 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\LicenseWindow.py                             | Python             |         57 |          1 |          7 |         65 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\MainWindow.py                                | Python             |        110 |         23 |          3 |        136 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\ReportAudioDetails.py                        | Python             |        129 |         89 |         13 |        231 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\ReportBatchCmd.py                            | Python             |         48 |        116 |          9 |        173 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\TestData.py                                  | Python             |         75 |          0 |          8 |         83 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Gui\__init__.py                                  | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\LICENSE.md                                       | Markdown           |         17 |          0 |          5 |         22 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M10SilverHunt.html          | HTML               |        223 |          0 |          2 |        225 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M20AngarvundesTreasure.html | HTML               |        134 |          0 |          2 |        136 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M30ScholarFragment.html     | HTML               |        159 |          0 |          2 |        161 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M40CompConspiracy.html      | HTML               |        142 |          0 |          2 |        144 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M50WolfAmbush.html          | HTML               |         81 |          0 |          2 |         83 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M60Retaliation.html         | HTML               |        183 |          0 |          2 |        185 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Html\DSilHand_M80AssaultJor.html          | HTML               |        297 |          0 |          2 |        299 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M10SilverHunt.json          | JSON               |        535 |          0 |          0 |        535 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M20AngarvundesTreasure.json | JSON               |        212 |          0 |          0 |        212 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M30ScholarFragment.json     | JSON               |        310 |          0 |          0 |        310 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M40CompConspiracy.json      | JSON               |        229 |          0 |          0 |        229 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M50WolfAmbush.json          | JSON               |         41 |          0 |          0 |         41 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M60Retaliation.json         | JSON               |        412 |          0 |          0 |        412 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Json\DSilHand_M80AssaultJor.json          | JSON               |        922 |          0 |          0 |        922 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M10SilverHunt.md              | Markdown           |        153 |          0 |        165 |        318 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M20AngarvundesTreasure.md     | Markdown           |         65 |          0 |         62 |        127 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M30ScholarFragment.md         | Markdown           |         91 |          0 |         95 |        186 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M40CompConspiracy.md          | Markdown           |         71 |          0 |         64 |        135 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M50WolfAmbush.md              | Markdown           |         15 |          0 |         16 |         31 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M60Retaliation.md             | Markdown           |        110 |          0 |        114 |        224 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\OUTPUT\Md\DSilHand_M80AssaultJor.md              | Markdown           |        187 |          0 |        201 |        388 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\Cd.py                                    | Python             |         12 |          5 |          6 |         23 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\Console.py                               | Python             |         40 |          0 |         13 |         53 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\CsvDic.py                                | Python             |         78 |         28 |         12 |        118 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\CsvDicEditor.py                          | Python             |        250 |         33 |         27 |        310 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\CsvDicEditor2.py                         | Python             |        237 |         17 |         22 |        276 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\CsvDicTuple.py                           | Python             |        163 |         85 |         19 |        267 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\FileUtils.py                             | Python             |         40 |         29 |         12 |         81 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\Functions.py                             | Python             |         10 |          1 |          7 |         18 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\Logger.py                                | Python             |         38 |         19 |          3 |         60 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\Md.py                                    | Python             |         17 |         65 |          6 |         88 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\MusicUtils.py                            | Python             |         60 |         56 |         16 |        132 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\Obj2Json.py                              | Python             |         88 |         16 |         17 |        121 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\QuickTimer.py                            | Python             |         10 |          0 |          8 |         18 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\ScreenInfo.py                            | Python             |         17 |          0 |          7 |         24 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\ScrollFrame.py                           | Python             |         56 |          7 |         15 |         78 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\SkyAudioEncoder.py                       | Python             |        181 |         91 |         27 |        299 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\PyUtils\__init__.py                              | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\BranchDialogs.py                    | Python             |         43 |         20 |         10 |         73 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\Consts.py                           | Python             |         52 |          8 |          9 |         69 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\DialogLine.py                       | Python             |         49 |         72 |         13 |        134 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\QuestDialogs.py                     | Python             |        356 |        174 |         20 |        550 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\Scene.py                            | Python             |        325 |        151 |         26 |        502 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\SceneDictionary.py                  | Python             |        105 |         36 |         10 |        151 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\SceneTopic.py                       | Python             |         72 |         54 |         19 |        145 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\TopicDialogs.py                     | Python             |         46 |         55 |         16 |        117 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\QuestExports\__init__.py                         | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\README.md                                        | Markdown           |         19 |          0 |         10 |         29 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Release_Notes.md                                 | Markdown           |          4 |          0 |          5 |          9 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\ActorsTest01.csv                         | CSV                |         10 |          0 |          1 |         11 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\Comments.csv                             | CSV                |         44 |          0 |          1 |         45 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\DicT01.csv                               | CSV                |          4 |          0 |          0 |          4 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\DicT01_2.csv                             | CSV                |          4 |          0 |          0 |          4 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\DicTuple01.csv                           | CSV                |         12 |          0 |          1 |         13 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\NewDic.csv                               | CSV                |          2 |          0 |          1 |          3 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\NewDic_2.csv                             | CSV                |          4 |          0 |          1 |          5 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\dialogueExportDSilHand_M10SilverHunt.csv | CSV                |         41 |          0 |          1 |         42 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Sandbox\dialogueExportDSilHand_M80AssaultJor.csv | CSV                |         58 |          0 |          1 |         59 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\AudioDemo.py                                | Python             |        138 |         13 |         26 |        177 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\AudioPlayer.py                              | Python             |        140 |         71 |         43 |        254 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\DemoPySimpleGuiTable.py                     | Python             |         65 |         26 |          9 |        100 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\Demo_OpenCV_Simple_GUI.py                   | Python             |         50 |         12 |         13 |         75 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\PySimpleTable.py                            | Python             |         43 |         11 |          9 |         63 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\TestThreading.py                            | Python             |         71 |         17 |         26 |        114 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\__init__.py                                 | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\_main.py                                    | Python             |         31 |          3 |         11 |         45 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\Test\audio\GridSample.py                         | Python             |         22 |         12 |         12 |         46 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\__init__.py                                      | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\build-app.bat                                    | Batch              |          5 |          0 |          0 |          5 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\requirements.txt                                 | pip requirements   |         54 |          0 |          1 |         55 |
+| c:\Users\Usuario\PycharmProjects\CkDialogDocGen\tests.py                                         | Python             |         39 |          1 |         11 |         51 |
+| Total                                                                                            |                    |     10,359 |      1,694 |      1,560 |     13,613 |
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
