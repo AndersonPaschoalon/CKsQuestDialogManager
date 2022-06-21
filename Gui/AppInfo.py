@@ -82,7 +82,7 @@ class AppSettings:
 class AppInfo:
     APP_NAME_SHORT = "CKQuestDialogManager"
     APP_NAME_LARGE = "Quest Dialog Manager for CreationKit"
-    APP_VERSION = "v1.0.0"
+    APP_VERSION = "v0.1.0.0"
     APP_VERSION_NAME = "Snowberry Crostata"
 
     def __init__(self, app_dir=".\\App\\"):
