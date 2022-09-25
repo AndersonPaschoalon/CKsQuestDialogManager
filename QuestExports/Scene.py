@@ -55,7 +55,7 @@ class Scene:
         Build a Json string representation of the object.
         :return: json string.
         """
-        self._log.debug("Scene.to_string()")
+        # self._log.debug("Scene.to_string()")
         obj = Obj2Json()
         obj.add("quest_id", self.quest_id)
         obj.add("scene_id", self.scene_id)
@@ -108,9 +108,9 @@ class Scene:
         :param dialog_type: 'CATEGORY' column.
         :return: void.
         """
-        self._log.debug("Scene.set_dialog_export() filename_key:" + filename_key + ", response_index:" + response_index
-                        + ", filepath:" + filepath + ", actor_id:" + actor_id + ", actor_race:" + actor_race +
-                        ", dialog_type:" + dialog_type)
+        # self._log.debug("Scene.set_dialog_export() filename_key:" + filename_key + ", response_index:" + response_index
+        #                 + ", filepath:" + filepath + ", actor_id:" + actor_id + ", actor_race:" + actor_race +
+        #                 ", dialog_type:" + dialog_type)
         i = 0
         while i < len(self.list_scene_topics):
             list_keys = self.list_scene_topics[i].get_list_filenames_keys()
@@ -125,15 +125,15 @@ class Scene:
         :return: list of FILENAME entries.
         """
         list_filenames = []
-        self._log.debug("get_list_filenames_keys()")
-        self._log.debug("len(self.list_scene_topics):" + str(len(self.list_scene_topics)) +\
-                        "for quest:" + self.quest_id + ", scene:" + self.scene_id )
+        # self._log.debug("get_list_filenames_keys()")
+        # self._log.debug("len(self.list_scene_topics):" + str(len(self.list_scene_topics)) +\
+        #                 "for quest:" + self.quest_id + ", scene:" + self.scene_id )
         if len(self.list_scene_topics) > 0:
             for st in self.list_scene_topics:
                 list_scene_keys = st.get_list_filenames_keys()
                 for key in list_scene_keys:
                     list_filenames.append(key)
-        self._log.debug("quest:" + self.quest_id + ", scene:" + self.scene_id + " > " + str(list_filenames))
+        # self._log.debug("quest:" + self.quest_id + ", scene:" + self.scene_id + " > " + str(list_filenames))
         return list_filenames
 
     def sort_scenes_topics(self):
@@ -244,7 +244,7 @@ class Scene:
         # add to SceneOrder dic
         scene_tuple = CsvDicTuple(csv_dic_order)
         for qs in quest_scenes_no_duplicates:
-            print(" -- qs: " + qs[0] + ", " + qs[1])
+            # print(" -- qs: " + qs[0] + ", " + qs[1])
             scene_tuple.add_tuple(qs[0], qs[1])
         # add to Comments csv
         comments = CsvDic(csv_dic_comemnts)
@@ -388,16 +388,16 @@ class Scene:
                 if act_id == Consts.STR_EMPTY_ACTOR_ID:
                     act_id = sc.list_scene_topics[i].actor_alias()
                 name = actors_dic.get(act_id, act_id)
-                print("act_id:" + act_id + ", name:" + name)
+                # print("act_id:" + act_id + ", name:" + name)
                 sc.list_scene_topics[i].set_actor_name(name)
                 i += 1
             i = 0
         # print results
-        print("** Results **")
-        for ss in list_scenes:
-            print(ss.to_string())
-            n_diag_lines = ss.count_dialog_lines()
-            # print("n_diag_lines:" + str(n_diag_lines))
+        # print("** Results **")
+        # for ss in list_scenes:
+        #     print(ss.to_string())
+        #     n_diag_lines = ss.count_dialog_lines()
+        #     # print("n_diag_lines:" + str(n_diag_lines))
         return list_scenes
 
     # private methods
@@ -418,7 +418,7 @@ class Scene:
         :return:
         """
         _log = Logger.get()
-        _log.debug("_update_dialogexport_scenelist()")
+        # _log.debug("_update_dialogexport_scenelist()")
         i = 0
         while i < len(list_scenes):
             list_keys = list_scenes[i].get_list_filenames_keys()
@@ -489,7 +489,7 @@ if __name__ == '__main__':
     if test_export_scenes_to_csvdic:
         [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
             Scene.export_scenes_data_to_csvdic("..\\Sandbox\\", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
-        print("all_scene_files: ")
+        # print("all_scene_files: ")
         for sf in all_scene_files:
             print("    - " + sf)
         print("quest_scenes_no_duplicates:")

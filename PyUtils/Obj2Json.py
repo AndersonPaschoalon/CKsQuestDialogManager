@@ -53,8 +53,8 @@ class Obj2Json:
             parsed = json.loads(data_form)
             json_formatted_str = json.dumps(parsed, indent=2)
         except ValueError as e:
-            print("data_form:" + data_form)
-            print("json_formatted_str:" + json_formatted_str)
+            # print("data_form:" + data_form)
+            # print("json_formatted_str:" + json_formatted_str)
             raise e
         return json_formatted_str
 
@@ -117,4 +117,4 @@ if __name__ == '__main__':
     obj.add("bools", list_bool)
     obj.add("intss", list_int)
 
-    print(obj.json())
+    # print(obj.json())

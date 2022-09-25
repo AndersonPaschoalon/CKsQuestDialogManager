@@ -20,7 +20,7 @@ class CsvDicEditor(Frame):
         self.createDefaultWidgets()
         self.filename = ""
         screen = ScreenInfo.screen_resolution()
-        print(screen)
+        # print(screen)
         # self.master.wm_maxsize(screen[0], screen[1])
         self.master.wm_maxsize(1200, 650)
 
@@ -156,8 +156,8 @@ class CsvDicEditor(Frame):
                 ary.append([])
                 col = len(row)
                 rows.append(row)
-                print("col:" + str(col))
-                print("row:" + str(row))
+                # print("col:" + str(col))
+                # print("row:" + str(row))
 
         # create the array
         for i in range(len(ary)):
@@ -166,7 +166,7 @@ class CsvDicEditor(Frame):
         # fill the array
         for i in range(len(ary)):
             for j in range(col):
-                print("row(i,j)=<" + str(rows[i][j]) + ">")
+                # print("row(i,j)=<" + str(rows[i][j]) + ">")
                 ary[i][j] = rows[i][j]
         self.removeCells()
         # get the max width of the cells

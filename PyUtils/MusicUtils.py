@@ -5,7 +5,7 @@ from pygame import mixer
 class MusicUtils:
 
     def __init__(self):
-        print("Initializing mixer from pygame")
+        # print("Initializing mixer from pygame")
         mixer.init()
         self.sound = None
         self.track = ""
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     player.play_sound('../Sandbox/audio/02 - Carry On.mp3')
     sleep_time = 0
     while sleep_time < DURATION:
-        print("sleep_time:" + str(sleep_time) + ", player => sound_len/sound_position:" + str(player.sound_len()) + "/"
-              + str(player.sound_position()))
+        # print("sleep_time:" + str(sleep_time) + ", player => sound_len/sound_position:" + str(player.sound_len()) + "/"
+        #       + str(player.sound_position()))
         sleep_time += 1
         time.sleep(1)

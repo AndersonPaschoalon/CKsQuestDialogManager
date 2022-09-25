@@ -260,7 +260,7 @@ class SkyAudioEncoder:
         return os.path.splitext(filename)[0] + "." + new_ext
 
 if __name__ == '__main__':
-    print("oi")
+    # print("oi")
     app_dir = "..\\App\\Bin\\"
     dir_files1 = "..\\Sandbox\\enc1\\"
     dir_files2 = "..\\Sandbox\\enc2\\"
@@ -279,17 +279,17 @@ if __name__ == '__main__':
             print(enc.get_last_error())
 
     if b_test2:
-        print("Gererating XWM and LIP from FUZ")
+        # print("Gererating XWM and LIP from FUZ")
         ret = enc.unfuz(dir_files2 + file)
         if ret != SkyAudioEncoder.RET_SUCCESS:
             print(enc.get_last_error())
-        print("Gererating WAV from XWM")
+        # print("Gererating WAV from XWM")
         ret = enc.xwm_to_wav(dir_files2 + file)
         if ret != SkyAudioEncoder.RET_SUCCESS:
             print(enc.get_last_error())
 
     if b_test3:
-        print("Gererating MP3 to WAV")
+        # print("Gererating MP3 to WAV")
         ret = enc.mp3_to_wav(dir_files3 + file3)
         if ret != SkyAudioEncoder.RET_SUCCESS:
             print(enc.get_last_error())

@@ -81,7 +81,7 @@ class AudioWindow:
 
     def update_current_track(self, filepath, sound, subtitle):
         if not sound == "":
-            print(">>>>" + sound)
+            # print(">>>>" + sound)
             self.current_filepath = filepath
             self.current_track = str(sound)
             self.current_subtitle = str(subtitle)
@@ -93,7 +93,7 @@ class AudioWindow:
     def run(self):
         skyrim_path = self.app.settings_obj.skyrim_path
         icon_abs_path = os.path.abspath(self.app.app_icon_ico)
-        print("icon_abs_path:" + icon_abs_path)
+        # print("icon_abs_path:" + icon_abs_path)
         self._log.info("Changing working directory from {0} to {1}".format(Cd.pwd(), skyrim_path))
         with Cd(skyrim_path):
             self._log.info("Current working directory: " + Cd.pwd())
@@ -260,7 +260,7 @@ class AudioWindow:
                     self._log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
                     window[AudioWindow.KEY_TEXT_END_TIME].update(str(self.audio_logic_layer.get_current_track_len()))
 
-                print(event)
+                # print(event)
                 # print("SELECTED ROW: " + str(self.current_row ))
                 # print("layout[0].SelectedRows:" + str(layout[0][0].SelectedRows))
                 if event == sg.WIN_CLOSED:

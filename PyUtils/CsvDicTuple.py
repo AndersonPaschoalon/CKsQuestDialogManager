@@ -211,8 +211,8 @@ def _print_position(csv_dic_tuple: CsvDicTuple, key: str, value: str, expected_p
     :return: void
     """
     actual_position = csv_dic_tuple.tuple_position(key, value)
-    print("(" + key + ", " + value + ") position: expected/actual = " + str(expected_position) + "/" + str(
-        actual_position))
+    # print("(" + key + ", " + value + ") position: expected/actual = " + str(expected_position) + "/" + str(
+    #     actual_position))
 
 
 if __name__ == '__main__':

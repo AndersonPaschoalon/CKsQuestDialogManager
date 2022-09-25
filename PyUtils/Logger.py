@@ -42,6 +42,7 @@ class Logger:
         # add the handlers to logger
         Logger._logger.addHandler(ch)
         Logger._logger.addHandler(fh)
+        Logger._logger.propagate = False
         # init log
         Logger._logger.info("-----------------------------------")
         Logger._logger.info("Log system successfully initialised")

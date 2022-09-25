@@ -71,7 +71,7 @@ class SceneDictionary:
         with Cd(skyrim_path):
             for nth_file in export_dialog_files:
                 _log.info("-- processing file " + nth_file)
-                print("-- processing file " + nth_file)
+                # print("-- processing file " + nth_file)
                 if is_non_zero_file(nth_file):
                     with open(nth_file) as fd:
                         rd = csv.reader(fd, delimiter="\t", quotechar='"')
@@ -107,8 +107,8 @@ class SceneDictionary:
                                 sd.dialogue = diag_text
                                 if not any(x.filename == sd.filename for x in list_scenes_dics):
                                     list_scenes_dics.append(sd)
-                                else:
-                                    _log.debug("** Dic already have entry x.filename:" + sd.filename + " (" + nth_file + ")")
+                                # else:
+                                #    _log.debug("** Dic already have entry x.filename:" + sd.filename + " (" + nth_file + ")")
                             else:
                                 _log.warn("**WARN** Cant parse row from file <" + nth_file + ">: row len is " + str(len(row)))
                 else:

@@ -136,7 +136,7 @@ class ReportAudioDetails:
         :return:
         """
         directory = os.getcwd()
-        print("=======================" + directory)
+        # print("=======================" + directory)
         filename = "reportAudioDetails_"
         now = datetime.now()
         dt_string = now.strftime("-%d-%m-%Y_%H-%M-%S")
@@ -153,7 +153,7 @@ class ReportAudioDetails:
             fuz_html = ReportAudioDetails.file_ext_tag(item.fuz)
             current_table = ReportAudioDetails.HTML_REPORT_TABLE
             # replace strings
-            print("before: " + current_table)
+            # print("before: " + current_table)
             current_table = current_table.replace("###_replace_conter###", item_count_str)
             current_table = current_table.replace("###_replace_quest_id###", item.quest_id)
             current_table = current_table.replace("###_replace_actor###", item.actor)
@@ -172,7 +172,7 @@ class ReportAudioDetails:
             current_table = current_table.replace("###_replace_branch_id###", item.branch_id)
             current_table = current_table.replace("###_replace_scene_id###", item.scene_id)
             current_table = current_table.replace("###_replace_scene_phase###", str(item.scene_phase))
-            print("AFTER: " + current_table)
+            # print("AFTER: " + current_table)
             html_str += current_table
             item_count += 1
         footer_template = ReportAudioDetails.HTML_REPORT_FOOTER

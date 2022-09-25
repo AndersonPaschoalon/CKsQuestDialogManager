@@ -31,7 +31,7 @@ class CsvReorderWindow:
         if not exists(filename):
             popup_text = "File {0} does not exist.".format(filename)
             return
-        print(" -- self.app.app_icon_ico:" + self.app.app_icon_ico)
+        # print(" -- self.app.app_icon_ico:" + self.app.app_icon_ico)
         dic_tuple = CsvDicTuple(dic_file=filename)
         data = self.load_csv(filename)
         table_headings = [label_key, label_value]
@@ -133,5 +133,5 @@ if __name__ == '__main__':
     app_dir = "..\\App\\"
     reorder = CsvReorderWindow(app_dir)
     data = reorder.load_csv(csv_file)
-    print("data:" + str(data))
+    # print("data:" + str(data))
     reorder.run(csv_file)

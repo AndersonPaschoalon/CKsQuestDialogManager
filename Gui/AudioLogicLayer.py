@@ -83,8 +83,8 @@ class AudioLogicLayer:
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             self._console_add(popup_text)
             url_report = "file:///" + os.path.realpath(file_name)
-            print("url_report:" + url_report)
-            print("popup_ret:" + popup_ret)
+            # print("url_report:" + url_report)
+            # print("popup_ret:" + popup_ret)
             if popup_ret != AudioLogicLayer.STR_CANCEL:
                 webbrowser.open(url_report, new=2)
 
@@ -136,7 +136,7 @@ class AudioLogicLayer:
         Return a string with the file status.
         :return:
         """
-        print("** sound_path:" + sound_path)
+        # print("** sound_path:" + sound_path)
         if sound_path == "":
             return ""
         mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
@@ -328,7 +328,7 @@ class AudioLogicLayer:
         # 1 - WAV file
         # 3 - Subtitle
         cmd = "{0}  -GenerateSingleLip:\"{1}\" \"{2}\"".format(self.app.creation_kit_exe, sound_path, subtitles)
-        print("##############" + cmd)
+        # print("##############" + cmd)
 
     def audio_gen_xwm(self, sound_path: str):
         """
@@ -449,7 +449,7 @@ class AudioLogicLayer:
         if ncores <= 1:
             ncores = 2
         self._console_add("-- ncores:" + str(ncores))
-        print("-- ncores:" + str(ncores))
+        # print("-- ncores:" + str(ncores))
         splitted_list = split_list(list_sound_path, ncores)
         # Thread managing, one per core
         if parallel_method != 2:
@@ -481,8 +481,8 @@ class AudioLogicLayer:
             self._console_add(popup_text)
             html_report = ReportBatchCmd.export_report(report_list_arg, self.app.app_dir)
             url_report = "file:///" + os.path.realpath(html_report)
-            print("url_report:" + url_report)
-            print("popup_ret:" + popup_ret)
+            # print("url_report:" + url_report)
+            # print("popup_ret:" + popup_ret)
             if popup_ret != AudioLogicLayer.STR_CANCEL:
                 webbrowser.open(url_report, new=2)
 
@@ -651,7 +651,7 @@ class AudioLogicLayer:
             ret_flag = True
         if ret_val == SkyAudioEncoder.RET_SUCCESS:
             ret_flag = True
-        print([ret_flag, ret_val, ret_msg, ret_stdout])
+        # print([ret_flag, ret_val, ret_msg, ret_stdout])
         self._console_add(str([ret_flag, ret_val, ret_msg, ret_stdout]))
         return [ret_flag, ret_val, ret_msg, ret_stdout]
 

@@ -109,8 +109,8 @@ class AudioData:
                         emotion = tp.get_topic_mood(i)
                         filepath = tp.get_topic_file_path(i)
                         filename = tp.get_topic_file_name(i)
-                        print("filename:" + filename)
-                        print("filepath:" + filepath)
+                        # print("filename:" + filename)
+                        # print("filepath:" + filepath)
                         list_audio_data.append(AudioData(file_path=filepath, quest_id=quest_id, actor_name=actor_name,
                                                          subtitle=subtitle, file_name=filename, dialog_type=dialog_type,
                                                          emotion=emotion, voice_type=voice_type, topic_id=topic_id,

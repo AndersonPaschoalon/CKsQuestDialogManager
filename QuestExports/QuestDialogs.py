@@ -102,12 +102,11 @@ class QuestDialogs:
                 md += "### {0}\n".format(branch.branch_name)
                 md += "> _{0}_\n".format(branch.comment.strip())
                 md += "> \n"
-                md += "> Dialog Type:``{0}``, Actor Race:``{1}``, Voice Type:``{2}``.\n\n".format(branch.dialog_type.strip(),
+                md += "> Dialog Type: ``{0}``, Actor Race: ``{1}``, Voice Type: ``{2}``.\n\n".format(branch.dialog_type.strip(),
                                                                                                   branch.actor_race.strip(),
                                                                                                   branch.actor_voice_type.strip())
                 for topic in branch.list_topic_dialogs:
-
-                    self._log.debug("=> TOPIC :" + topic.topic_name + ":" + str(len(topic._list_topic_data)))
+                    # self._log.debug("=> TOPIC :" + topic.topic_name + ":" + str(len(topic._list_topic_data)))
                     if not topic.is_topic_data_empty():
                         md += "#### {0}\n\n".format(topic.topic_name)
                         if topic.comment.strip() != "":
@@ -264,7 +263,7 @@ class QuestDialogs:
                             if (current_npc is not None) and (current_npc != "") and \
                                     (current_npc != Consts.CSV_EMPTY_COLUMN):
                                 list_actors.append(current_npc)
-                            _log.debug("* objs: " + current_quest + ", " + current_branch + "" + current_topic)
+                            # _log.debug("* objs: " + current_quest + ", " + current_branch + "" + current_topic)
                         else:
                             _log.warn("**WARN** Cant parse row from file <" + nth_file + ">: row len is " + str(len(row)))
         # go back to the working directory and remove duplicates
@@ -302,7 +301,7 @@ class QuestDialogs:
         for q in list_quest_obj:
             q.generate_documentation(doc_dir, app_name, github_url)
             list_quests_names.append(q.quest_name)
-        print("Documentation generation finished.")
+        # print("Documentation generation finished.")
         _log.info("Documentation generation finished.")
         return list_quests_names
 
@@ -328,8 +327,8 @@ class QuestDialogs:
         comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
         actors_dic = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
         export_dialog_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
-        for ex_files in export_dialog_files:
-            _log.debug(" exported file:" + ex_files)
+        # for ex_files in export_dialog_files:
+        #     _log.debug(" exported file:" + ex_files)
         if len(export_dialog_files) == 0:
             # return if no file was filtered
             _log.warning("No valid Creation Kit exported file was found at directory <" + skyrim_path + ">")
@@ -395,7 +394,7 @@ class QuestDialogs:
                                 # Stores data from the last iteration
                                 # * If it is a new branch, the last topic needs to be stored now -- if the branch is ready
                                 #   (not the first)
-                                _log.debug(" # ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
+                                # _log.debug(" # ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
                                 QuestDialogs._add_topic(branch_obj, last_topic, topic_obj)
                                 is_topic_added = True
                                 # stores the last branch on the list if it is a new one and not the first
@@ -407,7 +406,7 @@ class QuestDialogs:
                                 branch_obj.branch_name = current_branch
                                 branch_obj.comment = comments.get(current_branch, Consts.DEFAULT_BRANCH_DESCRIPTION)
                                 # delete
-                                _log.debug("-- comments._csv_file:" + comments._csv_file)
+                                # _log.debug("-- comments._csv_file:" + comments._csv_file)
                                 branch_obj.dialog_type = row[col_type]
                                 # branch_obj.actor_name = row[col_npc]
                                 actor_id = row[col_npc]
@@ -420,7 +419,7 @@ class QuestDialogs:
                             # check if a new topic need to be created
                             if last_topic == "" or last_topic != current_topic:
                                 # add the last topic object to the branch object
-                                _log.debug(" * ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
+                                # _log.debug(" * ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
                                 if not is_topic_added:
                                     QuestDialogs._add_topic(branch_obj, last_topic, topic_obj)
                                 # a new topic started, a new one needs to be created
@@ -481,7 +480,7 @@ class QuestDialogs:
         # debug information
         counter_quest = 0
         for q in list_quest:
-            _log.debug("-- Quest Object [" + str(counter_quest) + "]: " + q.to_string())
+            # _log.debug("-- Quest Object [" + str(counter_quest) + "]: " + q.to_string())
             counter_quest += 1
         return list_quest
 

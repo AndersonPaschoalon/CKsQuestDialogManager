@@ -11,7 +11,7 @@ class QuickTimer:
 
     def delta(self):
         stop = timeit.default_timer()
-        print('QuickTimer: {0} seconds'.format(stop - self.start))
+        # print('QuickTimer: {0} seconds'.format(stop - self.start))
         return stop - self.start
 
 

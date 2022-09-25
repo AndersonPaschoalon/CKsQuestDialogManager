@@ -16,7 +16,7 @@ class CsvDicEditor2(tk.Frame):
     currentCell = None
 
     def __init__(self, master=None, height=650):
-        print("CsvDicEditor2")
+        # print("CsvDicEditor2")
         (width, height) = ScreenInfo.golden_display_pair(height)
         tk.Frame.__init__(self, master, width=width, height=height)
         self.pack_propagate(0)
@@ -26,7 +26,7 @@ class CsvDicEditor2(tk.Frame):
         self.filename = ""
 
     def run_app(self, filename=""):
-        print("CsvDicEditor2.run_app()")
+        # print("CsvDicEditor2.run_app()")
         self.filename = filename
         menubar = tk.Menu(self)
         filemenu = tk.Menu(menubar, tearoff=0)
@@ -38,10 +38,10 @@ class CsvDicEditor2(tk.Frame):
         default_font.configure(family="Helvetica")
         self.option_add("*Font", default_font)
         if filename != "" and filename != None:
-            print("Opening file " + filename)
+            # print("Opening file " + filename)
             self.loadCells(filename)
         else:
-            print("No filename was provided.")
+            # print("No filename was provided.")
             self.createDefaultWidgets()
         self.pack(side="top", fill="both", expand=True)
         self.mainloop()
@@ -87,7 +87,7 @@ class CsvDicEditor2(tk.Frame):
         return "break"
 
     def saveFile(self, event):
-        print("CsvDicEditor2.saveFile()")
+        # print("CsvDicEditor2.saveFile()")
         self.saveCells()
 
     def createDefaultWidgets(self):
@@ -142,8 +142,8 @@ class CsvDicEditor2(tk.Frame):
                 ary.append([])
                 col = len(row)
                 rows.append(row)
-                print("col:" + str(col))
-                print("row:" + str(row))
+                # print("col:" + str(col))
+                # print("row:" + str(row))
         # create the array
         for i in range(len(ary)):
             for j in range(col):
@@ -151,7 +151,7 @@ class CsvDicEditor2(tk.Frame):
         # fill the array
         for i in range(len(ary)):
             for j in range(col):
-                print("row(i,j)=<" + str(rows[i][j]) + ">")
+                # print("row(i,j)=<" + str(rows[i][j]) + ">")
                 ary[i][j] = rows[i][j]
         self.removeCells()
         # get the max width of the cells
@@ -167,7 +167,7 @@ class CsvDicEditor2(tk.Frame):
             for j in range(len(ary[0])):
                 loadCells[i].append([])
         [width_1, width_2] = CsvDicEditor2.calc_cols_width(15, 9999, ary)
-        print("==> " + str([width_1, width_2]))
+        # print("==> " + str([width_1, width_2]))
         # create the new cells
         for i in range(len(ary)):
             for j in range(len(ary[0])):
@@ -197,7 +197,7 @@ class CsvDicEditor2(tk.Frame):
                 self.cellList.append(tmp)
         self.currentCells = loadCells
         self.currentCell = self.currentCells[0][0]
-        print("-- " + str(width_2))
+        # print("-- " + str(width_2))
         #self.scroll_frame.viewPort.config(width=width_2)
         #self.scroll_frame.viewPort.pack()
         #self.scroll_frame.config(width=1500, height=200)
@@ -209,8 +209,8 @@ class CsvDicEditor2(tk.Frame):
             for j in range(len(self.currentCells[0])):
                 row.append(self.currentCells[i][j].get().strip())
             vals.append(row)
-        print("------------------")
-        print(vals)
+        # print("------------------")
+        # print(vals)
         with open(self.filename, "w") as csvfile:
             for curr_row in vals:
                 row = ""
@@ -235,7 +235,7 @@ class CsvDicEditor2(tk.Frame):
                 if curr_len > max_len1:
                     max_len1 = curr_len
         except:
-            print("error calculating max_len1")
+            # print("error calculating max_len1")
             max_len1 = min_width
         try:
             curr_len = 0
@@ -244,7 +244,7 @@ class CsvDicEditor2(tk.Frame):
                 if curr_len > max_len2:
                     max_len2 = curr_len
         except:
-            print("error calculating max_len2")
+            # print("error calculating max_len2")
             max_len2 = min_width
         width_1 = 0
         if max_len1 < min_width:
@@ -260,7 +260,7 @@ class CsvDicEditor2(tk.Frame):
             width_2 = max_width
         else:
             width_2 = max_len2
-        print([width_1, width_2])
+        # print([width_1, width_2])
         return [width_1, width_2]
 
 

@@ -244,7 +244,7 @@ class CkLogicLayer:
         else:
             cmd_str = cmd.get_batch(self.app.settings_obj.actors_file)
             self._log.debug("command: " + cmd_str)
-            print(cmd_str)
+            # print(cmd_str)
             subprocess.Popen(cmd_str)
         self._log.debug("-- open_actors_editor() finish")
 
@@ -260,7 +260,7 @@ class CkLogicLayer:
         else:
             cmd_str = cmd.get_batch(self.app.settings_obj.comments_file)
             self._log.debug("command: " + cmd_str)
-            print(cmd_str)
+            # print(cmd_str)
             subprocess.Popen(cmd_str)
         self._log.debug("-- open_actors_editor() finish")
 
@@ -315,5 +315,5 @@ class CkLogicLayer:
          self._log.error(sys.exc_info()[2])
 
 
-if __name__ == '__main__':
-    print("oi")
+# if __name__ == '__main__':
+#     print("oi")
