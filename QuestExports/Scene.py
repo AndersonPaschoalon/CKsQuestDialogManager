@@ -216,7 +216,6 @@ class Scene:
         list_alias = []
         with Cd(skyrim_path):
             for f in all_scene_files:
-                print("openning file " + f)
                 if is_non_zero_file(f):
                     with open(f) as fd:
                         rd = csv.reader(fd, delimiter=Consts.EXPORT_SCENE_DELIMITER, quotechar='"')
@@ -224,10 +223,14 @@ class Scene:
                         col_quest = Scene._get_index(first_row, Consts.LABEL_SCENE_QUEST)
                         col_scene = Scene._get_index(first_row, Consts.LABEL_SCENE_SCENE)
                         col_alias = Scene._get_index(first_row, Consts.LABEL_SCENE_ALIAS)
+                        max_col = max([col_quest, col_scene, col_alias])
                         for row in rd:
-                            list_quest_scenes_pairs.append((row[col_quest], row[col_scene]))
-                            list_scenes.append(row[col_scene])
-                            list_alias.append(row[col_alias])
+                            if len(row) >= max_col:
+                                list_quest_scenes_pairs.append((row[col_quest], row[col_scene]))
+                                list_scenes.append(row[col_scene])
+                                list_alias.append(row[col_alias])
+                            else:
+                                _log.warn("**WARN** Cant parse row from file <" + f + ">: row len is " + str(len(row)))
                 else:
                     _log.warning("**WARN**  FILE " + f + " is empty")
         # remove duplicates from pairs
@@ -334,26 +337,31 @@ class Scene:
                 rd = csv.reader(fd, delimiter="\t", quotechar='"')
                 # calc the positions for each file
                 first_row = next(rd)
-                #col_fullpath = Scene._get_index(first_row, Consts.LABEL_SCENE_FULL_PATH)
-                #col_filename = Scene._get_index(first_row, Consts.LABEL_SCENE_FILENAME)
-                #col_res_index = Scene._get_index(first_row, Consts.LABEL_SCENE_RESPONSE_INDEX)
-                #col_category = Scene._get_index(first_row, Consts. LABEL_SCENE_CATEGORY)
                 col_fullpath = Scene._get_index(first_row, Consts.LABEL_DIALOG_FULL_PATH)
                 col_filename = Scene._get_index(first_row, Consts.LABEL_DIALOG_FILENAME)
                 col_res_index = Scene._get_index(first_row, Consts.LABEL_DIALOG_NPC_RESPONSE_INDEX)
                 col_category = Scene._get_index(first_row, Consts.LABEL_DIALOG_CATEGORY)
                 col_actor_id = Scene._get_index(first_row, Consts.LABEL_DIALOG_NPC_SPEAKER)
                 col_actor_race = Scene._get_index(first_row, Consts.LABEL_DIALOG_NPC_RACE)
+                max_col = max([col_fullpath, 
+                               col_filename, 
+                               col_res_index, 
+                               col_category, 
+                               col_actor_id, 
+                               col_actor_race])
                 for row in rd:
-                    fullpath = row[col_fullpath]
-                    filename = row[col_filename]
-                    res_index = row[col_res_index]
-                    category = row[col_category]
-                    actor_id = row[col_actor_id]
-                    actor_race = row[col_actor_race]
-                    if category == Consts.STR_SCENE_VAL:
-                        list_scenes = Scene._update_dialogexport_scenelist(list_scenes, filename, res_index, fullpath,
-                                                                           actor_id, actor_race, category)
+                    if len(row) >= max_col:
+                        fullpath = row[col_fullpath]
+                        filename = row[col_filename]
+                        res_index = row[col_res_index]
+                        category = row[col_category]
+                        actor_id = row[col_actor_id]
+                        actor_race = row[col_actor_race]
+                        if category == Consts.STR_SCENE_VAL:
+                            list_scenes = Scene._update_dialogexport_scenelist(list_scenes, filename, res_index, fullpath,
+                                                                            actor_id, actor_race, category)
+                    else:
+                        _log.warn("**WARN** Cant parse row from file <" + quest_ex_file + ">: row len is " + str(len(row)))
         # (3) sort scenes
         _log.debug("sorting scenes...")
         i = 0

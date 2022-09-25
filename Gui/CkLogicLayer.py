@@ -80,8 +80,7 @@ class CkLogicLayer:
             poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Exported Objects Summary")
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.export_objects_to_csv()")
 
     def generate_documentation(self):
         self._log = Logger.get()
@@ -111,8 +110,7 @@ class CkLogicLayer:
             poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Documentation Generation Summary")
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.generate_documentation()")
 
     def open_tutorial(self):
         self._log = Logger.get()
@@ -122,8 +120,7 @@ class CkLogicLayer:
             self._log.debug("webbrowser.open() url_tutorial:" + url_tutorial)
             webbrowser.open(url_tutorial, new=2)
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.open_tutorial()")
 
     def open_github(self):
         self._log = Logger.get()
@@ -133,8 +130,7 @@ class CkLogicLayer:
             self._log.debug("webbrowser.open() url_tutorial:" + url)
             webbrowser.open(url, new=2)
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.open_github()")
 
     def open_nexus(self):
         try:
@@ -144,8 +140,7 @@ class CkLogicLayer:
             self._log.debug("webbrowser.open() url_tutorial:" + url)
             webbrowser.open(url, new=2)
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.open_nexus()")
 
     def open_theme_picker(self):
         self._log = Logger.get()
@@ -184,8 +179,7 @@ class CkLogicLayer:
                 selected_theme = values['-LIST-'][0]
                 self._log.debug("*** " + values['-LIST-'][0])
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.open_theme_picker()")
 
     def open_settings_window(self):
         self._log = Logger.get()
@@ -227,8 +221,7 @@ class CkLogicLayer:
                     window_settings.close()
                     return "reset"
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.open_settings_window()")
             return "exception"
 
     def open_about_window(self):
@@ -282,8 +275,7 @@ class CkLogicLayer:
             audio_window = AudioWindow(self.app.app_dir)
             audio_window.run()
         except:
-            self._log.error(traceback.format_exc())
-            self._log.error(sys.exc_info()[2])
+            self._exception_handler("CkLogicLayer.launch_audio_manager()")
 
     def _exec_actor_editor(self):
         self._log.debug("-- _exec_actor_editor() start")
@@ -307,7 +299,20 @@ class CkLogicLayer:
             poup_text_display = popup_raw_text[:CkLogicLayer.POPUP_TEXT_MAX_LEN] + "..."
         else:
             poup_text_display = popup_raw_text
-        return  poup_text_display
+        return poup_text_display
+
+    def _exception_handler(self, error_method):
+         err_title = "** Error on method " + error_method + " **"
+         err_msg = "** Error details: **\n"
+         err_msg += "traceback.format_exc():\n" + str(traceback.format_exc()) + "\n"
+         err_msg += "sys.exc_info():\n" + str(sys.exc_info()[2]) + "\n"
+         sg.Popup(err_msg,
+                  keep_on_top=True,
+                  icon=self.app.app_icon_ico,
+                  title=err_title)
+         self._log.error(err_title)
+         self._log.error(traceback.format_exc())
+         self._log.error(sys.exc_info()[2])
 
 
 if __name__ == '__main__':

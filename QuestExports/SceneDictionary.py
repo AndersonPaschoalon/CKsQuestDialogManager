@@ -86,27 +86,31 @@ class SceneDictionary:
                         col_emotion = SceneDictionary._get_index(first_row, Consts.LABEL_SCENE_EMOTION)
                         col_notes = SceneDictionary._get_index(first_row, Consts.LABEL_SCENE_SCRIPT_NOTES)
                         col_phase = SceneDictionary._get_index(first_row, Consts.LABEL_SCENE_SCENE_PHASE)
+                        max_col = max([col_scene, col_alias, col_voice, col_file, col_response, col_supporting, col_emotion, col_notes, col_phase])
                         for row in rd:
-                            sd = SceneDictionary()
-                            sd.scene_id = row[col_scene]
-                            sd.alias = row[col_alias]
-                            sd.voice_type = row[col_voice]
-                            sd.filename = row[col_file]
-                            sd.emotion = row[col_emotion]
-                            sd.notes = row[col_notes]
-                            sd.scene_phase = int(row[col_phase])
-                            response = row[col_response].strip()
-                            supporting = row[col_supporting].strip()
-                            diag_text = ""
-                            if response == "":
-                                diag_text = supporting
+                            if len(row) >= max_col:
+                                sd = SceneDictionary()
+                                sd.scene_id = row[col_scene]
+                                sd.alias = row[col_alias]
+                                sd.voice_type = row[col_voice]
+                                sd.filename = row[col_file]
+                                sd.emotion = row[col_emotion]
+                                sd.notes = row[col_notes]
+                                sd.scene_phase = int(row[col_phase])
+                                response = row[col_response].strip()
+                                supporting = row[col_supporting].strip()
+                                diag_text = ""
+                                if response == "":
+                                    diag_text = supporting
+                                else:
+                                    diag_text = response
+                                sd.dialogue = diag_text
+                                if not any(x.filename == sd.filename for x in list_scenes_dics):
+                                    list_scenes_dics.append(sd)
+                                else:
+                                    _log.debug("** Dic already have entry x.filename:" + sd.filename + " (" + nth_file + ")")
                             else:
-                                diag_text = response
-                            sd.dialogue = diag_text
-                            if not any(x.filename == sd.filename for x in list_scenes_dics):
-                                list_scenes_dics.append(sd)
-                            else:
-                                _log.debug("** Dic already have entry x.filename:" + sd.filename + " (" + nth_file + ")")
+                                _log.warn("**WARN** Cant parse row from file <" + nth_file + ">: row len is " + str(len(row)))
                 else:
                     _log.warn("**WARN** " + nth_file + " IS EMPTY.")
         _log.debug("build_scene_dictionary()")

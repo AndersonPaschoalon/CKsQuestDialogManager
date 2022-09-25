@@ -243,26 +243,30 @@ class QuestDialogs:
                     col_branch = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_BRANCH)
                     col_npc = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_NPC_SPEAKER)
                     col_topic = QuestDialogs._get_index(first_row, Consts.LABEL_DIALOG_QUEST_TOPIC)
+                    max_col = max([col_quest, col_branch, col_npc, col_topic])
                     for row in rd:
-                        current_quest = row[col_quest]
-                        current_branch = row[col_branch]
-                        current_topic = row[col_topic]
-                        current_npc = row[col_npc]
-                        # add objects
-                        if (current_quest is not None) and (current_quest != "") and \
-                                (current_quest != Consts.CSV_EMPTY_COLUMN):
-                            list_objects.append(current_quest)
-                        if (current_branch is not None) and (current_branch != "") and \
-                                (current_branch != Consts.CSV_EMPTY_COLUMN):
-                            list_objects.append(current_branch)
-                        if (current_topic is not None) and (current_topic != "") and \
-                                (current_topic != Consts.CSV_EMPTY_COLUMN):
-                            list_objects.append(current_topic)
-                        # add actors
-                        if (current_npc is not None) and (current_npc != "") and \
-                                (current_npc != Consts.CSV_EMPTY_COLUMN):
-                            list_actors.append(current_npc)
-                        _log.debug("* objs: " + current_quest + ", " + current_branch + "" + current_topic)
+                        if len(row) >= max_col:
+                            current_quest = row[col_quest]
+                            current_branch = row[col_branch]
+                            current_topic = row[col_topic]
+                            current_npc = row[col_npc]
+                            # add objects
+                            if (current_quest is not None) and (current_quest != "") and \
+                                    (current_quest != Consts.CSV_EMPTY_COLUMN):
+                                list_objects.append(current_quest)
+                            if (current_branch is not None) and (current_branch != "") and \
+                                    (current_branch != Consts.CSV_EMPTY_COLUMN):
+                                list_objects.append(current_branch)
+                            if (current_topic is not None) and (current_topic != "") and \
+                                    (current_topic != Consts.CSV_EMPTY_COLUMN):
+                                list_objects.append(current_topic)
+                            # add actors
+                            if (current_npc is not None) and (current_npc != "") and \
+                                    (current_npc != Consts.CSV_EMPTY_COLUMN):
+                                list_actors.append(current_npc)
+                            _log.debug("* objs: " + current_quest + ", " + current_branch + "" + current_topic)
+                        else:
+                            _log.warn("**WARN** Cant parse row from file <" + nth_file + ">: row len is " + str(len(row)))
         # go back to the working directory and remove duplicates
         list_objects = list(dict.fromkeys(list_objects))
         list_actors = list(dict.fromkeys(list_actors))
@@ -364,65 +368,82 @@ class QuestDialogs:
                     branch_obj = BranchDialogs()
                     topic_obj = TopicDialogs()
                     list_topics = []
+                    max_col = max([col_file, 
+                                   col_file_name, 
+                                   col_quest, 
+                                   col_branch, 
+                                   col_topic, 
+                                   col_type, 
+                                   col_form_id, 
+                                   col_prompt, 
+                                   col_npc, 
+                                   col_npc_race, 
+                                   col_npc_voice, 
+                                   col_npc_resp_index, 
+                                   col_npc_resp_text, 
+                                   col_npc_resp_emo])
                     for row in rd:
-                        # store the quest name
-                        if quest_name == "":
-                            quest_name = row[col_quest]
-                        # tells if the topic was already added
-                        is_topic_added = False
-                        # create a new branch if necessary
-                        current_branch = row[col_branch]
-                        if last_branch == "" or last_branch != current_branch:
-                            # Stores data from the last iteration
-                            # * If it is a new branch, the last topic needs to be stored now -- if the branch is ready
-                            #   (not the first)
-                            _log.debug(" # ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
-                            QuestDialogs._add_topic(branch_obj, last_topic, topic_obj)
-                            is_topic_added = True
-                            # stores the last branch on the list if it is a new one and not the first
-                            QuestDialogs._add_branch(list_branches, last_branch, branch_obj)
-                            # update last_branch string
-                            last_branch = current_branch
-                            # a new branch started, fills the object branch data
-                            branch_obj = BranchDialogs()
-                            branch_obj.branch_name = current_branch
-                            branch_obj.comment = comments.get(current_branch, Consts.DEFAULT_BRANCH_DESCRIPTION)
-                            # delete
-                            _log.debug("-- comments._csv_file:" + comments._csv_file)
-                            branch_obj.dialog_type = row[col_type]
-                            # branch_obj.actor_name = row[col_npc]
-                            actor_id = row[col_npc]
-                            branch_obj.actor_name = actors_dic.get(actor_id, actor_id)
-                            branch_obj.actor_race = row[col_npc_race]
-                            branch_obj.actor_voice_type = row[col_npc_voice]
-                            branch_obj.is_ready = True
-                        # updates the topic of this new line
-                        current_topic = row[col_topic]
-                        # check if a new topic need to be created
-                        if last_topic == "" or last_topic != current_topic:
-                            # add the last topic object to the branch object
-                            _log.debug(" * ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
-                            if not is_topic_added:
+                        if len(row) >= max_col:
+                            # store the quest name
+                            if quest_name == "":
+                                quest_name = row[col_quest]
+                            # tells if the topic was already added
+                            is_topic_added = False
+                            # create a new branch if necessary
+                            current_branch = row[col_branch]
+                            if last_branch == "" or last_branch != current_branch:
+                                # Stores data from the last iteration
+                                # * If it is a new branch, the last topic needs to be stored now -- if the branch is ready
+                                #   (not the first)
+                                _log.debug(" # ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
                                 QuestDialogs._add_topic(branch_obj, last_topic, topic_obj)
-                            # a new topic started, a new one needs to be created
-                            topic_obj = TopicDialogs()
-                            topic_obj.topic_name = row[col_topic]
-                            # topic_obj.actor_name = row[col_npc]
-                            actor_id = row[col_npc]
-                            topic_obj.actor_name = actors_dic.get(actor_id, actor_id)
-                            topic_obj.player_dialog = row[col_prompt]
-                            topic_obj.form_id = row[col_form_id]
-                            topic_obj.comment = comments.get(current_topic, "")
-                            # update last topic
-                            last_topic = current_topic
-                        # endif
-                        # add current line data to the topic object -- one per line
-                        str_index = row[col_npc_resp_index]
-                        str_dialogue = text(row[col_npc_resp_text])
-                        str_mood = row[col_npc_resp_emo]
-                        str_file = row[col_file]
-                        str_file_name = row[col_file_name]
-                        topic_obj.add_topic_data(str_index, str_dialogue, str_mood, str_file, str_file_name)
+                                is_topic_added = True
+                                # stores the last branch on the list if it is a new one and not the first
+                                QuestDialogs._add_branch(list_branches, last_branch, branch_obj)
+                                # update last_branch string
+                                last_branch = current_branch
+                                # a new branch started, fills the object branch data
+                                branch_obj = BranchDialogs()
+                                branch_obj.branch_name = current_branch
+                                branch_obj.comment = comments.get(current_branch, Consts.DEFAULT_BRANCH_DESCRIPTION)
+                                # delete
+                                _log.debug("-- comments._csv_file:" + comments._csv_file)
+                                branch_obj.dialog_type = row[col_type]
+                                # branch_obj.actor_name = row[col_npc]
+                                actor_id = row[col_npc]
+                                branch_obj.actor_name = actors_dic.get(actor_id, actor_id)
+                                branch_obj.actor_race = row[col_npc_race]
+                                branch_obj.actor_voice_type = row[col_npc_voice]
+                                branch_obj.is_ready = True
+                            # updates the topic of this new line
+                            current_topic = row[col_topic]
+                            # check if a new topic need to be created
+                            if last_topic == "" or last_topic != current_topic:
+                                # add the last topic object to the branch object
+                                _log.debug(" * ADD TOPIC " + topic_obj.topic_name + " TO BRANCH " + branch_obj.branch_name)
+                                if not is_topic_added:
+                                    QuestDialogs._add_topic(branch_obj, last_topic, topic_obj)
+                                # a new topic started, a new one needs to be created
+                                topic_obj = TopicDialogs()
+                                topic_obj.topic_name = row[col_topic]
+                                # topic_obj.actor_name = row[col_npc]
+                                actor_id = row[col_npc]
+                                topic_obj.actor_name = actors_dic.get(actor_id, actor_id)
+                                topic_obj.player_dialog = row[col_prompt]
+                                topic_obj.form_id = row[col_form_id]
+                                topic_obj.comment = comments.get(current_topic, "")
+                                # update last topic
+                                last_topic = current_topic
+                            # endif
+                            # add current line data to the topic object -- one per line
+                            str_index = row[col_npc_resp_index]
+                            str_dialogue = text(row[col_npc_resp_text])
+                            str_mood = row[col_npc_resp_emo]
+                            str_file = row[col_file]
+                            str_file_name = row[col_file_name]
+                            topic_obj.add_topic_data(str_index, str_dialogue, str_mood, str_file, str_file_name)
+                        else:
+                            _log.warn("**WARN** Cant parse row from file <" + nth_file + ">: row len is " + str(len(row)))
                     # endfor
                 # endwith
                 # Stores the data from the last iteration
