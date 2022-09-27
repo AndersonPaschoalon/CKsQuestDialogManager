@@ -1,6 +1,6 @@
 from datetime import datetime
 from Gui.AppInfo import *
-
+from PyUtils.DirUtils import DirUtils
 
 class ReportAudioDetails:
 
@@ -140,6 +140,8 @@ class ReportAudioDetails:
         filename = "reportAudioDetails_"
         now = datetime.now()
         dt_string = now.strftime("-%d-%m-%Y_%H-%M-%S")
+        # create directory just in case
+        DirUtils.mkdir(app.settings_obj.docgen_reports)
         filename = app.settings_obj.docgen_reports + filename + dt_string + ".html"
         html_str = ReportAudioDetails.HTML_REPORT_HEADER
         item: ReportAudioDetails

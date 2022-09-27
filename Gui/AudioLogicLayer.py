@@ -5,6 +5,7 @@ import PySimpleGUI as sg
 from os.path import exists
 from threading import Thread
 from threading import Lock
+from pydub import AudioSegment
 from multiprocessing.pool import ThreadPool
 from PyUtils.SkyAudioEncoder import SkyAudioEncoder
 from PyUtils.MusicUtils import MusicUtils
@@ -486,43 +487,37 @@ class AudioLogicLayer:
             if popup_ret != AudioLogicLayer.STR_CANCEL:
                 webbrowser.open(url_report, new=2)
 
-    @staticmethod
-    def _exec_fuz_list(list_files, exec_path, list_exec_report):
-        """
-        Execute the fuz operation for all listed files on list_files. The encoder is instantiated using the exec_path
-        as reference. A list of report objects BatchCmdReport is returned and is appended (extend) to the mutable list
-        list_exec_report.
-        :param list_files: list of sound files where are going to be applied the fuz operation.
-        :param exec_path: Exec path to instantidate the SkyAudioEncoder object.
-        :param list_exec_report: mutable list of execution reports.
-        :return: list of execution reports generated in this thread.
-        """
-        encoder = SkyAudioEncoder(exec_path)
-        thread_report = []
-        if len(list_files) == 0:
-            return thread_report
-        for sound_path in list_files:
-            report = ReportBatchCmd()
-            fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
-            ret_val = encoder.fuz(sound_path)
-            report.error_code = ret_val
-            if ret_val != SkyAudioEncoder.RET_SUCCESS:
-                report.error_flag = False
-                report.error_message = encoder.get_last_error()
-            else:
-                report.error_flag = True
-            report.command = encoder.get_last_command()
-            report.stdout = encoder.get_last_stdout()
-            report.process_code = encoder.get_last_encodder_ret_code()
-            report.file_name = sound_path
-            report.exe_dir = exec_path
-            thread_report.append(report)
-        AudioLogicLayer.batchReportMutex.acquire()
-        try:
-            list_exec_report.extend(thread_report)
-        finally:
-            AudioLogicLayer.batchReportMutex.release()
-        return thread_report
+    def audio_gen_silent(self, sound_path: str, list_audio_data, ask_popup=True):
+        self._log.debug("-- audio_gen_silent()")
+        self._console_add("audio_gen_silent(): " + sound_path)
+        # check if no file was selected
+        if sound_path.strip() == "":
+            popup_text = "Error: No sound file selected!"
+            sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                     title=AudioLogicLayer.STR_INFO_POPUP)
+            self._console_add(popup_text)
+            return
+        # filter the right file text
+        audio_text = ""
+        for data in list_audio_data:
+            if data.file_path == sound_path:
+                audio_text = data.subtitle
+                break
+        sound_no_ext = FileUtils.remove_ext(sound_path)
+        reading_time = AudioLogicLayer._calc_reading_time(audio_text, padding=1)
+        sound_wav = sound_no_ext + ".wav"
+        if ask_popup and os.path.exists(sound_wav):
+            popup_text = " Audio file " + sound_wav + " already exists. Continuing will overwrite this file.\n" +\
+                         " New generated file are going to have " + str(reading_time) + " seconds.\n" +\
+                         " Are you sure?"
+            popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
+                                           title=AudioLogicLayer.STR_INFO_POPUP)
+            if (popup_ret == AudioLogicLayer.STR_CANCEL) or (popup_ret is None):
+                self._log.debug("-- audio_gen_silent() CANCELED")
+                self._console_add("-- audio_gen_silent() CANCELED")
+                return
+        # GENERATE EMPTY AUDIO
+        AudioLogicLayer._create_silent_audio(sound_no_ext, reading_time)
 
     def audio_unfuz(self, sound_path: str):
         """
@@ -594,6 +589,77 @@ class AudioLogicLayer:
         self._console_has_change = False
         return self.console_output
 
+    @staticmethod
+    def _exec_fuz_list(list_files, exec_path, list_exec_report):
+        """
+        Execute the fuz operation for all listed files on list_files. The encoder is instantiated using the exec_path
+        as reference. A list of report objects BatchCmdReport is returned and is appended (extend) to the mutable list
+        list_exec_report.
+        :param list_files: list of sound files where are going to be applied the fuz operation.
+        :param exec_path: Exec path to instantidate the SkyAudioEncoder object.
+        :param list_exec_report: mutable list of execution reports.
+        :return: list of execution reports generated in this thread.
+        """
+        encoder = SkyAudioEncoder(exec_path)
+        thread_report = []
+        if len(list_files) == 0:
+            return thread_report
+        for sound_path in list_files:
+            report = ReportBatchCmd()
+            fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
+            ret_val = encoder.fuz(sound_path)
+            report.error_code = ret_val
+            if ret_val != SkyAudioEncoder.RET_SUCCESS:
+                report.error_flag = False
+                report.error_message = encoder.get_last_error()
+            else:
+                report.error_flag = True
+            report.command = encoder.get_last_command()
+            report.stdout = encoder.get_last_stdout()
+            report.process_code = encoder.get_last_encodder_ret_code()
+            report.file_name = sound_path
+            report.exe_dir = exec_path
+            thread_report.append(report)
+        AudioLogicLayer.batchReportMutex.acquire()
+        try:
+            list_exec_report.extend(thread_report)
+        finally:
+            AudioLogicLayer.batchReportMutex.release()
+        return thread_report
+
+    @staticmethod
+    def _calc_reading_time(text_str, wpm=110, word_len=5, min_time=2, padding=0):
+        """
+        Estimate the reading time in seconds.
+        :param text_str: Text to be read.
+        :param wpm: words per minute.
+        :param word_len: length of each word.
+        :param min_time: minimum time.
+        :param padding: this value will be added to the generated time.
+        :return: extimated reading time.
+        """
+        # split text in words
+        text_list = text_str.split()
+        # count words
+        total_words = 0
+        for current_text in text_list:
+            total_words += len(current_text) / word_len
+        # calc reading time in seconds
+        read_time = (total_words * 60) / wpm
+        # add padding
+        read_time = read_time + padding
+        # ensure min time
+        read_time = max([read_time, min_time])
+        return round(read_time)
+
+    @staticmethod
+    def _create_silent_audio(file_name: str, duration_sec: int):
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print("file_name >> ", file_name, " duration_sec >> ", duration_sec)
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        silent_audio = AudioSegment.silent(duration=int(duration_sec) * 1000)  # or be explicit
+        silent_audio.export(file_name + ".wav", format="wav")
+
     def _generate_wav_if_not_exit(self, sound_path, xwm_to_wav=True):
         """
         Try to generate WAV file if it does not exit.
@@ -662,6 +728,7 @@ class AudioLogicLayer:
     def _console_add(self, msg: str):
         self.console_output += msg + "\n"
         self._console_has_change = True
+
 
 
 

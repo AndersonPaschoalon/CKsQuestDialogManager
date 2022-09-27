@@ -46,6 +46,7 @@ class AudioWindow:
     KEY_GEN_FUZ_BUTTON = "key_gen_fuz_button"
     KEY_UNFUZ_BUTTON = "key_unfuz_button"
     KEY_GEN_FUZ_ALL_BUTTON = "key_fuz_all_button"
+    KEY_GEN_EMPTY_AUDIO = "key_gen_empty_audio"
     # Button Player
     KEY_PLAY_BUTTON = "key_play_button"
     KEY_PAUSE_BUTTON = "key_pause_button"
@@ -172,7 +173,10 @@ class AudioWindow:
                                   key=AudioWindow.KEY_UNFUZ_BUTTON),
                         sg.Button(emojize(":package:     Generate FUZ for all",
                                           language='alias'),
-                                  key=AudioWindow.KEY_GEN_FUZ_ALL_BUTTON)
+                                  key=AudioWindow.KEY_GEN_FUZ_ALL_BUTTON),
+                        sg.Button(emojize(":mute:     Generate EMPTY audio",
+                                          language='alias'),
+                                  key=AudioWindow.KEY_GEN_EMPTY_AUDIO),
                         ]
 
             # ------ Window Layout ------
@@ -311,6 +315,9 @@ class AudioWindow:
                     timer = QuickTimer()
                     self.audio_logic_layer.audio_gen_fuz_all(list_all_sounds, 1, True)
                     timer.delta()
+                if event == AudioWindow.KEY_GEN_EMPTY_AUDIO:
+                    print("Pressed button: " + AudioWindow.KEY_GEN_EMPTY_AUDIO)
+                    self.audio_logic_layer.audio_gen_silent(self.current_filepath, list_audio_data)
                 # update gui
                 audio_prog = self.audio_logic_layer.get_current_track_progress()
                 audio_len = self.audio_logic_layer.get_current_track_len()

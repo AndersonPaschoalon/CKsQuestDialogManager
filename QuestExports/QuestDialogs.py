@@ -70,6 +70,9 @@ class QuestDialogs:
         :param github_url:
         :return: void
         """
+        if self.quest_name.strip() == "":
+            self._log.warn("**WARN** quest name is empty. Skipping quest documentation generation.")
+            return
         # (1) Initialize environment
         self._log.debug("generate_documentation() destination:" + destination + " for quest " + self.quest_name)
         doc_html = destination + Consts.DOC_HTML_DIR
