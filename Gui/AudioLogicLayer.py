@@ -1,10 +1,14 @@
+import os
 import webbrowser
 import pyperclip
 import multiprocessing
 import PySimpleGUI as sg
+import traceback
+import sys
 from os.path import exists
 from threading import Thread
 from threading import Lock
+from random import randint, randrange
 from pydub import AudioSegment
 from multiprocessing.pool import ThreadPool
 from PyUtils.SkyAudioEncoder import SkyAudioEncoder
@@ -17,6 +21,7 @@ from Gui.AudioData import AudioData
 from Gui.AppInfo import AppInfo
 from Gui.ReportBatchCmd import ReportBatchCmd
 from Gui.ReportAudioDetails import ReportAudioDetails
+
 
 class AudioLogicLayer:
 
@@ -490,34 +495,56 @@ class AudioLogicLayer:
     def audio_gen_silent(self, sound_path: str, list_audio_data, ask_popup=True):
         self._log.debug("-- audio_gen_silent()")
         self._console_add("audio_gen_silent(): " + sound_path)
-        # check if no file was selected
+        # (1) check if no file was selected
         if sound_path.strip() == "":
             popup_text = "Error: No sound file selected!"
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                      title=AudioLogicLayer.STR_INFO_POPUP)
             self._console_add(popup_text)
             return
-        # filter the right file text
+        # (2) filter the right file text from table data
         audio_text = ""
         for data in list_audio_data:
             if data.file_path == sound_path:
                 audio_text = data.subtitle
                 break
+        # (3) calc usefull info
         sound_no_ext = FileUtils.remove_ext(sound_path)
         reading_time = AudioLogicLayer._calc_reading_time(audio_text, padding=1)
         sound_wav = sound_no_ext + ".wav"
-        if ask_popup and os.path.exists(sound_wav):
-            popup_text = " Audio file " + sound_wav + " already exists. Continuing will overwrite this file.\n" +\
-                         " New generated file are going to have " + str(reading_time) + " seconds.\n" +\
-                         " Are you sure?"
+        bkp_name = sound_no_ext + ".rand" + str(randint(10000, 99999)) + ".wav.bkp"
+        file_already_exist = os.path.exists(sound_wav)
+        # (4) Popup and backup
+        if ask_popup and file_already_exist:
+            popup_text = "Audio file " + sound_wav + " already exists. Continuing will overwrite this file.\n\n" +\
+                         "New generated file are going to have " + str(reading_time) + " seconds.\n\n" +\
+                         "Are you sure?\n\n"
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                                            title=AudioLogicLayer.STR_INFO_POPUP)
             if (popup_ret == AudioLogicLayer.STR_CANCEL) or (popup_ret is None):
                 self._log.debug("-- audio_gen_silent() CANCELED")
                 self._console_add("-- audio_gen_silent() CANCELED")
                 return
-        # GENERATE EMPTY AUDIO
-        AudioLogicLayer._create_silent_audio(sound_no_ext, reading_time)
+            self._log.info("creating backup file " + str(bkp_name))
+            self.player.reset()
+            os.rename(sound_wav, bkp_name)
+        # (5) GENERATE EMPTY AUDIO
+        ret_val, trace = AudioLogicLayer._create_silent_audio(sound_no_ext, reading_time)
+        # in case of failure, report the error and restore the backup
+        if not ret_val:
+            self._log.error(trace)
+            sg.popup_ok(trace, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
+            if file_already_exist:
+                os.rename(bkp_name, sound_wav)
+            self.player.set(sound_wav)
+            return
+        # in case of success, delete the backup
+        else:
+            self._log.info("Deleting BACKUP file " + bkp_name)
+            os.remove(bkp_name)
+            self.player.set(sound_wav)
+
+
 
     def audio_unfuz(self, sound_path: str):
         """
@@ -657,8 +684,15 @@ class AudioLogicLayer:
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("file_name >> ", file_name, " duration_sec >> ", duration_sec)
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        silent_audio = AudioSegment.silent(duration=int(duration_sec) * 1000)  # or be explicit
-        silent_audio.export(file_name + ".wav", format="wav")
+        try:
+            silent_audio = AudioSegment.silent(duration=int(duration_sec) * 1000)  # or be explicit
+            silent_audio.export(file_name + ".wav", format="wav")
+            return True, "SUCCESS"
+        except:
+            ex_msg = "Error exporting file " + file_name + ".wav\n'" +\
+                     "traceback.format_exc(): " + str(traceback.format_exc()) + "\n" +\
+                     "sys.exc_info()[2]: " + str(sys.exc_info()[2])
+            return False, ex_msg
 
     def _generate_wav_if_not_exit(self, sound_path, xwm_to_wav=True):
         """

@@ -47,6 +47,11 @@ What you can do:
 * If this blue-theme color is not good for you, there a dozens more to be choosen. 
 
 
+rem htmldocx
+rem pyperclip
+rem PySimpleGui
+rem emogi
+rem pygame
 
 
 

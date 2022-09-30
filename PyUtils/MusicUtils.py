@@ -26,6 +26,17 @@ class MusicUtils:
                 # self.track = sound_path
             # It is the same song selected, just continue
 
+    def reset(self):
+        """
+        Reset the state of the object.
+        :return:
+        """
+        self.track = ""
+        if self.sound != None:
+            self.sound.stop()
+        mixer.music.stop()
+        mixer.music.unload()
+
     def play(self, sound_path):
         """
         Play song.
@@ -121,7 +132,7 @@ class MusicUtils:
 
 
 if __name__ == "__main__":
-    DURATION = 60*10
+    DURATION = 60 * 10
     player = MusicUtils()
     player.play_sound('../Sandbox/audio/02 - Carry On.mp3')
     sleep_time = 0

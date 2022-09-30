@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\.VSCodeCounter\2022-06-18_23-17-47\diff.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\App\Db\Comments.csv">
           <value>
             <Attribute>
@@ -67,41 +74,6 @@
           </value>
         </entry>
         <entry key="\Sandbox\dialogueExportDSilHand_M80AssaultJor.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\dist\App\Db\Comments.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\dist\Sandbox\DicT01.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\dist\Sandbox\DicT01_2.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\dist\Sandbox\dialogueExportDSilHand_M10SilverHunt.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\dist\Sandbox\dialogueExportDSilHand_M80AssaultJor.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />
