@@ -1,3 +1,4 @@
+"""
 import json
 import os
 import logging
@@ -5,9 +6,7 @@ from PyUtils.Obj2Json import Obj2Json
 
 
 class AppSettings:
-    """
-    Store all settings from the application.
-    """
+    # Store all settings from the application.
     SKYRIM_PATH = ".\\Sandbox\\"
     DOGEN_DIR = ".\\OUTPUT\\"
     ACTORS_FILE = ".\\Actors.csv"
@@ -142,3 +141,5 @@ if __name__ == '__main__':
     print(aa.to_string())
     aa.settings_obj.docgen_dir = "../OUTPUT/"
     aa.settings_obj.save()
+
+"""

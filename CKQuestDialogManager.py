@@ -2,7 +2,7 @@ import logging
 import traceback
 import PySimpleGUI as sg
 from PyUtils.Logger import Logger
-from Gui.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo
 from Gui.MainWindow import MainWindow
 
 

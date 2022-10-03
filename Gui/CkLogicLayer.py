@@ -11,7 +11,7 @@ from PyUtils.Logger import Logger
 from PyUtils.CsvDicEditor2 import CsvDicEditor2
 from QuestExports.QuestDialogs import QuestDialogs
 from QuestExports.Scene import Scene
-from Gui.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo
 from Gui.CsvReorderWindow import CsvReorderWindow
 from Gui.AboutWindow import AboutWindow
 from Gui.AudioWindow import AudioWindow

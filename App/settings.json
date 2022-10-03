@@ -6,7 +6,11 @@
     "comments-file": "./App/Db/Comments.csv",
     "scene-order-file": "./App/Db/SceneOrder.csv",
     "topic-sort-by-name": "true",
-    "app_theme": "DarkBlue12",
-    "csv_editor_cmd_comments": "Use \"Process\" string  for  multiprocessing import, otherwise will be executed as a batch command. Use {file} variable to pass the csv file full path. Any other command line application can be set as editor.",
-    "csv_editor_cmd": "./App/Bin/CsvDicEditorApp.exe --filename {file}"
+    "app-theme": "DarkBlue12",
+    "csv-editor-cmd-comments": "Use \"Process\" string  for  multiprocessing import, otherwise will be executed as a batch command. Use {file} variable to pass the csv file full path. Any other command line application can be set as editor.",
+    "csv-editor-cmd": "./App/Bin/CsvDicEditorApp.exe --filename {file}",
+    "audio-wpm": "110",
+    "audio-word-len": "5",
+    "audio-min-time": "2",
+    "audio-padding": "1"
 }

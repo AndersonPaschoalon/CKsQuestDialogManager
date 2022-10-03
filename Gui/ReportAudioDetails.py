@@ -1,5 +1,6 @@
+import os
 from datetime import datetime
-from Gui.AppInfo import *
+from Settings.AppInfo import AppInfo
 from PyUtils.DirUtils import DirUtils
 
 class ReportAudioDetails:

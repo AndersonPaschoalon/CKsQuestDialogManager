@@ -12,6 +12,8 @@
   * Error on generating documentation due to blank lines
   * Incorrect parsing of some markdown fields
   * Duplicated table fields
+* 03/10/2022
+  * Novas settings e renomeamento
 
 
 # Features

@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 from os.path import exists
 from PyUtils.CsvDicTuple import CsvDicTuple
 from PyUtils.Logger import Logger
-from Gui.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo
 
 
 class CsvReorderWindow:

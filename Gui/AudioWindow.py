@@ -7,7 +7,7 @@ from PyUtils.QuickTimer import QuickTimer
 from PyUtils.Cd import Cd
 from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
-from Gui.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo
 from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.TestData import *
 

@@ -18,9 +18,9 @@ from PyUtils.FileUtils import Exts
 from PyUtils.Functions import *
 from PyUtils.Logger import Logger
 from Gui.AudioData import AudioData
-from Gui.AppInfo import AppInfo
 from Gui.ReportBatchCmd import ReportBatchCmd
 from Gui.ReportAudioDetails import ReportAudioDetails
+from Settings.AppInfo import AppInfo
 
 
 class AudioLogicLayer:
@@ -510,7 +510,11 @@ class AudioLogicLayer:
                 break
         # (3) calc usefull info
         sound_no_ext = FileUtils.remove_ext(sound_path)
-        reading_time = AudioLogicLayer._calc_reading_time(audio_text, padding=1)
+        reading_time = AudioLogicLayer._calc_reading_time(text_str=audio_text,
+                                                          wpm=self.app.settings_obj.audio_wpm,
+                                                          word_len=self.app.settings_obj.audio_word_len,
+                                                          min_time=self.app.settings_obj.audio_min_time,
+                                                          padding=self.app.settings_obj.audio_padding)
         sound_wav = sound_no_ext + ".wav"
         bkp_name = sound_no_ext + ".rand" + str(randint(10000, 99999)) + ".wav.bkp"
         file_already_exist = os.path.exists(sound_wav)
@@ -681,9 +685,6 @@ class AudioLogicLayer:
 
     @staticmethod
     def _create_silent_audio(file_name: str, duration_sec: int):
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        print("file_name >> ", file_name, " duration_sec >> ", duration_sec)
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         try:
             silent_audio = AudioSegment.silent(duration=int(duration_sec) * 1000)  # or be explicit
             silent_audio.export(file_name + ".wav", format="wav")

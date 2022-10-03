@@ -2,7 +2,7 @@ from emoji import emojize
 import PySimpleGUI as sg
 from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
-from Gui.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo
 
 
 class LicenseWindow:
