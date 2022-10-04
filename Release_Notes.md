@@ -12,9 +12,6 @@
   * Error on generating documentation due to blank lines
   * Incorrect parsing of some markdown fields
   * Duplicated table fields
-* 03/10/2022
-  * Novas settings e renomeamento
-
 
 # Features
 * 20/06/2022
@@ -23,9 +20,13 @@
   * KeyUp and KeyDown events at the "Audio Manager Tools" table
   * Changed Windows size for "Audio Manager Tools" window 
   * Log rotation by day
+* 03/10/2022
   * Changed repository name
   * Decrease amount of logs
   * Changed name of github repository
   * Ranamed dists/ to build/, and build script update
+  * New, the build uses a different App root folder, called AppClear, with all default settings and empty databases
   * Generate Silent Audio button
+  * New settings about empty audio generation
+  * Rename of some settings
 
