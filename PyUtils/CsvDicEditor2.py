@@ -4,9 +4,13 @@ import tkinter.messagebox
 import tkinter.filedialog
 import tkinter.font
 import tkinter as tk
-#from tkinter import *
-from PyUtils.ScreenInfo import ScreenInfo
-from PyUtils.ScrollFrame import ScrollFrame
+from tkinter import ttk
+
+from tkinter import *
+#from PyUtils.ScreenInfo import ScreenInfo
+from ScreenInfo import ScreenInfo
+#from PyUtils.ScrollFrame import ScrollFrame
+from ScrollFrame import ScrollFrame
 
 
 class CsvDicEditor2(tk.Frame):
@@ -22,6 +26,7 @@ class CsvDicEditor2(tk.Frame):
         self.pack_propagate(0)
         self.scroll_frame = ScrollFrame(self)  # add a new scrollable frame.
         self.scroll_frame.pack(side="top", fill="both", expand=True)
+        # self.scroll_frame.pack(side="bottom", expand=True)
         self.grid()
         self.filename = ""
 
@@ -43,7 +48,8 @@ class CsvDicEditor2(tk.Frame):
         else:
             # print("No filename was provided.")
             self.createDefaultWidgets()
-        self.pack(side="top", fill="both", expand=True)
+        # ???????????
+        # self.pack(side="top", fill="both", expand=True)
         self.mainloop()
 
     def focus_tab(self, event):
@@ -55,18 +61,21 @@ class CsvDicEditor2(tk.Frame):
         return "break"
 
     def focus_right(self, event):
+        print("focus_right")
         widget = event.widget.focus_get()
         position = widget.index(tk.INSERT)
         widget.icursor(position + 1)
         return "break"
 
     def focus_left(self, event):
+        print("focus_left")
         widget = event.widget.focus_get()
         position = widget.index(tk.INSERT)
         widget.icursor(position - 1)
         return "break"
 
     def focus_up(self, event):
+        print("focus_up")
         widget = event.widget.focus_get()
         for i in range(len(self.currentCells)):
             for j in range(len(self.currentCells[0])):
@@ -174,6 +183,7 @@ class CsvDicEditor2(tk.Frame):
                 # create cell and place it into the grid
                 sv = tk.StringVar()
                 sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
+                # disable editing on the first column
                 if j == 0:
                     tmp = tk.Entry(self.scroll_frame.viewPort, textvariable=sv, width=width_1)
                     tmp.configure(state='disabled')
@@ -197,10 +207,6 @@ class CsvDicEditor2(tk.Frame):
                 self.cellList.append(tmp)
         self.currentCells = loadCells
         self.currentCell = self.currentCells[0][0]
-        # print("-- " + str(width_2))
-        #self.scroll_frame.viewPort.config(width=width_2)
-        #self.scroll_frame.viewPort.pack()
-        #self.scroll_frame.config(width=1500, height=200)
 
     def saveCells(self):
         vals = []
@@ -226,6 +232,13 @@ class CsvDicEditor2(tk.Frame):
 
     @staticmethod
     def calc_cols_width(min_width, max_width, data_matrix):
+        """
+        Calculate the max number of characters of each columns.
+        :param min_width:
+        :param max_width:
+        :param data_matrix:
+        :return:
+        """
         max_len1 = 0
         max_len2 = 0
         try:
@@ -260,7 +273,7 @@ class CsvDicEditor2(tk.Frame):
             width_2 = max_width
         else:
             width_2 = max_len2
-        # print([width_1, width_2])
+        print([width_1, width_2])
         return [width_1, width_2]
 
 
@@ -270,7 +283,8 @@ def callback(sv):
 
 if __name__ == "__main__":
     # test
-
     filename = "Actors2.csv"
     app = CsvDicEditor2()
     app.run_app(filename)
+
+
