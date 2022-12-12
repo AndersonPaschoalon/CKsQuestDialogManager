@@ -1,6 +1,6 @@
 import getopt
 import sys
-from PyUtils.CsvDicEditor2 import CsvDicEditor2
+from PyUtils.CsvDicEditor import CsvDicEditor
 
 def parse_args(argv):
     filename = ""
@@ -17,5 +17,5 @@ def parse_args(argv):
 if __name__ == '__main__':
     argv = sys.argv[1:]
     [filename] = parse_args(argv)
-    editor = CsvDicEditor2()
+    editor = CsvDicEditor()
     editor.run_app(filename)

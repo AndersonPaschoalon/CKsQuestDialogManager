@@ -2,12 +2,15 @@
 class AppEditorCmd:
     VAR_FILENAME = "{file}"
     OPT_PROCESS = "PROCESS"
+    OPT_PROCESS = "DEFAULT"
 
     def __init__(self, csv_editor_cmd: str):
         self._cmd = csv_editor_cmd
         self._is_process = False
-        if csv_editor_cmd != None and csv_editor_cmd.strip().upper() == "PROCESS":
-            self._is_process = True
+        if csv_editor_cmd:
+            csv_editor = csv_editor_cmd.strip().upper()
+            if csv_editor == AppEditorCmd.OPT_PROCESS or csv_editor == AppEditorCmd.OPT_PROCESS:
+                self._is_process = True
 
     def is_process(self):
         return self._is_process

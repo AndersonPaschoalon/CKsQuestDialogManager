@@ -1,4 +1,19 @@
-# Bugfixes
+## Bugfixes
+* 10/12/2022
+  * Fix on the scrollbars of the CSV editor
+  * Fix on the size of the editable table in the CSV editor
+
+
+## Features
+* 12/10/2022
+  * CSV default editor do not run as an external process anymore.
+  * Use of XML configuration files (settings.xml).
+
+----
+
+# Version v0.1.1.0 Apple Cabbage Stew
+
+## Bugfixes
 * 05/05/2022
   * In the scene documentation, the Actor name does not appear before the emotion and dialog.
 * 07/05/2022
@@ -13,7 +28,7 @@
   * Incorrect parsing of some markdown fields
   * Duplicated table fields
 
-# Features
+## Features
 * 20/06/2022
   * Licence Button at main window
   * Generate Dialogues' Report at "Audio Manager Tools" window
@@ -24,7 +39,7 @@
   * Changed repository name
   * Decrease amount of logs
   * Changed name of github repository
-  * Ranamed dists/ to build/, and build script update
+  * Renamed dists/ to build/, and build script update
   * New, the build uses a different App root folder, called AppClear, with all default settings and empty databases
   * Generate Silent Audio button
   * New settings about empty audio generation

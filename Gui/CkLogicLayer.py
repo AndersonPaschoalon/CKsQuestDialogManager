@@ -8,7 +8,7 @@ import subprocess
 import PySimpleGUI as sg
 from multiprocessing import Process
 from PyUtils.Logger import Logger
-from PyUtils.CsvDicEditor2 import CsvDicEditor2
+from PyUtils.CsvDicEditor import CsvDicEditor
 from QuestExports.QuestDialogs import QuestDialogs
 from QuestExports.Scene import Scene
 from Settings.AppInfo import AppInfo
@@ -279,13 +279,13 @@ class CkLogicLayer:
 
     def _exec_actor_editor(self):
         self._log.debug("-- _exec_actor_editor() start")
-        editor = CsvDicEditor2()
+        editor = CsvDicEditor()
         editor.run_app(self.app.settings_obj.actors_file)
         self._log.debug("-- _exec_actor_editor() finish")
 
     def _exec_comments_editor(self):
         self._log.debug("-- open_comments_editor() start")
-        editor = CsvDicEditor2()
+        editor = CsvDicEditor()
         editor.run_app(self.app.settings_obj.comments_file)
         self._log.debug("-- _exec_comments_editor() finish")
 

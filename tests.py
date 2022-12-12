@@ -5,6 +5,7 @@ from PyUtils.Console import Console
 from Gui.MainWindow import MainWindow
 from Gui.AudioWindow import AudioWindow
 from Gui.AudioLogicLayer import AudioLogicLayer
+from Settings.ProfileManager import ProfileManager
 
 
 LOG_FILE = "./App/Logs/ck-dialog-docgen.log"
@@ -55,19 +56,43 @@ def calc_reading_time(text, wpm=110, word_len=5, min_time=2, padding=0):
     read_time = max([read_time, min_time])
     return round(read_time)
 
+
 def speech_time_test():
     phrase = "My life had gained a new purpose. I Joined the Silver Hands and I'm helping with the forge since then."
     print("calc_reading_time:", calc_reading_time(phrase))
+
+def test_profile_manager():
+    print("")
+    pm = ProfileManager()
+    ret, list_profiles, msg = pm.get_profile_list()
+    if not ret:
+        print("Error: ", msg)
+        return False
+    for item in list_profiles:
+        print(" - item.name:", item.name, ", item.comments:", item.comment)
+    # create new profile
+    # pm.create_profile(profile_name="TestProfile01", comment="First test profile. This is a comment.")
+    # create new profile
+    # pm.create_profile(profile_name="TestProfile02", comment="Second test profile. This is a comment.")
+    # create new profile
+    # activate profile
+    pm.activate_profile(new_active_profile="TestProfile02")
+    # delete profile
+    # activate profile
+    # create profile
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     bool_test_audio_logic_layer_enerate_list_audio_data = False
     bool_test_audio_window = False
-    bool_test_speach_time = True
+    bool_test_speach_time = False
+    bool_test_profile = True
     if bool_test_audio_logic_layer_enerate_list_audio_data:
         test_audio_logic_layer_enerate_list_audio_data()
     if bool_test_audio_window:
         test_audio_window()
     if bool_test_speach_time:
         speech_time_test()
+    if bool_test_profile:
+        test_profile_manager()

@@ -28,7 +28,8 @@ class AppInfo:
         self.url_github = "https://github.com/AndersonPaschoalon/CKsQuestDialogManager.git"
         self.url_nexus = "https://www.nexusmods.com/skyrim"
         self.tutorial_html = self.pages_dir + "tutorial.html"
-        self.settings_file = self.app_dir + "settings.json"
+        self.settings_file = self.app_dir + "settings.xml"
+        self.profiles_file = self.app_dir + "profiles.xml"
         self.label_main_window = "Quest Dialog Manager for CK"
         self.label_audio_window = "Quest Audio Manager for CK"
         self.app_version = AppInfo.APP_VERSION + " -- " + AppInfo.APP_VERSION_NAME
@@ -56,11 +57,12 @@ class AppInfo:
         obj.add("log_file", self.log_file)
         obj.add("tutorial_html", self.tutorial_html)
         obj.add("settings_file", self.settings_file)
+        obj.add("profiles_file", self.profiles_file)
         obj.add("label_main_window", self.label_main_window)
         obj.add("label_audio_window", self.label_audio_window)
         obj.add("app_version", self.app_version)
-        settings = str(self.settings_obj.data)
-        obj.add("settings_obj", settings)
+        # settings = str(self.settings_obj.data)
+        # obj.add("settings_obj", settings)
         return obj.json()
 
 

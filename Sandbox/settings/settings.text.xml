@@ -1,0 +1,34 @@
+<settings>
+    <!--Skyrim installation directory_-->
+    <skyrim-path>.\Sandbox\__</skyrim-path>
+    <!-- Where the documentation is generated_-->
+    <dogen-dir>C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\Settings\OUTPUT</dogen-dir>
+    <!--DEBUG, INFO, WARN, ERROR_-->
+    <log-level>DEBUG</log-level>
+    <!--Where the name of the Actors is stored _-->
+    <actors-file>.\Actors.csv</actors-file>
+    <!-- Where the comments of the documentation is stored _-->
+    <comments-file>.\Comments.csv</comments-file>
+    <!-- Where the scene order file is stored _-->
+    <scene-order-file>.\SceneOrder.csv</scene-order-file>
+    <!--
+    This option tells if the topics will be sorted by alphabetical order (true) or using the formID number (false)
+    _-->
+    <topic-sort-by-name>true</topic-sort-by-name>
+    <app-theme>DarkBlue12</app-theme>
+    <!--
+    This option will configure the CSV editor to edit the Actor names and the Comments.
+    Use Default to use the native CSV editor.
+    But, you can configure your own CSV editor writing its command line process.
+    Use the macro {file} instead of the filename, so the application will replace it with  the proper file name path.
+    Examples:
+    Default -> will open the CSV files with the default CSV editor
+    notepad.exe {file} -> will open the files using the notepad.
+    start excel {file} -> will open the files using Microsoft Excel.
+    _-->
+    <csv-editor-cmd>Default</csv-editor-cmd>
+    <audio-wpm>110</audio-wpm>
+    <audio-word-len>5</audio-word-len>
+    <audio-min-time>2</audio-min-time>
+    <audio-padding>1</audio-padding>
+</settings>
