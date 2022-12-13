@@ -8,6 +8,7 @@ import traceback
 
 
 class ProfileManager:
+    DEFAULT_PROFILE_NAME = "Default"
 
     def __init__(self):
         self._log = Logger.get()
@@ -54,32 +55,23 @@ class ProfileManager:
             self._log.error(ret_msg)
             return False, ret_msg
 
-
-    def activate_profile(self, new_active_profile):
+    def activate_profile(self, profile_to_activate):
         """
         Activate a given profile. The application MUST BE RESTARTED, otherwise can cause unpredictable behaviour.
-        :param new_active_profile:
+        :param profile_to_activate:
         :return:
         """
-        ret, list_profiles, msg = self.get_profile_list()
-        if not ret:
-            return False, msg
+        profile_to_activate.strip()
+        list_profiles = self.get_profile_name_list()
+        p_current = self.get_active_profile_name()
 
-        # read the name of the current active profile
-        active_profile = ""
-        there_is_active = False
-        for p in list_profiles:
-            if p.active:
-                print("ACTIVE PROFILE IS ", p.name)
-                there_is_active = True
-                active_profile = p.name
-        if not there_is_active:
-            return False, "There is no current active profile."
+        if p_current == profile_to_activate:
+            return True, "Profile is already active."
 
-        # check if new profile exist
-        ret, msg = self.profile_exist(new_active_profile)
-        if not ret:
-            return False, "Profile to activate does not exist!"
+        if not (profile_to_activate in list_profiles):
+            return False, "Profile " + profile_to_activate + " does not exit!"
+
+
         ret = self._backup_restore_and_activate(file_name=self._app.settings_file,
                                                 current_profile=active_profile,
                                                 to_activate_profile=new_active_profile)
@@ -165,6 +157,16 @@ class ProfileManager:
             list_names.append(p.name)
         return list_names
 
+    def get_active_profile_name(self):
+        ret, list_profiles, msg = self.get_profile_list()
+        if not ret:
+            # no profile is active, use Default as active
+            return ProfileManager.DEFAULT_PROFILE_NAME
+        for p in list_profiles:
+            if p.active:
+                return p.name
+        return ProfileManager.DEFAULT_PROFILE_NAME
+
     def _add_new_profile(self, profile_name, comment):
         if not os.path.exists(self._app.profiles_file):
             return False, "Profiles configuration file does not exist!"
@@ -210,5 +212,3 @@ class ProfileManager:
         ret1 = self._backup_file(file_name, current_profile)
         ret2 = self._rename_file_strip(file_name, to_activate_profile)
         return ret1 and ret2
-
-
