@@ -1,3 +1,5 @@
 <profiles>
-    <p name="Default" comment="Default Profile" active="True"/>
-<p name="TestProfile01" comment="First test profile. This is a comment." active="False"/><p name="TestProfile02" comment="Second test profile. This is a comment." active="False"/></profiles>
+    <p name="Default" comment="Default Profile" active="False"/>
+    <p name="TestProfile01" comment="First test profile. This is a comment." active="False"/>
+    <p name="TestProfile02" comment="Second test profile. This is a comment." active="True"/>
+<p name="TestProfile03" comment="Third test profile. This is a comment." active="False"/></profiles>

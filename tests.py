@@ -71,12 +71,13 @@ def test_profile_manager():
     for item in list_profiles:
         print(" - item.name:", item.name, ", item.comments:", item.comment)
     # create new profile
-    # pm.create_profile(profile_name="TestProfile01", comment="First test profile. This is a comment.")
+    #pm.create_profile(profile_name="TestProfile01", comment="First test profile. This is a comment.")
     # create new profile
     # pm.create_profile(profile_name="TestProfile02", comment="Second test profile. This is a comment.")
+    pm.create_profile(profile_name="TestProfile03", comment="Third test profile. This is a comment.")
     # create new profile
     # activate profile
-    pm.activate_profile(new_active_profile="TestProfile02")
+    #pm.activate_profile(profile_to_activate="TestProfile02")
     # delete profile
     # activate profile
     # create profile

@@ -10,9 +10,16 @@ import traceback
 class ProfileManager:
     DEFAULT_PROFILE_NAME = "Default"
 
+
     def __init__(self):
         self._log = Logger.get()
         self._app = AppInfo()
+        self._list_profile_files = [
+            self._app.settings_file,
+            self._app.csv_actors,
+            self._app.csv_scene_order,
+            self._app.csv_comments
+        ]
 
     # ok
     def create_profile(self, profile_name, comment):
@@ -37,27 +44,34 @@ class ProfileManager:
 
         # create a copy of the files settings.xml, Actors.csv, SceneOrder.csv and Comments.csv, following the rule
         self._log.debug("Creating backups for new profile")
-        ret1 = self._backup_file(self._app.settings_file, profile_name)
-        ret2 = self._backup_file(self._app.csv_actors, profile_name)
-        ret3 = self._backup_file(self._app.csv_scene_order, profile_name)
-        ret4 = self._backup_file(self._app.csv_comments, profile_name)
-
-        if ret1 and ret2 and ret3 and ret4:
-            # insert new profile entry
-            self._log.debug("Create new profile entry!")
-            ret, msg = self._add_new_profile(profile_name, comment)
+        for file in self._list_profile_files:
+            ret = self._backup_file(file, profile_name)
             if not ret:
-                return False, "Cant create new profile entry. Reason:" + msg
-            else:
-                return True, "Success"
-        else:
-            ret_msg = "Error creating backup files for new profile!"
-            self._log.error(ret_msg)
-            return False, ret_msg
+                ret_msg = "Error creating backup files for new profile!"
+                self._log.error(ret_msg)
+                return False, ret_msg
 
+        # create new profile entry
+        ret, msg = self._add_new_profile(profile_name, comment)
+        if not ret:
+            return False, "Cant create new profile entry. Reason:" + msg
+        else:
+            return True, "Success"
+
+    # ok
     def activate_profile(self, profile_to_activate):
         """
         Activate a given profile. The application MUST BE RESTARTED, otherwise can cause unpredictable behaviour.
+        This method:
+        (1) Checks of the profile_to_activate is already activated
+            yes - returns True, and an status message
+            no - continue
+        (2) Check if profile_to_activate exists
+            no - returns False, and an error message
+            yes - continue
+        (3) Rename the files to backup format <file-name>.<profile-name>.<extension>
+        (4) Remove the <profile-name> from the profile files to be activated
+        (5) Update profile configuration file.
         :param profile_to_activate:
         :return:
         """
@@ -65,26 +79,39 @@ class ProfileManager:
         list_profiles = self.get_profile_name_list()
         p_current = self.get_active_profile_name()
 
+        # (1)
         if p_current == profile_to_activate:
             return True, "Profile is already active."
 
+        # (2)
         if not (profile_to_activate in list_profiles):
             return False, "Profile " + profile_to_activate + " does not exit!"
 
+        # (3)
+        self._ensure_files_exist()
+        self._log.debug("Rename the files to backup format <file-name>.<profile-name>.<extension>")
+        for file in self._list_profile_files:
+            ret = self._rename_add_backup_label(file_path=file, profile_name=p_current)
+            if not ret:
+                ret_msg = "Error creating backup files for new profile!"
+                self._log.error(ret_msg)
+                return False, ret_msg
 
-        ret = self._backup_restore_and_activate(file_name=self._app.settings_file,
-                                                current_profile=active_profile,
-                                                to_activate_profile=new_active_profile)
-        ret = self._backup_restore_and_activate(file_name=self._app.csv_actors,
-                                                current_profile=active_profile,
-                                                to_activate_profile=new_active_profile)
-        ret = self._backup_restore_and_activate(file_name=self._app.csv_scene_order,
-                                                current_profile=active_profile,
-                                                to_activate_profile=new_active_profile)
-        ret = self._backup_restore_and_activate(file_name=self._app.csv_comments,
-                                                current_profile=active_profile,
-                                                to_activate_profile=new_active_profile)
-        return ret
+        # (4)
+        status_msg = ""
+        for file in self._list_profile_files:
+            ret = self._rename_remove_backup_label(final_path=file, profile_name=profile_to_activate)
+            if not ret:
+                ret_msg = "Error activating profile file " + file
+                self._log.warn(ret_msg)
+                status_msg += ret_msg + ", "
+        self._ensure_files_exist()
+
+        # (5)
+        self._update_profile_flag(profile_name=p_current, is_active=False)
+        self._update_profile_flag(profile_name=profile_to_activate, is_active=True)
+
+        return ret, status_msg
 
     # ok
     def profile_exist(self, profile_name):
@@ -104,7 +131,25 @@ class ProfileManager:
 
         return False, "Profile name does not exist!"
 
-    def rename_profile(self, profile_name):
+    def update_profile(self, new_profile_name, new_profile_description):
+        """
+        Rename the current active profile.
+        :param new_profile_name:
+        :return:
+        """
+        new_profile_name.strip()
+        p_current = self.get_active_profile_name()
+
+        # Check the name
+        if new_profile_name == new_profile_name:
+            return True, "Profile already has this name."
+        if not str(new_profile_name).isalnum():
+            return False, "New profile name must be alphanumeric"
+
+        # rename the entry in the config file
+        self._update_profile(profile_name=new_profile_name, comment=new_profile_description)
+
+
         print("todo")
 
     def delete_profile(self, profile_name):
@@ -190,6 +235,57 @@ class ProfileManager:
             self._log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
+    def _update_profile(self, current_name, profile_name: str, comment: str):
+        if not os.path.exists(self._app.profiles_file):
+            return False, "Profiles configuration file does not exist!"
+        try:
+            tree = ET.parse(self._app.profiles_file)
+            root = tree.getroot()
+            current_name.strip()
+            profile_name.strip()
+            for child in root:
+                try:
+                    if child.attrib["name"] == current_name:
+                        child.attrib["name"] = profile_name
+                        child.attrib["comment"] = comment
+                except:
+                    self._log.error("** Error: Exception caught at _update_profile!")
+                    self._log.error("** Error: " + traceback.format_exc())
+                    return False, "Exception caught: " + str(traceback.format_exc())
+            pretty = ET.tostring(tree, encoding="utf-8", pretty_print=True)
+            with open(self._app.profiles_file, "w") as f:
+                f.write(pretty.decode("utf-8"))
+            return True, "Success"
+        except:
+            self._log.error("** Error: Exception caught at _update_profile!")
+            self._log.error("** Error: " + traceback.format_exc())
+            return False, "Exception caught: " + str(traceback.format_exc())
+
+    def _update_profile_flag(self, profile_name: str, is_active: bool):
+        if not os.path.exists(self._app.profiles_file):
+            return False, "Profiles configuration file does not exist!"
+        try:
+            tree = ET.parse(self._app.profiles_file)
+            root = tree.getroot()
+            profile_name.strip()
+            for child in root:
+                try:
+                    if child.attrib["name"] == profile_name:
+                        child.attrib["active"] = str(is_active)
+                except:
+                    self._log.error("** Error: Exception caught at _update_profile!")
+                    self._log.error("** Error: " + traceback.format_exc())
+                    return False, "Exception caught: " + str(traceback.format_exc())
+            pretty = ET.tostring(tree, encoding="utf-8", pretty_print=True)
+            with open(self._app.profiles_file, "w") as f:
+                f.write(pretty.decode("utf-8"))
+            return True, "Success"
+        except:
+            self._log.error("** Error: Exception caught at _update_profile!")
+            self._log.error("** Error: " + traceback.format_exc())
+            return False, "Exception caught: " + str(traceback.format_exc())
+
+
     def _backup_file(self, old_name, profile_name):
         profile_name.strip()
         dir_name = os.path.dirname(old_name)
@@ -200,15 +296,41 @@ class ProfileManager:
         self._log.info("copy " + old_name + " -> " + new_name)
         return shutil.copy2(old_name, new_name)
 
-    def _rename_file_strip(self, final_name, profile_name):
-        dir_name = os.path.dirname(final_name)
-        base_name = os.path.basename(final_name)
+    def _rename_remove_backup_label(self, final_path, profile_name):
+        dir_name = os.path.dirname(final_path)
+        base_name = os.path.basename(final_path)
         file_name, file_extension = os.path.splitext(base_name)
         bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
-        self._log.info("rename " + bkp_name + " -> " + final_name)
-        return os.rename(bkp_name, final_name)
+        self._log.info("rename " + bkp_name + " -> " + final_path)
+        try:
+            os.rename(bkp_name, final_path)
+            return True
+        except:
+            self._log.warn("Exception renaming files: " + traceback.format_exc())
+            return False
+        return
 
-    def _backup_restore_and_activate(self, file_name, current_profile, to_activate_profile):
-        ret1 = self._backup_file(file_name, current_profile)
-        ret2 = self._rename_file_strip(file_name, to_activate_profile)
-        return ret1 and ret2
+    def _rename_add_backup_label(self, file_path, profile_name):
+        dir_name = os.path.dirname(file_path)
+        base_name = os.path.basename(file_path)
+        file_name, file_extension = os.path.splitext(base_name)
+        bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
+        self._log.info("rename " + bkp_name + " -> " + file_path)
+        try:
+            os.rename(file_path, bkp_name)
+            return True
+        except:
+            self._log.warn("Exception renaming files: " + traceback.format_exc())
+            return False
+
+    def _ensure_files_exist(self):
+        for file in self._list_profile_files:
+            if not os.path.exists(file):
+                self._log.warn("For some reason, the file " + file + "does not exit. Creating empty file...")
+                with open(file, 'w'):
+                    pass
+                self._log.info("Empty file " + file + " was created.")
+
+
+
+
