@@ -77,7 +77,7 @@ def test_profile_manager():
     # pm.create_profile(profile_name="TestProfile03",
     #                  comment="Third test profile. This is a comment. This is an updated comment.")
     # create new profile
-    # activate profile
+    # activate profile  x
     # pm.activate_profile(profile_to_activate="TestProfile02")
     # delete profile
     # activate profile
