@@ -1,0 +1,42 @@
+2022-12-18 01:17:39,661 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-18 01:17:40,023 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-18 01:17:40,398 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-18 01:18:49,273 - DEBUG - ProfileManager.py - Line: 90 - Rename the files to backup format <file-name>.<profile-name>.<extension>
+2022-12-18 01:19:06,685 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.TestProfile02.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.xml
+2022-12-18 01:19:06,688 - WARNING - ProfileManager.py - Line: 254 - Exception renaming files: Traceback (most recent call last):
+  File "C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\Settings\ProfileManager.py", line 251, in _rename_add_backup_label
+    os.rename(file_path, bkp_name)
+FileExistsError: [WinError 183] Não é possível criar um arquivo já existente: 'C:\\Users\\Usuario\\PycharmProjects\\CKsQuestDialogManager\\App\\settings.xml' -> 'C:\\Users\\Usuario\\PycharmProjects\\CKsQuestDialogManager\\App\\settings.TestProfile02.xml'
+
+2022-12-18 01:24:38,521 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-18 01:24:38,521 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-18 01:24:38,521 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-18 01:24:39,984 - DEBUG - ProfileManager.py - Line: 90 - Rename the files to backup format <file-name>.<profile-name>.<extension>
+2022-12-18 01:25:42,866 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-18 01:25:42,866 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-18 01:25:42,866 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-18 01:25:44,069 - DEBUG - ProfileManager.py - Line: 90 - Rename the files to backup format <file-name>.<profile-name>.<extension>
+2022-12-18 01:25:51,510 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.Default.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.xml
+2022-12-18 01:26:15,191 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.Default.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.csv
+2022-12-18 01:26:25,088 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.Default.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.csv
+2022-12-18 01:26:36,875 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.Default.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.csv
+2022-12-18 01:29:07,585 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-18 01:29:07,585 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-18 01:29:07,585 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-18 01:29:15,027 - DEBUG - ProfileManager.py - Line: 90 - Rename the files to backup format <file-name>.<profile-name>.<extension>
+2022-12-18 01:29:18,860 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.Default.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.xml
+2022-12-18 01:29:20,484 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.Default.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.csv
+2022-12-18 01:29:22,086 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.Default.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.csv
+2022-12-18 01:29:23,668 - INFO - ProfileManager.py - Line: 249 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.Default.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.csv
+2022-12-18 01:29:35,360 - INFO - ProfileManager.py - Line: 235 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.TestProfile02.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.xml
+2022-12-18 01:29:53,473 - INFO - ProfileManager.py - Line: 235 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.TestProfile02.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.csv
+2022-12-18 01:30:10,626 - INFO - ProfileManager.py - Line: 235 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.TestProfile02.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.csv
+2022-12-18 01:30:19,715 - INFO - ProfileManager.py - Line: 235 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.TestProfile02.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.csv
+2022-12-18 01:31:51,784 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-18 01:31:51,784 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-18 01:31:51,784 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-18 01:31:56,819 - DEBUG - ProfileManager.py - Line: 46 - Creating backups for new profile
+2022-12-18 01:31:56,819 - INFO - ProfileManager.py - Line: 228 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.TestProfile03.xml
+2022-12-18 01:31:56,822 - INFO - ProfileManager.py - Line: 228 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.TestProfile03.csv
+2022-12-18 01:31:56,824 - INFO - ProfileManager.py - Line: 228 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.TestProfile03.csv
+2022-12-18 01:31:56,827 - INFO - ProfileManager.py - Line: 228 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.TestProfile03.csv

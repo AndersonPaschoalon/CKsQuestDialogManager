@@ -74,13 +74,25 @@ def test_profile_manager():
     #pm.create_profile(profile_name="TestProfile01", comment="First test profile. This is a comment.")
     # create new profile
     # pm.create_profile(profile_name="TestProfile02", comment="Second test profile. This is a comment.")
-    pm.create_profile(profile_name="TestProfile03", comment="Third test profile. This is a comment.")
+    # pm.create_profile(profile_name="TestProfile03",
+    #                  comment="Third test profile. This is a comment. This is an updated comment.")
     # create new profile
     # activate profile
-    #pm.activate_profile(profile_to_activate="TestProfile02")
+    # pm.activate_profile(profile_to_activate="TestProfile02")
     # delete profile
     # activate profile
     # create profile
+    # update profile
+    #pm.update_profile(new_profile_name="TestProfile02_updated",
+    #                  new_profile_description="Third test profile. This is a comment. This is an updated comment.")
+    #pm.create_profile(profile_name="TestProfile04", comment="4 test profile. This is a comment.")
+    # pm.delete_profile(profile_name="TestProfile04")
+    print("profile_info:", pm.profile_info(profile_name="TestProfile02_updated"))
+    print("get_profile_list:")
+    for p in pm.get_profile_list():
+        print(p.__str__())
+    print("get_profile_name_list:", pm.get_profile_name_list())
+    print("get_active_profile_name:", pm.get_active_profile_name())
 
 
 # Press the green button in the gutter to run the script.

@@ -5,11 +5,12 @@ from Settings.Profile import Profile
 import os
 import shutil
 import traceback
+import re
 
 
 class ProfileManager:
     DEFAULT_PROFILE_NAME = "Default"
-
+    STR_TRUE = "TRUE"
 
     def __init__(self):
         self._log = Logger.get()
@@ -32,8 +33,8 @@ class ProfileManager:
         """
         # check profile name format
         profile_name = profile_name.strip()
-        if not str(profile_name).isalnum():
-            return False, "Profile Name must be alhanumeric."
+        if not self._check_profile_name(profile_name):
+            return False, "Profile must have only alphanumeric characters, - and _."
 
         # check if already exists
         ret, msg = self.profile_exist(profile_name)
@@ -131,29 +132,44 @@ class ProfileManager:
 
         return False, "Profile name does not exist!"
 
+    # ok
     def update_profile(self, new_profile_name, new_profile_description):
         """
         Rename the current active profile.
         :param new_profile_name:
         :return:
         """
-        new_profile_name.strip()
+        new_profile_name = new_profile_name.strip()
         p_current = self.get_active_profile_name()
 
         # Check the name
-        if new_profile_name == new_profile_name:
+        if new_profile_name == p_current:
             return True, "Profile already has this name."
-        if not str(new_profile_name).isalnum():
-            return False, "New profile name must be alphanumeric"
+        # check profile name format
+        new_profile_name = new_profile_name.strip()
+        if not self._check_profile_name(new_profile_name):
+            return False, "Profile must have only alphanumeric characters, - and _."
 
         # rename the entry in the config file
-        self._update_profile(profile_name=new_profile_name, comment=new_profile_description)
+        self._update_profile(current_name=p_current,
+                             profile_name=new_profile_name,
+                             comment=new_profile_description)
 
-
-        print("todo")
-
+    # ok
     def delete_profile(self, profile_name):
-        print("todo")
+        profile_name = profile_name.strip()
+        p_current = self.get_active_profile_name()
+
+        # Check the name
+        if profile_name == p_current:
+            return False, "Cannot delete active profile. Change current active profile, and try again."
+
+        # delete all files
+        for file in self._list_profile_files:
+            self._delete_backup_file(config_file_base=file, profile_name=profile_name)
+
+        # remove entry from xml
+        self._remove_node(profile_name=profile_name)
 
     def profile_info(self, profile_name):
         """
@@ -184,7 +200,8 @@ class ProfileManager:
             try:
                 p.name = child.attrib["name"]
                 p.comment = child.attrib["comment"]
-                p.active = bool(child.attrib["name"])
+                active_str = str(child.attrib["active"]).strip().upper()
+                p.active = True if active_str == ProfileManager.STR_TRUE else False
                 list_profiles.append(p)
             except:
                 self._log.Error("Cant read attib from profiles.xml")
@@ -212,6 +229,10 @@ class ProfileManager:
                 return p.name
         return ProfileManager.DEFAULT_PROFILE_NAME
 
+    ####################################################################################################################
+    # helpers
+    ####################################################################################################################
+
     def _add_new_profile(self, profile_name, comment):
         if not os.path.exists(self._app.profiles_file):
             return False, "Profiles configuration file does not exist!"
@@ -232,6 +253,32 @@ class ProfileManager:
 
         except:
             self._log.error("** Error: Exception caught at __main__!")
+            self._log.error("** Error: " + traceback.format_exc())
+            return False, "Exception caught: " + str(traceback.format_exc())
+
+    def _remove_node(self, profile_name: str):
+        if not os.path.exists(self._app.profiles_file):
+            return False, "Profiles configuration file does not exist!"
+        try:
+            profile_name = profile_name.strip()
+            tree = ET.parse(self._app.profiles_file)
+            root = tree.getroot()
+            for child in root:
+                try:
+                    if child.attrib["name"] != profile_name:
+                        continue
+                    else:
+                        root.remove(child)
+                except:
+                    self._log.error("** Error: Exception caught at _update_profile!")
+                    self._log.error("** Error: " + traceback.format_exc())
+                    return False, "Exception caught: " + str(traceback.format_exc())
+            pretty = ET.tostring(tree, encoding="utf-8", pretty_print=True)
+            with open(self._app.profiles_file, "w") as f:
+                f.write(pretty.decode("utf-8"))
+            return True, "Success"
+        except:
+            self._log.error("** Error: Exception caught at _update_profile!")
             self._log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
@@ -285,7 +332,6 @@ class ProfileManager:
             self._log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
-
     def _backup_file(self, old_name, profile_name):
         profile_name.strip()
         dir_name = os.path.dirname(old_name)
@@ -295,6 +341,17 @@ class ProfileManager:
         new_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
         self._log.info("copy " + old_name + " -> " + new_name)
         return shutil.copy2(old_name, new_name)
+
+    def _delete_backup_file(self, config_file_base, profile_name):
+        dir_name = os.path.dirname(config_file_base)
+        base_name = os.path.basename(config_file_base)
+        file_name, file_extension = os.path.splitext(base_name)
+        bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
+        if os.path.exists(bkp_name):
+            os.remove(bkp_name)
+            return True
+        else:
+            return False
 
     def _rename_remove_backup_label(self, final_path, profile_name):
         dir_name = os.path.dirname(final_path)
@@ -308,7 +365,6 @@ class ProfileManager:
         except:
             self._log.warn("Exception renaming files: " + traceback.format_exc())
             return False
-        return
 
     def _rename_add_backup_label(self, file_path, profile_name):
         dir_name = os.path.dirname(file_path)
@@ -330,6 +386,13 @@ class ProfileManager:
                 with open(file, 'w'):
                     pass
                 self._log.info("Empty file " + file + " was created.")
+
+    def _check_profile_name(self, prof_name: str):
+        prof_name = prof_name.strip()
+        if re.fullmatch("[A-Za-z0-9\-_]+", prof_name):
+            return True
+        else:
+            return False
 
 
 
