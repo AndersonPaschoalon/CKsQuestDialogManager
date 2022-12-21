@@ -89,8 +89,9 @@ def test_profile_manager():
     # pm.delete_profile(profile_name="TestProfile04")
     print("profile_info:", pm.profile_info(profile_name="TestProfile02_updated"))
     print("get_profile_list:")
-    for p in pm.get_profile_list():
-        print(p.__str__())
+    ret, prof_list, msg = pm.get_profile_list()
+    for prof_list in pm.get_profile_list():
+        print(prof_list.__str__())
     print("get_profile_name_list:", pm.get_profile_name_list())
     print("get_active_profile_name:", pm.get_active_profile_name())
 
