@@ -189,6 +189,7 @@ class AudioWindow:
                                 # size=(150, 150),
                                 num_rows=5,
                                 key='-TABLE-',
+                                vertical_scroll_only=False,
                                 selected_row_colors='red on yellow',
                                 enable_events=True,
                                 expand_x=True,
