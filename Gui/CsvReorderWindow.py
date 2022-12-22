@@ -127,7 +127,6 @@ class CsvReorderWindow:
             return [key, value]
 
 
-
 if __name__ == '__main__':
     csv_file = "../Sandbox/DicTuple01.csv"
     app_dir = "..\\App\\"
