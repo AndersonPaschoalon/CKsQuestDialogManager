@@ -27,7 +27,13 @@ class ProfilesWindow:
     # keys
     KEY_BUTTON_MOVE_UP = "key-btn-move-up"
     KEY_BUTTON_MOVE_DOWN = "key-btn-move-down"
-    KEY_TABLE_TUPLE_DIC = "key-table-tuple-dic"
+    # KEY_TABLE_TUPLE_DIC = "key-table-tuple-dic"
+    KEY_UP = "Up:38"
+    KEY_DOWN = "Down:40"
+    # return codes
+    RET_SUCCESS = 0
+    RET_ERROR = 1
+    RET_RESTART = 2
 
     def __init__(self, app_dir: str):
         self._log = Logger.get()
@@ -57,7 +63,7 @@ class ProfilesWindow:
                                   vertical_scroll_only=False,
                                   justification='left',
                                   num_rows=5,
-                                  key=ProfilesWindow.KEY_TABLE_TUPLE_DIC,
+                                  key='-TABLE-',
                                   selected_row_colors='red on yellow',
                                   enable_events=True,
                                   expand_x=True,
@@ -77,8 +83,22 @@ class ProfilesWindow:
 
         # Main loop
         # Event Loop to process "events" and get the "values" of the inputs
+        ret_val = ProfilesWindow.RET_SUCCESS
+        current_profile = ""
         while True:
-            event, values = window.read()
+            event, values = window.read(timeout=5000)
+            print("event:", event, "values:", values)
+            # print("event[0]:", event)
+            if event[0] == '-TABLE-':
+                current_profile = ProfilesWindow.clicked_profile(values, data)
+                print("=> clicked profile: ", current_profile)
+            if event == '-TABLE-':
+                print("=======>> event:", event, ", values:",values)
+            # if event == ProfilesWindow.KEY_UP or event == ProfilesWindow.KEY_DOWN:
+            #    current_profile = ProfilesWindow.clicked_profile(event, data)
+
+
+
             if event == sg.WIN_CLOSED or event == ProfilesWindow.BTN_EXIT:  # if user closes window or clicks cancel
                 break
             # Application Setup
@@ -96,6 +116,7 @@ class ProfilesWindow:
                 print("")
 
         window.close()
+        return ret_val
 
     def _load_profile_data(self):
         ret, list_profiles, msg = self.profile_manager.get_profile_list()
@@ -107,6 +128,24 @@ class ProfilesWindow:
                       p.comment]
             data.append(p_line)
         return data
+
+    @staticmethod
+    def clicked_row(event_values):
+        try:
+            return int(event_values[2][0])
+        except:
+            return 0
+
+    @staticmethod
+    def clicked_profile(event_values, data):
+        row = 0
+        try:
+            row = event_values['-TABLE-'][0]
+        except:
+            row = 0
+        print("row", row)
+        return data[row][1]
+
 
 
 if __name__ == '__main__':
