@@ -155,6 +155,9 @@ class ProfileManager:
                              profile_name=new_profile_name,
                              comment=new_profile_description)
 
+    def update_target_profile(self, target_profile, new_profile_name, new_profile_description):
+        print("todo")
+
     # ok
     def delete_profile(self, profile_name):
         profile_name = profile_name.strip()
