@@ -9,7 +9,7 @@ import re
 
 
 class ProfileManager:
-    DEFAULT_PROFILE_NAME = "Default"
+    # DEFAULT_PROFILE_NAME = "Default"
     STR_TRUE = "TRUE"
 
     def __init__(self):
@@ -33,7 +33,7 @@ class ProfileManager:
         """
         # check profile name format
         profile_name = profile_name.strip()
-        if not self._check_profile_name(profile_name):
+        if not ProfileManager._check_profile_name(profile_name):
             return False, "Profile must have only alphanumeric characters, - and _."
 
         # check if already exists
@@ -78,7 +78,8 @@ class ProfileManager:
         """
         profile_to_activate.strip()
         list_profiles = self.get_profile_name_list()
-        p_current = self.get_active_profile_name()
+        # p_current = self.get_active_profile_name()
+        p_current = self.get_active_profile().name
 
         # (1)
         if p_current == profile_to_activate:
@@ -133,35 +134,78 @@ class ProfileManager:
         return False, "Profile name does not exist!"
 
     # ok
-    def update_profile(self, new_profile_name, new_profile_description):
+    def update_active_profile(self, new_profile_name, new_profile_description):
         """
         Rename the current active profile.
+        :param new_profile_description:
         :param new_profile_name:
         :return:
         """
+        # validate profile name
         new_profile_name = new_profile_name.strip()
-        p_current = self.get_active_profile_name()
-
-        # Check the name
-        if new_profile_name == p_current:
-            return True, "Profile already has this name."
-        # check profile name format
-        new_profile_name = new_profile_name.strip()
-        if not self._check_profile_name(new_profile_name):
+        if not ProfileManager._check_profile_name(new_profile_name):
             return False, "Profile must have only alphanumeric characters, - and _."
+
+        # check if the new profile name is already being used by another profile
+        ret, lp, msg = self.get_profile_list()
+        p_current = self.get_active_profile().name
+        profile: Profile
+        for profile in lp:
+            if not profile.active:
+                if new_profile_name == profile.name.strip():
+                    return False, "New profile name " + new_profile_name + " is already being used. Choose another one!"
+            else:
+                if new_profile_name == p_current:
+                    # same name as current is fine
+                    break
 
         # rename the entry in the config file
         self._update_profile(current_name=p_current,
                              profile_name=new_profile_name,
                              comment=new_profile_description)
 
+    #
     def update_target_profile(self, target_profile, new_profile_name, new_profile_description):
-        print("todo")
+        # check if the profile changed is not the active one
+        target_profile = target_profile.strip()
+        p_active = self.get_active_profile().name.strip()
+        new_profile_name = new_profile_name.strip()
+        if p_active == target_profile:
+            return False, "To update active profiles, use the method update_active_profile()"
+        # the new name cannot have the same name of the active profile.
+        if p_active == new_profile_name:
+            return False, "New profile name " + new_profile_name + " is already being used. Choose another one!"
+
+        # validate the new profile name syntax
+        if not ProfileManager._check_profile_name(new_profile_name):
+            return False, "Profile must have only alphanumeric characters, - and _."
+
+        # check if the new name is already being used by
+        ret, lp, msg = self.get_profile_list()
+        profile: Profile
+        for profile in lp:
+            if profile.name != target_profile:
+                if profile.name == new_profile_name:
+                    return False, "New profile name " + new_profile_name + " is already being used. Choose another one!"
+            else:
+                # new_profile_name and target_profile have the same name, it is ok!
+                pass
+
+        # rename the profile files
+        for file in self._list_profile_files:
+            self._change_profile_name(file_clear=file, current_prof=target_profile, new_prof=new_profile_name)
+
+        # update profiles.xml file
+        # rename the entry in the config file
+        return self._update_profile(current_name=target_profile,
+                                    profile_name=new_profile_name,
+                                    comment=new_profile_description)
 
     # ok
     def delete_profile(self, profile_name):
         profile_name = profile_name.strip()
-        p_current = self.get_active_profile_name()
+        # p_current = self.get_active_profile_name()
+        p_current = self.get_active_profile().name
 
         # Check the name
         if profile_name == p_current:
@@ -222,15 +266,14 @@ class ProfileManager:
             list_names.append(p.name)
         return list_names
 
-    def get_active_profile_name(self):
+    def get_active_profile(self):
         ret, list_profiles, msg = self.get_profile_list()
-        if not ret:
-            # no profile is active, use Default as active
-            return ProfileManager.DEFAULT_PROFILE_NAME
-        for p in list_profiles:
-            if p.active:
-                return p.name
-        return ProfileManager.DEFAULT_PROFILE_NAME
+        for profile in list_profiles:
+            if profile.active:
+                return profile
+        p = Profile.default_profile()
+        p.active = True
+        return p
 
     ####################################################################################################################
     # helpers
@@ -350,6 +393,7 @@ class ProfileManager:
         base_name = os.path.basename(config_file_base)
         file_name, file_extension = os.path.splitext(base_name)
         bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
+        self._log.info("delete " + bkp_name)
         if os.path.exists(bkp_name):
             os.remove(bkp_name)
             return True
@@ -390,7 +434,27 @@ class ProfileManager:
                     pass
                 self._log.info("Empty file " + file + " was created.")
 
-    def _check_profile_name(self, prof_name: str):
+    def _change_profile_name(self, file_clear, current_prof, new_prof):
+        dir_name = os.path.dirname(file_clear)
+        base_name = os.path.basename(file_clear)
+        file_name, file_extension = os.path.splitext(base_name)
+        curr_p = os.path.join(dir_name, file_name + "." + current_prof + file_extension)
+        new_p = os.path.join(dir_name, file_name + "." + new_prof + file_extension)
+        if not os.path.exists(curr_p):
+            return False, "Error! File " + curr_p + " does not exist. Profile cannot be renamed."
+        if os.path.exists(new_p):
+            return False, "Profile name " + new_prof + " already exist! Name cannot be used!"
+        self._log.info("rename " + curr_p + " -> " + new_p)
+        try:
+            os.rename(curr_p, new_p)
+            return True, "Success"
+        except:
+            err_msg = "An exception occurred renaming the file " + curr_p + ": " + traceback.format_exc()
+            self._log.error(err_msg)
+            return False, err_msg
+
+    @staticmethod
+    def _check_profile_name(prof_name: str):
         prof_name = prof_name.strip()
         if re.fullmatch("[A-Za-z0-9\-_]+", prof_name):
             return True

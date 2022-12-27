@@ -41,6 +41,10 @@ class ProfilesWindow:
         self.app = AppInfo(app_dir)
         self.profile_manager = ProfileManager()
 
+    #
+    # Helpers
+    #
+
     def _load_profile_data(self):
         ret, list_profiles, msg = self.profile_manager.get_profile_list()
         data = []
@@ -91,7 +95,15 @@ class ProfilesWindow:
         return ret_val
 
     def _gui_profile_editor(self, name="", comments=""):
+        """
+        Open a window with a text-bar for the profile title, and an text-area for the profile description.
+        :param name:
+        :param comments:
+        :return: ret_val, (profile_name, profile_comments)
+        """
         ret_val = False
+        profile_name = ""
+        profile_comments = ""
         layout = [[sg.Text("Profile Name:"), sg.InputText(default_text=name, key="profile-name")],
                   [sg.Text("Profile Comments:")],
                   [sg.Multiline(size=(65, 8), key="profile-comment", default_text=comments)],
@@ -109,33 +121,51 @@ class ProfilesWindow:
                 ret_val = True
                 break
         window.close()
-        return ret_val, (values['profile-name'], values['profile-comment'])
+        if ret_val:
+            profile_name = values['profile-name']
+            profile_comments = values['profile-comment']
+        return ret_val, (profile_name, profile_comments)
+
+    #
+    # Buttons
+    #
 
     def _create_new_profile(self, current_name, current_comment):
         ret_val, (profile_name, comment) = self._gui_profile_editor(current_name, current_comment)
         if ret_val:
-            #print(">>", self._gui_profile_editor(name=current_name, comments=current_comment))
             ret, msg = True, "Success"
-            #ret, msg = self.profile_manager.create_profile(profile_name=profile_name, comment=comment)
+            # self._gui_message_box_alert("DEBUG", "_create_new_profile =>  profile_name:" + profile_name + ", comment:" + comment)
+            ret, msg = self.profile_manager.create_profile(profile_name=profile_name, comment=comment)
             if ret:
                 self._gui_message_box_alert(title="Success", message=f"Profile {profile_name} created successfully!")
             else:
                 err_msg = f"Error creating profile {profile_name}!\n Reason:{msg}"
                 self._gui_message_box_alert(title="Error",
                                             message=err_msg)
+        return ret, msg
 
     def _edit_profile(self, active_profile, current_name, current_comment):
+        if current_name.strip() == "":
+            self._gui_message_box_alert(title="WARNING", message="No profile to edit is selected!")
+            return False
         ret_val, (new_name, new_comment) = self._gui_profile_editor(current_name, current_comment)
         if ret_val:
-            #print(">>", self._gui_profile_editor(name=current_name, comments=current_comment))
-            if current_name == active_profile and (new_name != current_name or new_comment != current_comment):
-                #self.profile_manager.update_profile(new_profile_name=new_name, new_profile_description=new_comment)
+            if (current_name == new_name) and (new_comment == current_comment):
+                return False
+            elif current_name == active_profile and (new_name != current_name or new_comment != current_comment):
+                #self._gui_message_box_alert("DEBUG",
+                #                            "UPDATE ACTIVE PROFILE update_profile (active) => new_name:" + new_name + ", new_comment:" + new_comment)
+                self.profile_manager.update_active_profile(new_profile_name=new_name,
+                                                           new_profile_description=new_comment)
                 print("self.profile_manager.update_profile()")
             elif new_name != current_name or new_comment != current_comment:
-                #self.profile_manager.update_target_profile(target_profile=current_name,
-                #                                           new_profile_name=new_name,
-                #                                           new_profile_description=new_comment)
+                #self._gui_message_box_alert("DEBUG",
+                #                            "UPDATE ANOTHER PROFILE update_profile (not-active) => new_name:" + new_name + ", new_comment:" + new_comment)
+                self.profile_manager.update_target_profile(target_profile=current_name,
+                                                           new_profile_name=new_name,
+                                                           new_profile_description=new_comment)
                 print("self.profile_manager.update_target_profile()")
+        return True
 
     def _delete_profile(self, profile_to_delete, active_profile):
         if profile_to_delete == active_profile:
@@ -145,19 +175,32 @@ class ProfilesWindow:
         ret = self._gui_message_box_yes_no(title=f"Are you SURE you want to DELETE the profile {profile_to_delete}?",
                                            message="**Warning** This operation cannot be undone. Press No to Cancel.")
         if ret:
-            # self.profile_manager.delete_profile(profile_name=profile_to_delete)
+            #self._gui_message_box_alert("DEBUG",
+            #                            "DELETING PROFILE... _delete_profile => profile_to_delete:" + profile_to_delete + ", active_profile:" + active_profile)
+            self.profile_manager.delete_profile(profile_name=profile_to_delete)
             print("self.profile_manager.delete_profile(", profile_to_delete, ")")
         return ret
 
     def _load_profile(self, profile_to_load):
-        ret, status = True, "Test"
-        # ret, status = self.profile_manager.activate_profile(profile_to_activate=profile_to_load)
+        ret, status = True, "Status"
+        if profile_to_load.strip() == "":
+            self._gui_message_box_alert(title="WARNING", message="No profile to load is selected!")
+            return False
+        ret = self._gui_message_box_yes_no("CONFIRMATION WINDOW",
+                                           f"Are you sure you want to load the selected profile {profile_to_load}?")
+        if not ret:
+            return False
+        #self._gui_message_box_alert("DEBUG",
+        #                            "LOADING PROFILE... _load_profile => profile_to_load:" + profile_to_load)
+        ret, status = self.profile_manager.activate_profile(profile_to_activate=profile_to_load)
         if ret:
             self._gui_message_box_alert(title="Profile Loaded!",
                                         message="The application will be restarted to apply the changes!")
+            return True
         else:
             self._gui_message_box_alert(title=f"Error Loading Profile {profile_to_load}!",
                                         message=f"Reason:{status}")
+            return False
 
     @staticmethod
     def _clicked_profile(event, data):
@@ -177,9 +220,19 @@ class ProfilesWindow:
             row = 0
         return data[row][1], data[row][2]
 
+    #
+    # Run window
+    #
+
     def run(self):
+        """
+        Runs the profile window.
+        :return: (ret, status)
+        ret - 0 in case of success, 1 in case some error occurred, 2 to indicates the application must be restarted.
+        status - a description of the resulting status of the application.
+        """
         # Title
-        active_profile = self.profile_manager.get_active_profile_name()
+        active_profile = self.profile_manager.get_active_profile().name.strip()
         layout_title = [sg.Text("Current Profile: " + active_profile, font=ProfilesWindow.FONT_TITLE1)]
 
         # Buttons
@@ -222,14 +275,17 @@ class ProfilesWindow:
         # Main loop
         # Event Loop to process "events" and get the "values" of the inputs
         ret_val = ProfilesWindow.RET_SUCCESS
+        app_status = "Success"
         current_profile = ""
         current_comment = ""
+        ret = False
         while True:
 
             #
             # Filter selected profile
             #
             event, values = window.read(timeout=500)
+
             if isinstance(event, tuple):
                 # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                 if event[0] == '-TABLE-':
@@ -249,22 +305,29 @@ class ProfilesWindow:
             # Application Setup
             elif event == ProfilesWindow.BTN_NEW:
                 self._log.debug("event:" + event)
-                self._create_new_profile(current_name="New_Profile", current_comment="Profile Description")
+                ret, msg = self._create_new_profile(current_name="New_Profile", current_comment="Profile Description")
             elif event == ProfilesWindow.BTN_LOAD:
                 self._log.debug("event:" + event)
-            elif event == ProfilesWindow.BTN_EDIT:
-                self._edit_profile(active_profile=active_profile,
-                                   current_name=current_profile,
-                                   current_comment=current_comment)
-            elif event == ProfilesWindow.BTN_DELETE:
-                self._delete_profile(profile_to_delete=current_profile, active_profile=active_profile)
-                self._log.debug("event:" + event)
-            elif event == ProfilesWindow.BTN_LOAD:
                 self._load_profile(profile_to_load=current_profile)
+            elif event == ProfilesWindow.BTN_EDIT:
+                ret = self._edit_profile(active_profile=active_profile,
+                                         current_name=current_profile,
+                                         current_comment=current_comment)
+            elif event == ProfilesWindow.BTN_DELETE:
+                ret = self._delete_profile(profile_to_delete=current_profile, active_profile=active_profile)
+                self._log.debug("event:" + event)
+            elif event == ProfilesWindow.BTN_LOAD:
+                ret = self._load_profile(profile_to_load=current_profile)
 
+            # reload screen
+            if ret:
+                ret = False
+                data, active_profile = self._load_profile_data()
+                window['-TABLE-'].Update(data[:][:])
 
         window.close()
         return ret_val
+
 
 if __name__ == '__main__':
     app_dir = "App\\"

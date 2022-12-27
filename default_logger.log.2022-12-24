@@ -1,0 +1,60 @@
+2022-12-24 00:10:34,144 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:10:34,146 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:10:34,146 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:10:38,438 - DEBUG - ProfilesWindow.py - Line: 171 - event:New
+2022-12-24 00:11:07,393 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:11:07,393 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:11:07,393 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:11:09,574 - DEBUG - ProfilesWindow.py - Line: 171 - event:New
+2022-12-24 00:11:29,252 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:11:29,253 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:11:29,253 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:11:31,526 - DEBUG - ProfilesWindow.py - Line: 171 - event:New
+2022-12-24 00:12:31,708 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:12:31,709 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:12:31,709 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:12:33,367 - DEBUG - ProfilesWindow.py - Line: 172 - event:New
+2022-12-24 00:13:26,912 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:13:26,913 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:13:26,913 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:13:28,534 - DEBUG - ProfilesWindow.py - Line: 172 - event:New
+2022-12-24 00:19:56,687 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:19:56,687 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:19:56,687 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:20:23,953 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:20:23,954 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:20:23,954 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:20:29,015 - DEBUG - ProfilesWindow.py - Line: 173 - event:New
+2022-12-24 00:23:10,600 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 00:23:10,600 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 00:23:10,600 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 00:23:12,447 - DEBUG - ProfilesWindow.py - Line: 173 - event:New
+2022-12-24 01:20:28,186 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 01:20:28,186 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 01:20:28,186 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 01:20:33,460 - DEBUG - ProfilesWindow.py - Line: 249 - event:New
+2022-12-24 01:21:23,010 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 01:21:23,010 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 01:21:23,010 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 01:21:24,557 - DEBUG - ProfilesWindow.py - Line: 249 - event:New
+2022-12-24 01:21:39,716 - DEBUG - ProfilesWindow.py - Line: 252 - event:Load
+2022-12-24 01:21:45,229 - DEBUG - ProfilesWindow.py - Line: 252 - event:Load
+2022-12-24 01:21:58,724 - DEBUG - ProfilesWindow.py - Line: 259 - event:Delete
+2022-12-24 01:22:02,738 - DEBUG - ProfilesWindow.py - Line: 259 - event:Delete
+2022-12-24 01:22:05,795 - DEBUG - ProfilesWindow.py - Line: 259 - event:Delete
+2022-12-24 01:22:10,256 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 01:22:10,257 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 01:22:10,257 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 01:22:13,509 - DEBUG - ProfilesWindow.py - Line: 252 - event:Load
+2022-12-24 01:22:26,219 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 01:22:26,219 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 01:22:26,219 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 01:23:25,487 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-24 01:23:25,487 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-24 01:23:25,487 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-24 01:23:33,421 - DEBUG - ProfilesWindow.py - Line: 252 - event:Load
+2022-12-24 01:23:34,749 - DEBUG - ProfilesWindow.py - Line: 249 - event:New
+2022-12-24 01:23:42,388 - DEBUG - ProfilesWindow.py - Line: 249 - event:New
+2022-12-24 01:23:46,788 - DEBUG - ProfilesWindow.py - Line: 249 - event:New
+2022-12-24 01:23:50,221 - DEBUG - ProfilesWindow.py - Line: 252 - event:Load
+2022-12-24 01:24:17,054 - DEBUG - ProfilesWindow.py - Line: 259 - event:Delete
