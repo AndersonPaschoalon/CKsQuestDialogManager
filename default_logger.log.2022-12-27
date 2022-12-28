@@ -1,0 +1,49 @@
+2022-12-27 00:16:38,498 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:16:38,501 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:16:38,501 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:19:05,357 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:19:05,357 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:19:05,358 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:21:23,941 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:21:23,941 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:21:23,941 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:21:23,943 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.TestProfile04.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.TestProfile04_2.xml
+2022-12-27 00:21:23,945 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.TestProfile04.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.TestProfile04_2.csv
+2022-12-27 00:21:23,946 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.TestProfile04.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.TestProfile04_2.csv
+2022-12-27 00:21:23,947 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.TestProfile04.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.TestProfile04_2.csv
+2022-12-27 00:25:25,733 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:25:25,734 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:25:25,734 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:25:52,987 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:25:52,987 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:25:52,987 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:33:16,619 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:33:16,619 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:33:16,619 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:33:45,125 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:33:45,126 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:33:45,126 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:37:03,521 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:37:03,521 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:37:03,521 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:37:39,092 - INFO - ProfileManager.py - Line: 396 - delete C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.TestProfile04_2.xml
+2022-12-27 00:37:39,092 - INFO - ProfileManager.py - Line: 396 - delete C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.TestProfile04_2.csv
+2022-12-27 00:37:39,093 - INFO - ProfileManager.py - Line: 396 - delete C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.TestProfile04_2.csv
+2022-12-27 00:37:39,094 - INFO - ProfileManager.py - Line: 396 - delete C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.TestProfile04_2.csv
+2022-12-27 00:37:39,095 - DEBUG - ProfilesWindow.py - Line: 317 - event:Delete
+2022-12-27 00:37:45,724 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:37:45,724 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:37:45,724 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:41:35,034 - INFO - Logger.py - Line: 47 - -----------------------------------
+2022-12-27 00:41:35,035 - INFO - Logger.py - Line: 48 - Log system successfully initialised
+2022-12-27 00:41:35,035 - INFO - Logger.py - Line: 49 - -----------------------------------
+2022-12-27 00:41:40,053 - DEBUG - ProfilesWindow.py - Line: 307 - event:New
+2022-12-27 00:41:49,092 - DEBUG - ProfileManager.py - Line: 47 - Creating backups for new profile
+2022-12-27 00:41:49,092 - INFO - ProfileManager.py - Line: 388 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.New_Profile4.xml
+2022-12-27 00:41:49,093 - INFO - ProfileManager.py - Line: 388 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.New_Profile4.csv
+2022-12-27 00:41:49,095 - INFO - ProfileManager.py - Line: 388 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.New_Profile4.csv
+2022-12-27 00:41:49,096 - INFO - ProfileManager.py - Line: 388 - copy C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.New_Profile4.csv
+2022-12-27 00:42:06,181 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.New_Profile4.xml -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\settings.New_Profile5.xml
+2022-12-27 00:42:06,182 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.New_Profile4.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Actors.New_Profile5.csv
+2022-12-27 00:42:06,184 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.New_Profile4.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\SceneOrder.New_Profile5.csv
+2022-12-27 00:42:06,185 - INFO - ProfileManager.py - Line: 447 - rename C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.New_Profile4.csv -> C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\App\Db\Comments.New_Profile5.csv

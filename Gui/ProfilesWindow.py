@@ -1,4 +1,5 @@
 from emoji import emojize
+import traceback
 import PySimpleGUI as sg
 from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
@@ -39,14 +40,14 @@ class ProfilesWindow:
     def __init__(self, app_dir: str):
         self._log = Logger.get()
         self.app = AppInfo(app_dir)
-        self.profile_manager = ProfileManager()
+        self.profile_manager = ProfileManager(app_dir)
 
     #
     # Helpers
     #
 
     def _load_profile_data(self):
-        ret, list_profiles, msg = self.profile_manager.get_profile_list()
+        ret, list_profiles = self.profile_manager.get_profile_list()
         data = []
         p: Profile
         active_profile = ""
@@ -131,10 +132,9 @@ class ProfilesWindow:
     #
 
     def _create_new_profile(self, current_name, current_comment):
+        ret, msg = True, "Success"
         ret_val, (profile_name, comment) = self._gui_profile_editor(current_name, current_comment)
         if ret_val:
-            ret, msg = True, "Success"
-            # self._gui_message_box_alert("DEBUG", "_create_new_profile =>  profile_name:" + profile_name + ", comment:" + comment)
             ret, msg = self.profile_manager.create_profile(profile_name=profile_name, comment=comment)
             if ret:
                 self._gui_message_box_alert(title="Success", message=f"Profile {profile_name} created successfully!")
@@ -142,25 +142,22 @@ class ProfilesWindow:
                 err_msg = f"Error creating profile {profile_name}!\n Reason:{msg}"
                 self._gui_message_box_alert(title="Error",
                                             message=err_msg)
-        return ret, msg
+        return ret
 
     def _edit_profile(self, active_profile, current_name, current_comment):
         if current_name.strip() == "":
-            self._gui_message_box_alert(title="WARNING", message="No profile to edit is selected!")
+            self._gui_message_box_alert(title="INFO", message="No profile to edit is selected!")
             return False
         ret_val, (new_name, new_comment) = self._gui_profile_editor(current_name, current_comment)
         if ret_val:
             if (current_name == new_name) and (new_comment == current_comment):
+                self._gui_message_box_alert(title="INFO", message="No changes to save were detected.")
                 return False
             elif current_name == active_profile and (new_name != current_name or new_comment != current_comment):
-                #self._gui_message_box_alert("DEBUG",
-                #                            "UPDATE ACTIVE PROFILE update_profile (active) => new_name:" + new_name + ", new_comment:" + new_comment)
                 self.profile_manager.update_active_profile(new_profile_name=new_name,
                                                            new_profile_description=new_comment)
                 print("self.profile_manager.update_profile()")
             elif new_name != current_name or new_comment != current_comment:
-                #self._gui_message_box_alert("DEBUG",
-                #                            "UPDATE ANOTHER PROFILE update_profile (not-active) => new_name:" + new_name + ", new_comment:" + new_comment)
                 self.profile_manager.update_target_profile(target_profile=current_name,
                                                            new_profile_name=new_name,
                                                            new_profile_description=new_comment)
@@ -175,8 +172,6 @@ class ProfilesWindow:
         ret = self._gui_message_box_yes_no(title=f"Are you SURE you want to DELETE the profile {profile_to_delete}?",
                                            message="**Warning** This operation cannot be undone. Press No to Cancel.")
         if ret:
-            #self._gui_message_box_alert("DEBUG",
-            #                            "DELETING PROFILE... _delete_profile => profile_to_delete:" + profile_to_delete + ", active_profile:" + active_profile)
             self.profile_manager.delete_profile(profile_name=profile_to_delete)
             print("self.profile_manager.delete_profile(", profile_to_delete, ")")
         return ret
@@ -190,8 +185,6 @@ class ProfilesWindow:
                                            f"Are you sure you want to load the selected profile {profile_to_load}?")
         if not ret:
             return False
-        #self._gui_message_box_alert("DEBUG",
-        #                            "LOADING PROFILE... _load_profile => profile_to_load:" + profile_to_load)
         ret, status = self.profile_manager.activate_profile(profile_to_activate=profile_to_load)
         if ret:
             self._gui_message_box_alert(title="Profile Loaded!",
@@ -223,6 +216,8 @@ class ProfilesWindow:
     #
     # Run window
     #
+    def get_active_profile_name(self):
+        return self.profile_manager.get_active_profile_name()
 
     def run(self):
         """
@@ -279,51 +274,60 @@ class ProfilesWindow:
         current_profile = ""
         current_comment = ""
         ret = False
-        while True:
+        reload = False
+        try:
+            while True:
 
-            #
-            # Filter selected profile
-            #
-            event, values = window.read(timeout=500)
+                #
+                # Filter selected profile
+                #
+                event, values = window.read(timeout=500)
 
-            if isinstance(event, tuple):
-                # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
-                if event[0] == '-TABLE-':
-                    current_profile, current_comment = ProfilesWindow._clicked_profile(event, data)
-                    print("----------------->> current_profile:", current_profile)
-            # event: Down:40 , values: {'-TABLE-': [3]} TestProfile03
-            if event == ProfilesWindow.KEY_UP or event == ProfilesWindow.KEY_DOWN:
-                current_profile, current_comment = ProfilesWindow._moved_profile(values, data)
-                print("============ current_profile:", current_profile)
+                if isinstance(event, tuple):
+                    # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
+                    if event[0] == '-TABLE-':
+                        current_profile, current_comment = ProfilesWindow._clicked_profile(event, data)
+                # event: Down:40 , values: {'-TABLE-': [3]} TestProfile03
+                if event == ProfilesWindow.KEY_UP or event == ProfilesWindow.KEY_DOWN:
+                    current_profile, current_comment = ProfilesWindow._moved_profile(values, data)
 
-            #
-            # perform the action
-            #
-            # if user closes window or clicks cancel
-            if event == sg.WIN_CLOSED or event == ProfilesWindow.BTN_EXIT:
-                break
-            # Application Setup
-            elif event == ProfilesWindow.BTN_NEW:
-                self._log.debug("event:" + event)
-                ret, msg = self._create_new_profile(current_name="New_Profile", current_comment="Profile Description")
-            elif event == ProfilesWindow.BTN_LOAD:
-                self._log.debug("event:" + event)
-                self._load_profile(profile_to_load=current_profile)
-            elif event == ProfilesWindow.BTN_EDIT:
-                ret = self._edit_profile(active_profile=active_profile,
-                                         current_name=current_profile,
-                                         current_comment=current_comment)
-            elif event == ProfilesWindow.BTN_DELETE:
-                ret = self._delete_profile(profile_to_delete=current_profile, active_profile=active_profile)
-                self._log.debug("event:" + event)
-            elif event == ProfilesWindow.BTN_LOAD:
-                ret = self._load_profile(profile_to_load=current_profile)
 
-            # reload screen
-            if ret:
-                ret = False
-                data, active_profile = self._load_profile_data()
-                window['-TABLE-'].Update(data[:][:])
+                #
+                # perform the action
+                #
+                # if user closes window or clicks cancel
+                if event == sg.WIN_CLOSED or event == ProfilesWindow.BTN_EXIT:
+                    break
+                # Application Setup
+                elif event == ProfilesWindow.BTN_NEW:
+                    self._log.debug("event:" + event)
+                    ret = self._create_new_profile(current_name="New_Profile", current_comment="Profile Description")
+                elif event == ProfilesWindow.BTN_LOAD:
+                    self._log.debug("event:" + event)
+                    ret = self._load_profile(profile_to_load=current_profile)
+                    if ret:
+                        reload = True
+                elif event == ProfilesWindow.BTN_EDIT:
+                    ret = self._edit_profile(active_profile=active_profile,
+                                             current_name=current_profile,
+                                             current_comment=current_comment)
+                elif event == ProfilesWindow.BTN_DELETE:
+                    ret = self._delete_profile(profile_to_delete=current_profile, active_profile=active_profile)
+                    self._log.debug("event:" + event)
+                elif event == ProfilesWindow.BTN_LOAD:
+                    ret = self._load_profile(profile_to_load=current_profile)
+
+                # reload screen
+                if ret:
+                    ret = False
+                    data, active_profile = self._load_profile_data()
+                    window['-TABLE-'].Update(data[:][:])
+                if reload:
+                    ret_val = ProfilesWindow.RET_RESTART
+                    break
+        except:
+            ret_val = ProfilesWindow.RET_ERROR
+            self._gui_message_box_alert(title="ERROR", message="Exceptin caught: " + str(traceback.format_exc()))
 
         window.close()
         return ret_val
@@ -331,5 +335,9 @@ class ProfilesWindow:
 
 if __name__ == '__main__':
     app_dir = "App\\"
-    p = ProfilesWindow(app_dir)
-    p.run()
+
+    while True:
+        p = ProfilesWindow(app_dir)
+        ret = p.run()
+        if ret != ProfilesWindow.RET_RESTART:
+            break

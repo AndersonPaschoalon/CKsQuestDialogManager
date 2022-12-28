@@ -17,6 +17,7 @@ from Gui.AboutWindow import AboutWindow
 from Gui.AudioWindow import AudioWindow
 from Gui.AppEditorCmd import AppEditorCmd
 from Gui.LicenseWindow import LicenseWindow
+from Gui.ProfilesWindow import ProfilesWindow
 
 
 class CkLogicLayer:
@@ -223,6 +224,14 @@ class CkLogicLayer:
         except:
             self._exception_handler("CkLogicLayer.open_settings_window()")
             return "exception"
+
+    def open_profile_window(self):
+        profiles = ProfilesWindow(self.app.app_dir)
+        return profiles.run()
+
+    def get_profile_name(self):
+        profiles = ProfilesWindow(self.app.app_dir)
+        return profiles.get_active_profile_name()
 
     def open_about_window(self):
         about = AboutWindow(self.app.app_dir)

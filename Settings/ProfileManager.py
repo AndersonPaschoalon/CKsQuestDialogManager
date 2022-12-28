@@ -12,9 +12,9 @@ class ProfileManager:
     # DEFAULT_PROFILE_NAME = "Default"
     STR_TRUE = "TRUE"
 
-    def __init__(self):
+    def __init__(self, app_dir):
         self._log = Logger.get()
-        self._app = AppInfo()
+        self._app = AppInfo(app_dir)
         self._list_profile_files = [
             self._app.settings_file,
             self._app.csv_actors,
@@ -80,15 +80,12 @@ class ProfileManager:
         list_profiles = self.get_profile_name_list()
         # p_current = self.get_active_profile_name()
         p_current = self.get_active_profile().name
-
         # (1)
         if p_current == profile_to_activate:
             return True, "Profile is already active."
-
         # (2)
         if not (profile_to_activate in list_profiles):
             return False, "Profile " + profile_to_activate + " does not exit!"
-
         # (3)
         self._ensure_files_exist()
         self._log.debug("Rename the files to backup format <file-name>.<profile-name>.<extension>")
@@ -98,7 +95,6 @@ class ProfileManager:
                 ret_msg = "Error creating backup files for new profile!"
                 self._log.error(ret_msg)
                 return False, ret_msg
-
         # (4)
         status_msg = ""
         for file in self._list_profile_files:
@@ -108,7 +104,6 @@ class ProfileManager:
                 self._log.warn(ret_msg)
                 status_msg += ret_msg + ", "
         self._ensure_files_exist()
-
         # (5)
         self._update_profile_flag(profile_name=p_current, is_active=False)
         self._update_profile_flag(profile_name=profile_to_activate, is_active=True)
@@ -123,9 +118,9 @@ class ProfileManager:
         :return: ret, msg
         """
         profile_name.strip()
-        ret, list_profiles, msg = self.get_profile_list()
+        ret, list_profiles = self.get_profile_list()
         if not ret:
-            return False, msg
+            return False, "Error reading profile list"
 
         for p in list_profiles:
             if p.name == profile_name:
@@ -147,7 +142,7 @@ class ProfileManager:
             return False, "Profile must have only alphanumeric characters, - and _."
 
         # check if the new profile name is already being used by another profile
-        ret, lp, msg = self.get_profile_list()
+        ret, lp = self.get_profile_list()
         p_current = self.get_active_profile().name
         profile: Profile
         for profile in lp:
@@ -160,9 +155,9 @@ class ProfileManager:
                     break
 
         # rename the entry in the config file
-        self._update_profile(current_name=p_current,
-                             profile_name=new_profile_name,
-                             comment=new_profile_description)
+        return self._update_profile(current_name=p_current,
+                                    profile_name=new_profile_name,
+                                    comment=new_profile_description)
 
     #
     def update_target_profile(self, target_profile, new_profile_name, new_profile_description):
@@ -181,7 +176,7 @@ class ProfileManager:
             return False, "Profile must have only alphanumeric characters, - and _."
 
         # check if the new name is already being used by
-        ret, lp, msg = self.get_profile_list()
+        ret, lp = self.get_profile_list()
         profile: Profile
         for profile in lp:
             if profile.name != target_profile:
@@ -216,7 +211,7 @@ class ProfileManager:
             self._delete_backup_file(config_file_base=file, profile_name=profile_name)
 
         # remove entry from xml
-        self._remove_node(profile_name=profile_name)
+        return self._remove_node(profile_name=profile_name)
 
     def profile_info(self, profile_name):
         """
@@ -225,7 +220,7 @@ class ProfileManager:
         :return: comment, active - De profile description, True or False.
         """
         profile_name.strip()
-        ret, list_profiles, msg = self.get_profile_list()
+        ret, list_profiles = self.get_profile_list()
         for p in list_profiles:
             if p.name == profile_name:
                 return p.comment, p.active
@@ -234,11 +229,10 @@ class ProfileManager:
     def get_profile_list(self):
         """
         Returns a list of profile objects.
-        :return: ret, list_profiles, msg - True or false, the list of Profile objects, The return message.
+        :return: ret, list_profiles- True or false, the list of Profile objects.
         """
         if not os.path.exists(self._app.profiles_file):
-            return False, [], "Profiles configuration file does not exist!"
-
+            return False, []
         tree = ET.parse(self._app.profiles_file)
         root = tree.getroot()
         list_profiles = []
@@ -252,8 +246,7 @@ class ProfileManager:
                 list_profiles.append(p)
             except:
                 self._log.Error("Cant read attib from profiles.xml")
-
-        return True, list_profiles, "Success"
+        return True, list_profiles
 
     def get_profile_name_list(self):
         """
@@ -261,19 +254,23 @@ class ProfileManager:
         :return: list_names - the list of all profile names.
         """
         list_names = []
-        ret, list_profiles, msg = self.get_profile_list()
+        ret, list_profiles = self.get_profile_list()
         for p in list_profiles:
             list_names.append(p.name)
         return list_names
 
     def get_active_profile(self):
-        ret, list_profiles, msg = self.get_profile_list()
+        ret, list_profiles = self.get_profile_list()
         for profile in list_profiles:
             if profile.active:
                 return profile
         p = Profile.default_profile()
         p.active = True
         return p
+
+    def get_active_profile_name(self):
+        p = self.get_active_profile()
+        return p.name
 
     ####################################################################################################################
     # helpers

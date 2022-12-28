@@ -3,4 +3,4 @@
     <p name="TestProfile01" comment="First test profile. This is a comment." active="False"/>
     <p name="TestProfile02_updated2kk" comment="Third test profile2kk. This is a comment. This is an updated comment." active="True"/>
     <p name="TestProfile03" comment="Third test profile. This is a comment. This is a comment. This is an updated comment. This is a comment. This is an updated comment. This is a comment. This is an updated comment." active="False"/>
-    <p name="New_Profile5" comment="Profile Description5" active="False"/></profiles>
+    <p name="New_Profile5" comment="Profile Description" active="False"/></profiles>
