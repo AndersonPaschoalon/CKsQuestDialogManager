@@ -7,10 +7,14 @@ from Settings.AppSettings import AppSettings
 
 class AppInfo:
     """Store non-configurable settings and global constants of the application."""
+    # constants
     APP_NAME_SHORT = "CKsQuestDialogManager"
     APP_NAME_LARGE = "CreationKit's Quest Dialog Manager"
     APP_VERSION = "v0.1.0.0"
     APP_VERSION_NAME = "Snowberry Crostata"
+    # static
+    default_app_dir = ".\\App\\"
+    instance = None
 
     def __init__(self, app_dir=".\\App\\"):
         self.app_dir = os.path.abspath(app_dir) + "\\"
@@ -18,9 +22,10 @@ class AppInfo:
         self.img_dir = self.app_dir + "Img\\"
         self.pages_dir = self.app_dir + "Pages\\"
         self.log_dir = self.app_dir + "Logs\\"
-        self.csv_actors = self.app_dir + "Db\\Actors.csv"
-        self.csv_comments = self.app_dir + "Db\\Comments.csv"
-        self.csv_scene_order = self.app_dir + "Db\\SceneOrder.csv"
+        self.db_dir = self.app_dir + "Db\\"
+        self.csv_actors = self.db_dir + "Actors.csv"
+        self.csv_comments = self.db_dir + "Comments.csv"
+        self.csv_scene_order = self.db_dir + "SceneOrder.csv"
         self.app_icon_ico = self.img_dir + "sbc.ico"
         self.app_icon_png = self.img_dir + "Snowberry_crostata.png"
         self.log_file = self.log_dir + "ck-dialog-docgen.log"
@@ -64,6 +69,16 @@ class AppInfo:
         # settings = str(self.settings_obj.data)
         # obj.add("settings_obj", settings)
         return obj.json()
+
+    @staticmethod
+    def configure(self, app_dir):
+        AppInfo.default_app_dir = app_dir
+
+    @staticmethod
+    def get_instance():
+        if AppInfo.instance is None:
+            AppInfo.instance = AppInfo(AppInfo.default_app_dir)
+        return AppInfo.instance
 
 
 if __name__ == '__main__':

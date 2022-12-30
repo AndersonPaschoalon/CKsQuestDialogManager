@@ -21,6 +21,11 @@ class ProfileManager:
             self._app.csv_scene_order,
             self._app.csv_comments
         ]
+        self._list_profile_dirs_base = [
+            self._app.db_dir
+        ]
+        p = self.get_active_profile_name()
+        self._create_profile_dirs(p)
 
     # ok
     def create_profile(self, profile_name, comment):
@@ -51,6 +56,9 @@ class ProfileManager:
                 ret_msg = "Error creating backup files for new profile!"
                 self._log.error(ret_msg)
                 return False, ret_msg
+
+        # Create profile directories if it does not exist
+        self._create_profile_dirs(profile_name)
 
         # create new profile entry
         ret, msg = self._add_new_profile(profile_name, comment)
@@ -154,6 +162,9 @@ class ProfileManager:
                     # same name as current is fine
                     break
 
+        # rename profile directories
+        self._rename_profile_dirs(p_current, new_profile_name)
+
         # rename the entry in the config file
         return self._update_profile(current_name=p_current,
                                     profile_name=new_profile_name,
@@ -190,6 +201,9 @@ class ProfileManager:
         for file in self._list_profile_files:
             self._change_profile_name(file_clear=file, current_prof=target_profile, new_prof=new_profile_name)
 
+        # rename profile directories
+        self._rename_profile_dirs(target_profile, new_profile_name)
+
         # update profiles.xml file
         # rename the entry in the config file
         return self._update_profile(current_name=target_profile,
@@ -209,6 +223,9 @@ class ProfileManager:
         # delete all files
         for file in self._list_profile_files:
             self._delete_backup_file(config_file_base=file, profile_name=profile_name)
+
+        # delete directories
+        self._delete_profile_dirs(profile_name)
 
         # remove entry from xml
         return self._remove_node(profile_name=profile_name)
@@ -449,6 +466,33 @@ class ProfileManager:
             err_msg = "An exception occurred renaming the file " + curr_p + ": " + traceback.format_exc()
             self._log.error(err_msg)
             return False, err_msg
+
+    def _list_profile_dirs(self, prof_name):
+        ll = []
+        for item in self._list_profile_dirs_base:
+            pp = os.path.join(item, prof_name)
+            ll.append(pp)
+        return ll
+
+    def _create_profile_dirs(self, prof_name):
+        for item in self._list_profile_dirs(prof_name):
+            if not os.path.exists(item):
+                os.makedirs(item)
+
+    def _rename_profile_dirs(self, old_name, new_name):
+        ProfileManager._rename_dirs(self._list_profile_dirs(old_name),
+                                    self._list_profile_dirs(new_name))
+
+    def _delete_profile_dirs(self, prof_name):
+        for item in self._list_profile_dirs(prof_name):
+            if os.path.exists(item):
+                os.remove(item)
+
+    @staticmethod
+    def _rename_dirs(list_old, list_new):
+        for oo, nn in zip(list_old, list_new):
+            if os.path.exists(oo):
+                os.rename(oo, nn)
 
     @staticmethod
     def _check_profile_name(prof_name: str):
