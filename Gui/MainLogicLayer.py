@@ -20,7 +20,7 @@ from Gui.LicenseWindow import LicenseWindow
 from Gui.ProfilesWindow import ProfilesWindow
 
 
-class CkLogicLayer:
+class MainLogicLayer:
     """
     """
     # DEFAULT_THEME = "DarkGrey13"
@@ -167,7 +167,7 @@ class CkLogicLayer:
                              icon=self.app.app_icon_ico, title="Attention!")
                     return selected_theme
                 elif event == "RESET":
-                    selected_theme = CkLogicLayer.DEFAULT_THEME
+                    selected_theme = MainLogicLayer.DEFAULT_THEME
                     self._log.debug("THEME SELECTED:" + selected_theme)
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
@@ -304,8 +304,8 @@ class CkLogicLayer:
         :param popup_raw_text: text to be displayed.
         :return:
         """
-        if len(popup_raw_text) > CkLogicLayer.POPUP_TEXT_MAX_LEN:
-            poup_text_display = popup_raw_text[:CkLogicLayer.POPUP_TEXT_MAX_LEN] + "..."
+        if len(popup_raw_text) > MainLogicLayer.POPUP_TEXT_MAX_LEN:
+            poup_text_display = popup_raw_text[:MainLogicLayer.POPUP_TEXT_MAX_LEN] + "..."
         else:
             poup_text_display = popup_raw_text
         return poup_text_display

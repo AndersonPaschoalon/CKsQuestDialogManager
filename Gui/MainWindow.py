@@ -4,7 +4,7 @@ from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
 from Settings.AppInfo import AppInfo
 from Settings.ProfileManager import ProfileManager
-from Gui.CkLogicLayer import CkLogicLayer
+from Gui.MainLogicLayer import MainLogicLayer
 from Gui.ProfilesWindow import ProfilesWindow
 
 
@@ -51,7 +51,7 @@ class MainWindow:
         #
         # Initialize application
         #
-        cd_dialog_docgen = CkLogicLayer()
+        cd_dialog_docgen = MainLogicLayer()
         _log = Logger.get()
         app = AppInfo()
         str_theme = app.settings_obj.app_theme
