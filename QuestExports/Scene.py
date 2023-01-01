@@ -22,19 +22,6 @@ class Scene:
     way in a Scene object of creation Kit.
     A scene is composed of an ordered sequence of SceneTopics.
     """
-    """
-    EXPORT_SCENE_PREFIX = 'SceneDialogue_'
-    EXPORT_SCENE_EXT = '.txt'
-    EXPORT_DIALOG_PREFIX = "dialogueExport"
-    EXPORT_DIALOG_EXT = ".txt"
-    LABEL_SCENE_FULL_PATH = 'FULL PATH'
-    LABEL_SCENE_FILENAME = 'FILENAME'
-    LABEL_SCENE_QUEST = 'QUEST'
-    LABEL_SCENE_SCENE = 'SCENE'
-    LABEL_SCENE_RESPONSE_INDEX = 'RESPONSE INDEX'
-    LABEL_SCENE_CATEGORY = 'CATEGORY'
-    STR_SCENE_VAL = "Scene"
-    """
 
     def __init__(self, quest_id: str, scene_id: str):
         """
