@@ -289,6 +289,10 @@ class ProfileManager:
         p = self.get_active_profile()
         return p.name
 
+    def profile_db_dir(self):
+        db_dir = os.path.join(self._app.db_dir, self.get_active_profile_name())
+        return db_dir
+
     ####################################################################################################################
     # helpers
     ####################################################################################################################

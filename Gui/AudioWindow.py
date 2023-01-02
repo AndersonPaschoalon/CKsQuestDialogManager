@@ -12,7 +12,6 @@ from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.TestData import *
 
 
-
 class AudioWindow:
     """
     Audio Window class.

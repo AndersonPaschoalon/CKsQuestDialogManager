@@ -27,7 +27,8 @@ class MainWindow:
     BTN_ABOUT = "About"
     BTN_LICENSE = "License"
     # Documentation Generation
-    BTN_EXPORT_CSV = "Import Objects from Creation Kit"
+    # BTN_EXPORT_CSV = "Import Objects from Creation Kit"
+    BTN_EXPORT_CSV = "Import files from Creation Kit"
     BTN_EDIT_SCENES = "Edit Scene Order"
     BTN_EDIT_ACTORS = "Edit Actor's Names"
     BTN_EDIT_COMMENTS = "Edit Comments"
@@ -125,7 +126,7 @@ class MainWindow:
             # Documentation Generation
             elif event == MainWindow.BTN_EXPORT_CSV:
                 _log.debug("event:" + event)
-                cd_dialog_docgen.export_objects_to_csv()
+                cd_dialog_docgen.import_from_creation_kit()
             elif event == MainWindow.BTN_EDIT_SCENES:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.open_scenes_editor()

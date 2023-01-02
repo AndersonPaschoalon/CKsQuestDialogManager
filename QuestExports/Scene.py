@@ -12,13 +12,13 @@ from QuestExports.SceneDictionary import SceneDictionary
 from QuestExports.DialogLine import DialogLine
 from QuestExports.SceneTopic import SceneTopic
 from QuestExports.Consts import Consts
-
+from QuestExports.SkyrimRepository import SkyrimRepository
 
 
 class Scene:
     """
     Store information of a Scene.
-    A Scene is a sequence of dialoges of many charactes organized in a structured
+    A Scene is a sequence of dialogues of many charactes organized in a structured
     way in a Scene object of creation Kit.
     A scene is composed of an ordered sequence of SceneTopics.
     """
@@ -155,31 +155,31 @@ class Scene:
         """
         return self.scene_position
 
-    @staticmethod
-    def list_scene_quests(skyrim_path: str):
-        """
-        This method list all the quests with exported scenes from skyrim directory.
-        :param skyrim_path: path where the SceneDialog_ files are going to be searched.
-        :return: list of quest IDs with exported scenes.
-        """
-        _log = Logger.get()
-        _log.debug("Scene.list_scene_quests()")
-        all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
-        all_diag_export_quests = []
-        scene_quests = []
-        for f in all_files:
-            if f.startswith(Consts.EXPORT_DIALOG_PREFIX) and f.endswith(Consts.EXPORT_DIALOG_EXT):
-                quest_id = f.replace(Consts.EXPORT_DIALOG_PREFIX, "").replace(Consts.EXPORT_DIALOG_EXT, "")
-                all_diag_export_quests.append(quest_id)
-        for f in all_files:
-            if f.startswith(Consts.EXPORT_SCENE_PREFIX) and f.endswith(Consts.EXPORT_SCENE_EXT):
-                for g in all_diag_export_quests:
-                    if g in f:
-                        scene_quests.append(g)
-                        break
-        scene_quests = list(dict.fromkeys(scene_quests))
-        _log.debug("scene_quests: " + str(scene_quests))
-        return scene_quests
+    # @staticmethod
+    # def list_scene_quests(skyrim_path: str):
+    #     """
+    #     This method list all the quests with exported scenes from skyrim directory.
+    #     :param skyrim_path: path where the SceneDialog_ files are going to be searched.
+    #     :return: list of quest IDs with exported scenes.
+    #      """
+    #     _log = Logger.get()
+    #     _log.debug("Scene.list_scene_quests()")
+    #     all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
+    #     all_diag_export_quests = []
+    #     scene_quests = []
+    #     for f in all_files:
+    #         if f.startswith(Consts.EXPORT_DIALOG_PREFIX) and f.endswith(Consts.EXPORT_DIALOG_EXT):
+    #             quest_id = f.replace(Consts.EXPORT_DIALOG_PREFIX, "").replace(Consts.EXPORT_DIALOG_EXT, "")
+    #             all_diag_export_quests.append(quest_id)
+    #     for f in all_files:
+    #         if f.startswith(Consts.EXPORT_SCENE_PREFIX) and f.endswith(Consts.EXPORT_SCENE_EXT):
+    #             for g in all_diag_export_quests:
+    #                 if g in f:
+    #                     scene_quests.append(g)
+    #                     break
+    #    #     scene_quests = list(dict.fromkeys(scene_quests))
+    #     _log.debug("scene_quests: " + str(scene_quests))
+    #     return scene_quests
 
     @staticmethod
     def export_scenes_data_to_csvdic(skyrim_path: str, csv_dic_order: str, csv_dic_comemnts: str, csv__dic_actors):
@@ -344,8 +344,13 @@ class Scene:
                         actor_id = row[col_actor_id]
                         actor_race = row[col_actor_race]
                         if category == Consts.STR_SCENE_VAL:
-                            list_scenes = Scene._update_dialogexport_scenelist(list_scenes, filename, res_index, fullpath,
-                                                                            actor_id, actor_race, category)
+                            list_scenes = Scene._update_dialogexport_scenelist(list_scenes,
+                                                                               filename,
+                                                                               int(res_index),
+                                                                               fullpath,
+                                                                               actor_id,
+                                                                               actor_race,
+                                                                               category)
                     else:
                         _log.warn("**WARN** Cant parse row from file <" + quest_ex_file + ">: row len is " + str(len(row)))
         # (3) sort scenes
@@ -424,30 +429,31 @@ class Scene:
         """
         _log = Logger.get()
         _log.debug("_get_quest_exported()")
-        list_all_exported = Scene._get_all_export_dialog_files(skyrim_path)
+        # list_all_exported = Scene._get_all_export_dialog_files(skyrim_path)
+        list_all_exported = SkyrimRepository.get_dialog_export_files(skyrim_path)
         for ex in list_all_exported:
             if quest_id in ex:
                 return ex
         return ""
 
-    @staticmethod
-    def _get_all_export_dialog_files(skyrim_path: str):
-        """
-        Return all the exported dialog files names inside Skyrim root directory.
-        :param skyrim_path: The skyrim root directory.
-        :return: list of expoted dialog files.
-        """
-        _log = Logger.get()
-        _log.debug("_get_all_export_dialog_files()")
-        all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
-        # filter all exported files from creation kit
-        export_dialog_files = []
-        for nth_file in all_files:
-            if (nth_file.startswith(Consts.EXPORT_DIALOG_PREFIX) and
-                    nth_file.endswith(Consts.EXPORT_DIALOG_EXT)):
-                export_dialog_files.append(nth_file)
-        _log.debug("export_dialog_files: " + str(export_dialog_files))
-        return export_dialog_files
+    # @staticmethod
+    # def _get_all_export_dialog_files(skyrim_path: str):
+    #     """
+    #     Return all the exported dialog files names inside Skyrim root directory.
+    #     :param skyrim_path: The skyrim root directory.
+    #     :return: list of expoted dialog files.
+    #     """
+    #     _log = Logger.get()
+    #     _log.debug("_get_all_export_dialog_files()")
+    #     all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
+    #     # filter all exported files from creation kit
+    #     export_dialog_files = []
+    #     for nth_file in all_files:
+    #         if (nth_file.startswith(Consts.EXPORT_DIALOG_PREFIX) and
+    #                 nth_file.endswith(Consts.EXPORT_DIALOG_EXT)):
+    #             export_dialog_files.append(nth_file)
+    #     _log.debug("export_dialog_files: " + str(export_dialog_files))
+    #     return export_dialog_files
 
     @staticmethod
     def _get_index(first_row, label):
@@ -469,11 +475,13 @@ if __name__ == '__main__':
     test_build_scenes_list2 = False
     DOCS_OUTPUT = "..\\Output\\"
     if test_list_scene_quests:
-        ll = Scene.list_scene_quests("..\\Sandbox\\")
+        # ll = Scene.list_scene_quests("..\\Sandbox\\")
+        ll = SkyrimRepository.list_all_scene_quests("..\\Sandbox\\")
+        # ll = Scene.list_scene_quests("..\\Sandbox\\")
         for quest in ll:
             print("quest with scene: " + quest)
     if test_export_scenes_to_csvdic:
-        [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
+        [all_scene_files, quest_scenes_no_duplicates, the_list_scenes, list_alias] = \
             Scene.export_scenes_data_to_csvdic("..\\Sandbox\\", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
         # print("all_scene_files: ")
         for sf in all_scene_files:
@@ -481,14 +489,17 @@ if __name__ == '__main__':
         print("quest_scenes_no_duplicates:")
         for t in quest_scenes_no_duplicates:
             print("    - " + t[0] + ", " + t[1])
-        print("list_scenes:" + str(list_scenes))
-        for s in list_scenes:
+        print("the_list_scenes:" + str(the_list_scenes))
+        for s in the_list_scenes:
             print("    - " + s)
         for a in list_alias:
             print("    - " + a)
-
     if test_build_scenes_list:
-        Scene.build_scenes_list("..\\Sandbox\\", "DSilHand_M80AssaultJor", "..\\SceneOrder.csv", "..\\Comments.csv", "..\\Actors.csv")
+        Scene.build_scenes_list("..\\Sandbox\\",
+                                "DSilHand_M80AssaultJor",
+                                "..\\SceneOrder.csv",
+                                "..\\Comments.csv",
+                                "..\\Actors.csv")
     if test_build_scenes_list2:
         # test the border cases
         Scene.build_scenes_list("..\\Sandbox\\", "M10SilverHunt", "..\\SceneOrder.csv")

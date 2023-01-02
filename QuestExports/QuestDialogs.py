@@ -15,13 +15,13 @@ from QuestExports.Consts import Consts
 from QuestExports.Scene import Scene
 from QuestExports.SceneTopic import SceneTopic
 from QuestExports.DialogLine import DialogLine
+from QuestExports.SkyrimRepository import SkyrimRepository
+
 
 """
 TODO: quando se criar os objectos da quest, as cenas devem ser adicionadas
 TODO: no generate documentation, a cenas devem ser acessadas da quest.
-
 """
-
 class QuestDialogs:
     """
     This class stores information about the quest dialogs, parsers the Creation Kit exported files,
@@ -224,7 +224,8 @@ class QuestDialogs:
         """
         _log = Logger.get()
         # load objects
-        exported_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
+        # exported_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
+        exported_files = SkyrimRepository.get_all_export_dialog_files()
         actors = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
         comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
         # filter all objects and actors
@@ -324,7 +325,8 @@ class QuestDialogs:
         list_quest = []
         comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
         actors_dic = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
-        export_dialog_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
+        # export_dialog_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
+        export_dialog_files = SkyrimRepository.get_all_export_dialog_files()
         # for ex_files in export_dialog_files:
         #     _log.debug(" exported file:" + ex_files)
         if len(export_dialog_files) == 0:
@@ -463,7 +465,8 @@ class QuestDialogs:
         #
         # CREATE SCENES
         #
-        scenes_quests = Scene.list_scene_quests(skyrim_path)
+        # scenes_quests = Scene.list_scene_quests(skyrim_path)
+        scenes_quests = SkyrimRepository.list_all_scene_quests(skyrim_path)
         i = 0
         while i < len(list_quest):
             curr_quest_name = list_quest[i].quest_name
@@ -546,21 +549,21 @@ class QuestDialogs:
         if branch.is_ready:
             branch.add_topic_dialog(topic)
 
-    @staticmethod
-    def _get_all_export_dialog_files(skyrim_path: str):
-        """
-        Return all the expoted dialog files names inside Skyrim root directory.
-        :param skyrim_path: The skyrim root directory.
-        :return: list of expoted dialog files.
-        """
-        all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
-        # filter all exported files from creation kit
-        export_dialog_files = []
-        for nth_file in all_files:
-            if (nth_file.startswith(Consts.EXPORT_DIALOG_PREFIX) and
-                    nth_file.endswith(Consts.EXPORT_DIALOG_EXT)):
-                export_dialog_files.append(nth_file)
-        return export_dialog_files
+    # @staticmethod
+    # def _get_all_export_dialog_files(skyrim_path: str):
+    #     """
+    #     Return all the expoted dialog files names inside Skyrim root directory.
+    #     :param skyrim_path: The skyrim root directory.
+    #     :return: list of expoted dialog files.
+    #     """
+    #     all_files = [f for f in listdir(skyrim_path) if isfile(join(skyrim_path, f))]
+    #     # filter all exported files from creation kit
+    #     export_dialog_files = []
+    #     for nth_file in all_files:
+    #         if (nth_file.startswith(Consts.EXPORT_DIALOG_PREFIX) and
+    #                 nth_file.endswith(Consts.EXPORT_DIALOG_EXT)):
+    #             export_dialog_files.append(nth_file)
+    #     return export_dialog_files
 
 
 if __name__ == '__main__':

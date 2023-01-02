@@ -21,7 +21,7 @@ from Gui.AudioData import AudioData
 from Gui.ReportBatchCmd import ReportBatchCmd
 from Gui.ReportAudioDetails import ReportAudioDetails
 from Settings.AppInfo import AppInfo
-
+from Settings.ProfileManager import ProfileManager
 
 class AudioLogicLayer:
 
@@ -33,6 +33,7 @@ class AudioLogicLayer:
 
     def __init__(self, app_dir):
         self.app = AppInfo(app_dir)
+        self.profile_manager = ProfileManager()
         self._log = Logger.get()
         self.encoder = SkyAudioEncoder(self.app.audio_encoder_dir)
         self.player = MusicUtils()
@@ -45,11 +46,11 @@ class AudioLogicLayer:
         :return:
         """
         self._log.debug("-- generate_list_audio_data()")
-        skyrim_path = self.app.settings_obj.skyrim_path
+        skyrim_files_path = self.profile_manager.profile_db_dir()
         comments_csv = self.app.settings_obj.comments_file
         actors_csv = self.app.settings_obj.actors_file
         scene_order_csv = self.app.settings_obj.scene_order_file
-        list_audio_data = AudioData.generate_list_audio_data(skyrim_path, comments_csv, actors_csv, scene_order_csv)
+        list_audio_data = AudioData.generate_list_audio_data(skyrim_files_path, comments_csv, actors_csv, scene_order_csv)
         return list_audio_data
 
     def create_audio_details_report(self, list_audio_data, ask_popup=True):

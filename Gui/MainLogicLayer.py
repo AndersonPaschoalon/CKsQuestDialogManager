@@ -1,17 +1,17 @@
-import logging
 import os
 import webbrowser
 import traceback
 import sys
 import subprocess
-
 import PySimpleGUI as sg
 from multiprocessing import Process
 from PyUtils.Logger import Logger
 from PyUtils.CsvDicEditor import CsvDicEditor
 from QuestExports.QuestDialogs import QuestDialogs
 from QuestExports.Scene import Scene
+from QuestExports.SkyrimRepository import SkyrimRepository
 from Settings.AppInfo import AppInfo
+from Settings.ProfileManager import ProfileManager
 from Gui.CsvReorderWindow import CsvReorderWindow
 from Gui.AboutWindow import AboutWindow
 from Gui.AudioWindow import AudioWindow
@@ -29,24 +29,31 @@ class MainLogicLayer:
 
     def __init__(self):
         self.app = AppInfo()
-        Logger.initialize(self.app.log_file, level_log=logging.DEBUG, level_console=logging.WARNING)
-        self._log = Logger.get()
-        self._log.debug("-- Initializing CkLogicLayer()")
+        self.profile_manager = ProfileManager(self.app.app_dir)
+        # Logger.initialize(self.app.log_file, level_log=logging.DEBUG, level_console=logging.WARNING)
+        _log = Logger.get()
+        _log.debug("-- Initializing CkLogicLayer()")
 
-    def export_objects_to_csv(self):
-        self._log = Logger.get()
+    def import_from_creation_kit(self):
+        skyrim_root = self.app.settings_obj.skyrim_path
+        local_db = self.profile_manager.profile_db_dir()
+        SkyrimRepository.import_skyrim_files(skyrim_root=skyrim_root, local_root=local_db)
+        self.export_objects_to_csv(skyrim_path=local_db)
+
+    def export_objects_to_csv(self, skyrim_path):
+        _log = Logger.get()
         try:
-            self._log.debug("-- export_objects_to_csv()")
-            skyrim_path = self.app.settings_obj.skyrim_path
+            _log.debug("-- export_objects_to_csv()")
+            # skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
             scene_order_csv = self.app.settings_obj.scene_order_file
-            self._log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
+            _log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
                        ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv)
             [exported_files, list_objects, list_actors] = QuestDialogs.export_objects_to_csvdics(skyrim_path,
                                                                                                  comments_csv,
                                                                                                  actors_csv)
-            self._log.debug(" -- QuestDialogs.export_scenes_data_to_csvdic()")
+            _log.debug(" -- QuestDialogs.export_scenes_data_to_csvdic()")
             [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
                 Scene.export_scenes_data_to_csvdic(skyrim_path, scene_order_csv, comments_csv,
                                                    actors_csv)
@@ -77,26 +84,26 @@ class MainLogicLayer:
                 else:
                     poup_text += ", " + f
                 i = i + 1
-            self._log.info("** IMPORT OBJECT FROM CREATION KIT SUMMARY: " + poup_text)
+            _log.info("** IMPORT OBJECT FROM CREATION KIT SUMMARY: " + poup_text)
             poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Exported Objects Summary")
         except:
             self._exception_handler("CkLogicLayer.export_objects_to_csv()")
 
-    def generate_documentation(self):
-        self._log = Logger.get()
+    def generate_documentation(self, skyrim_path):
+        _log = Logger.get()
         try:
-            self._log.debug("-- generate_documentation()")
-            skyrim_path = self.app.settings_obj.skyrim_path
+            _log.debug("-- generate_documentation()")
+            # skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
             scene_order_csv = self.app.settings_obj.scene_order_file
             docs_dir = self.app.settings_obj.docgen_dir
             app_name = self.app.app_name_short
             github_url = self.app.url_github
-            self._log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path +
-                            ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv + ", docs_dir:" + docs_dir +
-                            ", scene_order_csv:" + scene_order_csv)
+            _log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path +
+                       ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv + ", docs_dir:" + docs_dir +
+                       ", scene_order_csv:" + scene_order_csv)
             qlist = QuestDialogs.generate_quest_documentation(skyrim_path, comments_csv, actors_csv,
                                                               scene_order_csv, docs_dir, app_name, github_url)
             i = 0
@@ -107,46 +114,46 @@ class MainLogicLayer:
                 else:
                     poup_text += ", " + f
                 i = i + 1
-            self._log.info("** DOCUMENT GENERATION SUMMARY: " + poup_text)
+            _log.info("** DOCUMENT GENERATION SUMMARY: " + poup_text)
             poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Documentation Generation Summary")
         except:
             self._exception_handler("CkLogicLayer.generate_documentation()")
 
     def open_tutorial(self):
-        self._log = Logger.get()
+        _log = Logger.get()
         try:
-            self._log.debug("-- open_tutorial()")
+            _log.debug("-- open_tutorial()")
             url_tutorial = self.app.tutorial_url()
-            self._log.debug("webbrowser.open() url_tutorial:" + url_tutorial)
+            _log.debug("webbrowser.open() url_tutorial:" + url_tutorial)
             webbrowser.open(url_tutorial, new=2)
         except:
             self._exception_handler("CkLogicLayer.open_tutorial()")
 
     def open_github(self):
-        self._log = Logger.get()
+        _log = Logger.get()
         try:
-            self._log.debug("-- open_github()")
+            _log.debug("-- open_github()")
             url = self.app.url_github
-            self._log.debug("webbrowser.open() url_tutorial:" + url)
+            _log.debug("webbrowser.open() url_tutorial:" + url)
             webbrowser.open(url, new=2)
         except:
             self._exception_handler("CkLogicLayer.open_github()")
 
     def open_nexus(self):
         try:
-            self._log = Logger.get()
-            self._log.debug("-- open_nexus()")
+            _log = Logger.get()
+            _log.debug("-- open_nexus()")
             url = self.app.url_nexus
-            self._log.debug("webbrowser.open() url_tutorial:" + url)
+            _log.debug("webbrowser.open() url_tutorial:" + url)
             webbrowser.open(url, new=2)
         except:
             self._exception_handler("CkLogicLayer.open_nexus()")
 
     def open_theme_picker(self):
-        self._log = Logger.get()
+        _log = Logger.get()
         try:
-            self._log.debug("-- open_theme_picker()")
+            _log.debug("-- open_theme_picker()")
             layout = [[sg.Text('Theme Browser')],
                       [sg.Text('Click a Theme color to see demo window')],
                       [sg.Listbox(values=sg.theme_list(), size=(20, 12), key='-LIST-', enable_events=True)],
@@ -159,7 +166,7 @@ class MainLogicLayer:
                     window_picker.close()
                     return ""
                 elif event == "OK":
-                    self._log.debug("THEME SELECTED:" + selected_theme)
+                    _log.debug("THEME SELECTED:" + selected_theme)
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
                     window_picker.close()
@@ -168,7 +175,7 @@ class MainLogicLayer:
                     return selected_theme
                 elif event == "RESET":
                     selected_theme = MainLogicLayer.DEFAULT_THEME
-                    self._log.debug("THEME SELECTED:" + selected_theme)
+                    _log.debug("THEME SELECTED:" + selected_theme)
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
                     window_picker.close()
@@ -178,14 +185,14 @@ class MainLogicLayer:
                 sg.theme(values['-LIST-'][0])
                 sg.popup_get_text('This is {}'.format(values['-LIST-'][0]))
                 selected_theme = values['-LIST-'][0]
-                self._log.debug("*** " + values['-LIST-'][0])
+                _log.debug("*** " + values['-LIST-'][0])
         except:
             self._exception_handler("CkLogicLayer.open_theme_picker()")
 
     def open_settings_window(self):
-        self._log = Logger.get()
+        _log = Logger.get()
         try:
-            self._log.debug("-- open_settings_window()")
+            _log.debug("-- open_settings_window()")
             layout = []
             # 0
             layout.append([sg.Text("Skyrim Path"), sg.InputText(default_text=self.app.settings_obj.skyrim_path)])
@@ -242,61 +249,65 @@ class MainLogicLayer:
         about.run()
 
     def open_actors_editor(self):
-        self._log.debug("-- open_actors_editor() start")
+        _log = Logger.get()
+        _log.debug("-- open_actors_editor() start")
         cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
         if cmd.is_process():
-            self._log.debug("-- _exec_actor_editor() process start")
+            _log.debug("-- _exec_actor_editor() process start")
             p = Process(target=self._exec_actor_editor)
             p.start()
             p.join()
-            self._log.debug("-- _exec_actor_editor() process finish")
+            _log.debug("-- _exec_actor_editor() process finish")
         else:
             cmd_str = cmd.get_batch(self.app.settings_obj.actors_file)
-            self._log.debug("command: " + cmd_str)
+            _log.debug("command: " + cmd_str)
             # print(cmd_str)
             subprocess.Popen(cmd_str)
-        self._log.debug("-- open_actors_editor() finish")
+        _log.debug("-- open_actors_editor() finish")
 
     def open_comments_editor(self):
-        self._log.debug("-- open_actors_editor() start")
+        _log = Logger.get()
+        _log.debug("-- open_actors_editor() start")
         cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
         if cmd.is_process():
-            self._log.debug("-- _exec_comments_editor() process start")
+            _log.debug("-- _exec_comments_editor() process start")
             p = Process(target=self._exec_comments_editor)
             p.start()
             p.join()
-            self._log.debug("-- _exec_comments_editor() process finish")
+            _log.debug("-- _exec_comments_editor() process finish")
         else:
             cmd_str = cmd.get_batch(self.app.settings_obj.comments_file)
-            self._log.debug("command: " + cmd_str)
+            _log.debug("command: " + cmd_str)
             # print(cmd_str)
             subprocess.Popen(cmd_str)
-        self._log.debug("-- open_actors_editor() finish")
+        _log.debug("-- open_actors_editor() finish")
 
     def open_scenes_editor(self):
         reorder = CsvReorderWindow(self.app.app_dir)
         reorder.run(self.app.settings_obj.scene_order_file)
 
     def launch_audio_manager(self):
-        self._log = Logger.get()
+        _log = Logger.get()
         try:
-            self._log.debug("-- launch_audio_manager()")
+            _log.debug("-- launch_audio_manager()")
             audio_window = AudioWindow(self.app.app_dir)
             audio_window.run()
         except:
             self._exception_handler("CkLogicLayer.launch_audio_manager()")
 
     def _exec_actor_editor(self):
-        self._log.debug("-- _exec_actor_editor() start")
+        _log = Logger.get()
+        _log.debug("-- _exec_actor_editor() start")
         editor = CsvDicEditor()
         editor.run_app(self.app.settings_obj.actors_file)
-        self._log.debug("-- _exec_actor_editor() finish")
+        _log.debug("-- _exec_actor_editor() finish")
 
     def _exec_comments_editor(self):
-        self._log.debug("-- open_comments_editor() start")
+        _log = Logger.get()
+        _log.debug("-- open_comments_editor() start")
         editor = CsvDicEditor()
         editor.run_app(self.app.settings_obj.comments_file)
-        self._log.debug("-- _exec_comments_editor() finish")
+        _log.debug("-- _exec_comments_editor() finish")
 
     def _popup_text(self, popup_raw_text):
         """
@@ -311,17 +322,18 @@ class MainLogicLayer:
         return poup_text_display
 
     def _exception_handler(self, error_method):
-         err_title = "** Error on method " + error_method + " **"
-         err_msg = "** Error details: **\n"
-         err_msg += "traceback.format_exc():\n" + str(traceback.format_exc()) + "\n"
-         err_msg += "sys.exc_info():\n" + str(sys.exc_info()[2]) + "\n"
-         sg.Popup(err_msg,
-                  keep_on_top=True,
-                  icon=self.app.app_icon_ico,
-                  title=err_title)
-         self._log.error(err_title)
-         self._log.error(traceback.format_exc())
-         self._log.error(sys.exc_info()[2])
+        _log = Logger.get()
+        err_title = "** Error on method " + error_method + " **"
+        err_msg = "** Error details: **\n"
+        err_msg += "traceback.format_exc():\n" + str(traceback.format_exc()) + "\n"
+        err_msg += "sys.exc_info():\n" + str(sys.exc_info()[2]) + "\n"
+        sg.Popup(err_msg,
+                 keep_on_top=True,
+                 icon=self.app.app_icon_ico,
+                 title=err_title)
+        _log.error(err_title)
+        _log.error(traceback.format_exc())
+        _log.error(sys.exc_info()[2])
 
 
 # if __name__ == '__main__':

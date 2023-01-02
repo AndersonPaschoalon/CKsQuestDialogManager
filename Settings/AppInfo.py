@@ -14,9 +14,10 @@ class AppInfo:
     APP_VERSION_NAME = "Snowberry Crostata"
     # static
     default_app_dir = ".\\App\\"
-    instance = None
 
-    def __init__(self, app_dir=".\\App\\"):
+    def __init__(self, app_dir=""):
+        if app_dir == "":
+            app_dir = AppInfo.default_app_dir
         self.app_dir = os.path.abspath(app_dir) + "\\"
         self.audio_encoder_dir = self.app_dir + "Bin\\"
         self.img_dir = self.app_dir + "Img\\"
@@ -70,15 +71,17 @@ class AppInfo:
         # obj.add("settings_obj", settings)
         return obj.json()
 
+    def reload(self):
+        """
+        Reload information from configuration file.
+        """
+        self.settings_obj = AppSettings(self.settings_file)
+        self.creation_kit_exe = self.settings_obj.skyrim_path + "\\CreationKit.exe"
+
     @staticmethod
     def configure(self, app_dir):
         AppInfo.default_app_dir = app_dir
 
-    @staticmethod
-    def get_instance():
-        if AppInfo.instance is None:
-            AppInfo.instance = AppInfo(AppInfo.default_app_dir)
-        return AppInfo.instance
 
 
 if __name__ == '__main__':
