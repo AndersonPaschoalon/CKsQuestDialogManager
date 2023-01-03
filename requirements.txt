@@ -52,3 +52,5 @@ webbrowserdownloader==0.1
 wsproto==1.0.0
 wxPython==4.1.1
 zipp==3.7.0
+
+
