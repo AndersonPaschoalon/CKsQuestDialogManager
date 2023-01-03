@@ -11,8 +11,8 @@ def initialize_logger():
     Initializes the logger singleton.
     :return:
     """
-    app = AppInfo()
-    Logger.initialize(app.log_file, level_log=logging.DEBUG, level_console=logging.INFO)
+    app_info = AppInfo()
+    Logger.initialize(app_info.log_file, level_log=logging.DEBUG, level_console=logging.INFO)
 
 
 if __name__ == '__main__':

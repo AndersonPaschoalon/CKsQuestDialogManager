@@ -229,14 +229,12 @@ class ProfilesWindow:
         # Title
         active_profile = self.profile_manager.get_active_profile().name.strip()
         layout_title = [sg.Text("Current Profile: " + active_profile, font=ProfilesWindow.FONT_TITLE1)]
-
         # Buttons
         layout_buttons = [sg.Button(ProfilesWindow.BTN_NEW),
                           sg.Button(ProfilesWindow.BTN_LOAD),
                           sg.Button(ProfilesWindow.BTN_EDIT),
                           sg.Button(ProfilesWindow.BTN_DELETE),
                           sg.Button(ProfilesWindow.BTN_EXIT)]
-
         # Profile Table
         table_headings = ["Active", "Profile Name", "Description"]
         data, active_profile = self._load_profile_data()
@@ -259,14 +257,12 @@ class ProfilesWindow:
         layout = [layout_title,
                   layout_table,
                   layout_buttons]
-
         # Display Window
         window = sg.Window(title=self.app.label_main_window,
                            layout=layout,
                            size=ProfilesWindow.WINDOW_SIZE,
                            icon=self.app.app_icon_ico,
                            return_keyboard_events=True)
-
         # Main loop
         # Event Loop to process "events" and get the "values" of the inputs
         ret_val = ProfilesWindow.RET_SUCCESS
@@ -277,12 +273,10 @@ class ProfilesWindow:
         reload = False
         try:
             while True:
-
                 #
                 # Filter selected profile
                 #
                 event, values = window.read(timeout=500)
-
                 if isinstance(event, tuple):
                     # TABLE CLICKED Event has value in format ('-TABLE=', '+CLICKED+', (row,col))
                     if event[0] == '-TABLE-':
@@ -290,8 +284,6 @@ class ProfilesWindow:
                 # event: Down:40 , values: {'-TABLE-': [3]} TestProfile03
                 if event == ProfilesWindow.KEY_UP or event == ProfilesWindow.KEY_DOWN:
                     current_profile, current_comment = ProfilesWindow._moved_profile(values, data)
-
-
                 #
                 # perform the action
                 #
@@ -316,7 +308,6 @@ class ProfilesWindow:
                     self._log.debug("event:" + event)
                 elif event == ProfilesWindow.BTN_LOAD:
                     ret = self._load_profile(profile_to_load=current_profile)
-
                 # reload screen
                 if ret:
                     ret = False
@@ -328,7 +319,6 @@ class ProfilesWindow:
         except:
             ret_val = ProfilesWindow.RET_ERROR
             self._gui_message_box_alert(title="ERROR", message="Exceptin caught: " + str(traceback.format_exc()))
-
         window.close()
         return ret_val
 

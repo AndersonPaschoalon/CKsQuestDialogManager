@@ -8,6 +8,8 @@
 * 12/10/2022
   * CSV default editor do not run as an external process anymore.
   * Use of XML configuration files (settings.xml).
+* 03/01/2023
+  * Implementação do sistema de gerenciamento de profiles. 
 
 ----
 

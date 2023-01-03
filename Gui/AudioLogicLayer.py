@@ -33,7 +33,7 @@ class AudioLogicLayer:
 
     def __init__(self, app_dir):
         self.app = AppInfo(app_dir)
-        self.profile_manager = ProfileManager()
+        self.profile_manager = ProfileManager(app_dir)
         self._log = Logger.get()
         self.encoder = SkyAudioEncoder(self.app.audio_encoder_dir)
         self.player = MusicUtils()

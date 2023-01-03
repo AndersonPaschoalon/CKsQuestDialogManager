@@ -225,7 +225,7 @@ class QuestDialogs:
         _log = Logger.get()
         # load objects
         # exported_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
-        exported_files = SkyrimRepository.get_all_export_dialog_files()
+        exported_files = SkyrimRepository.get_dialog_export_files(skyrim_path)
         actors = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
         comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
         # filter all objects and actors
@@ -326,7 +326,7 @@ class QuestDialogs:
         comments = CsvDic(comments_csv, Consts.CSV_COMMENTS_DELIMITER)
         actors_dic = CsvDic(actors_csv, Consts.CSV_ACTOR_DELIMITER)
         # export_dialog_files = QuestDialogs._get_all_export_dialog_files(skyrim_path)
-        export_dialog_files = SkyrimRepository.get_all_export_dialog_files()
+        export_dialog_files = SkyrimRepository.get_dialog_export_files(skyrim_path)
         # for ex_files in export_dialog_files:
         #     _log.debug(" exported file:" + ex_files)
         if len(export_dialog_files) == 0:

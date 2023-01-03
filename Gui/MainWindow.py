@@ -27,8 +27,8 @@ class MainWindow:
     BTN_ABOUT = "About"
     BTN_LICENSE = "License"
     # Documentation Generation
-    # BTN_EXPORT_CSV = "Import Objects from Creation Kit"
-    BTN_EXPORT_CSV = "Import files from Creation Kit"
+    # BTN_IMPORT_FROM_CK = "Import Objects from Creation Kit"
+    BTN_IMPORT_FROM_CK = "Import files from Creation Kit"
     BTN_EDIT_SCENES = "Edit Scene Order"
     BTN_EDIT_ACTORS = "Edit Actor's Names"
     BTN_EDIT_COMMENTS = "Edit Comments"
@@ -78,7 +78,7 @@ class MainWindow:
                            sg.Button(MainWindow.BTN_ABOUT),
                            sg.Button(MainWindow.BTN_LICENSE)]
         layout_export_l1 = [sg.Text("Step 1: Import Objects                "),
-                            sg.Button(MainWindow.BTN_EXPORT_CSV)]
+                            sg.Button(MainWindow.BTN_IMPORT_FROM_CK)]
         layout_export_l2 = [sg.Text("Step 2: Edit                                "),
                             sg.Button(MainWindow.BTN_EDIT_ACTORS),
                             sg.Button(MainWindow.BTN_EDIT_COMMENTS),
@@ -106,6 +106,7 @@ class MainWindow:
             elif event == MainWindow.BTN_SETTINGS:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.open_settings_window()
+                app.reload()
             elif event == MainWindow.BTN_PROFILES:
                 _log.debug("event:" + event)
                 ret = cd_dialog_docgen.open_profile_window()
@@ -124,7 +125,7 @@ class MainWindow:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.open_license_window()
             # Documentation Generation
-            elif event == MainWindow.BTN_EXPORT_CSV:
+            elif event == MainWindow.BTN_IMPORT_FROM_CK:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.import_from_creation_kit()
             elif event == MainWindow.BTN_EDIT_SCENES:

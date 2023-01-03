@@ -35,63 +35,16 @@ class MainLogicLayer:
         _log.debug("-- Initializing CkLogicLayer()")
 
     def import_from_creation_kit(self):
+        self.app.reload()
         skyrim_root = self.app.settings_obj.skyrim_path
         local_db = self.profile_manager.profile_db_dir()
         SkyrimRepository.import_skyrim_files(skyrim_root=skyrim_root, local_root=local_db)
-        self.export_objects_to_csv(skyrim_path=local_db)
+        self._export_objects_to_csv(skyrim_path=local_db)
 
-    def export_objects_to_csv(self, skyrim_path):
+    def generate_documentation(self):
         _log = Logger.get()
-        try:
-            _log.debug("-- export_objects_to_csv()")
-            # skyrim_path = self.app.settings_obj.skyrim_path
-            comments_csv = self.app.settings_obj.comments_file
-            actors_csv = self.app.settings_obj.actors_file
-            scene_order_csv = self.app.settings_obj.scene_order_file
-            _log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
-                       ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv)
-            [exported_files, list_objects, list_actors] = QuestDialogs.export_objects_to_csvdics(skyrim_path,
-                                                                                                 comments_csv,
-                                                                                                 actors_csv)
-            _log.debug(" -- QuestDialogs.export_scenes_data_to_csvdic()")
-            [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
-                Scene.export_scenes_data_to_csvdic(skyrim_path, scene_order_csv, comments_csv,
-                                                   actors_csv)
-            exported_files.extend(all_scene_files)
-            list_objects.extend(list_scenes)
-            list_actors.extend(list_alias)
-            poup_text = " * Files processed: "
-            i = 0
-            for f in exported_files:
-                if i == 0:
-                    poup_text += "\n" + f
-                else:
-                    poup_text += ", " + f
-                i = i + 1
-            i = 0
-            poup_text += "\n\n * Objects found:"
-            for f in list_objects:
-                if i == 0:
-                    poup_text += "\n" + f
-                else:
-                    poup_text += ", " + f
-                i = i + 1
-            i = 0
-            poup_text += "\n\n * Actors found: "
-            for f in list_actors:
-                if i == 0:
-                    poup_text += "\n" + f
-                else:
-                    poup_text += ", " + f
-                i = i + 1
-            _log.info("** IMPORT OBJECT FROM CREATION KIT SUMMARY: " + poup_text)
-            poup_text = self._popup_text(poup_text)
-            sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Exported Objects Summary")
-        except:
-            self._exception_handler("CkLogicLayer.export_objects_to_csv()")
-
-    def generate_documentation(self, skyrim_path):
-        _log = Logger.get()
+        self.app.reload()
+        skyrim_path = self.app.settings_obj.skyrim_path
         try:
             _log.debug("-- generate_documentation()")
             # skyrim_path = self.app.settings_obj.skyrim_path
@@ -191,6 +144,7 @@ class MainLogicLayer:
 
     def open_settings_window(self):
         _log = Logger.get()
+        self.app.reload()
         try:
             _log.debug("-- open_settings_window()")
             layout = []
@@ -222,6 +176,7 @@ class MainLogicLayer:
                     self.app.settings_obj.scene_order_file = values[4]
                     self.app.settings_obj.topic_sort_by_name = values[5]
                     self.app.settings_obj.save()
+                    self.app.reload()
                     window_settings.close()
                     return "saved"
                 elif event == "Reset":
@@ -249,6 +204,7 @@ class MainLogicLayer:
         about.run()
 
     def open_actors_editor(self):
+        self.app.reload()
         _log = Logger.get()
         _log.debug("-- open_actors_editor() start")
         cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
@@ -266,6 +222,7 @@ class MainLogicLayer:
         _log.debug("-- open_actors_editor() finish")
 
     def open_comments_editor(self):
+        self.app.reload()
         _log = Logger.get()
         _log.debug("-- open_actors_editor() start")
         cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
@@ -283,6 +240,7 @@ class MainLogicLayer:
         _log.debug("-- open_actors_editor() finish")
 
     def open_scenes_editor(self):
+        self.app.reload()
         reorder = CsvReorderWindow(self.app.app_dir)
         reorder.run(self.app.settings_obj.scene_order_file)
 
@@ -294,6 +252,56 @@ class MainLogicLayer:
             audio_window.run()
         except:
             self._exception_handler("CkLogicLayer.launch_audio_manager()")
+
+    def _export_objects_to_csv(self, skyrim_path):
+        _log = Logger.get()
+        try:
+            _log.debug("-- export_objects_to_csv()")
+            # skyrim_path = self.app.settings_obj.skyrim_path
+            comments_csv = self.app.settings_obj.comments_file
+            actors_csv = self.app.settings_obj.actors_file
+            scene_order_csv = self.app.settings_obj.scene_order_file
+            _log.debug(" -- QuestDialogs.export_objects_to_csvdics() skyrim_path:" + skyrim_path + \
+                       ", comments_csv:" + comments_csv + ", actors_csv:" + actors_csv)
+            [exported_files, list_objects, list_actors] = QuestDialogs.export_objects_to_csvdics(skyrim_path,
+                                                                                                 comments_csv,
+                                                                                                 actors_csv)
+            _log.debug(" -- QuestDialogs.export_scenes_data_to_csvdic()")
+            [all_scene_files, quest_scenes_no_duplicates, list_scenes, list_alias] = \
+                Scene.export_scenes_data_to_csvdic(skyrim_path, scene_order_csv, comments_csv,
+                                                   actors_csv)
+            exported_files.extend(all_scene_files)
+            list_objects.extend(list_scenes)
+            list_actors.extend(list_alias)
+            poup_text = " * Files processed: "
+            i = 0
+            for f in exported_files:
+                if i == 0:
+                    poup_text += "\n" + f
+                else:
+                    poup_text += ", " + f
+                i = i + 1
+            i = 0
+            poup_text += "\n\n * Objects found:"
+            for f in list_objects:
+                if i == 0:
+                    poup_text += "\n" + f
+                else:
+                    poup_text += ", " + f
+                i = i + 1
+            i = 0
+            poup_text += "\n\n * Actors found: "
+            for f in list_actors:
+                if i == 0:
+                    poup_text += "\n" + f
+                else:
+                    poup_text += ", " + f
+                i = i + 1
+            _log.info("** IMPORT OBJECT FROM CREATION KIT SUMMARY: " + poup_text)
+            poup_text = self._popup_text(poup_text)
+            sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Exported Objects Summary")
+        except:
+            self._exception_handler("CkLogicLayer.export_objects_to_csv()")
 
     def _exec_actor_editor(self):
         _log = Logger.get()
