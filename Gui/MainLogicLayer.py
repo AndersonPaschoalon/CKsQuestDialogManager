@@ -4,13 +4,14 @@ import traceback
 import sys
 import subprocess
 import PySimpleGUI as sg
-from multiprocessing import Process
+from multiprocessing import Process, freeze_support
 from PyUtils.Logger import Logger
 from PyUtils.CsvDicEditor import CsvDicEditor
+from PyUtils.FileUtils import FileUtils
 from QuestExports.QuestDialogs import QuestDialogs
 from QuestExports.Scene import Scene
 from QuestExports.SkyrimRepository import SkyrimRepository
-from Settings.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo, global_app_configuration
 from Settings.ProfileManager import ProfileManager
 from Gui.CsvReorderWindow import CsvReorderWindow
 from Gui.AboutWindow import AboutWindow
@@ -22,15 +23,14 @@ from Gui.ProfilesWindow import ProfilesWindow
 
 class MainLogicLayer:
     """
+    Main windows logic layer.
     """
-    # DEFAULT_THEME = "DarkGrey13"
     DEFAULT_THEME = "DarkBlue12"
     POPUP_TEXT_MAX_LEN = 1200
 
     def __init__(self):
         self.app = AppInfo()
         self.profile_manager = ProfileManager(self.app.app_dir)
-        # Logger.initialize(self.app.log_file, level_log=logging.DEBUG, level_console=logging.WARNING)
         _log = Logger.get()
         _log.debug("-- Initializing CkLogicLayer()")
 
@@ -43,15 +43,14 @@ class MainLogicLayer:
 
     def generate_documentation(self):
         _log = Logger.get()
-        self.app.reload()
-        skyrim_path = self.app.settings_obj.skyrim_path
         try:
             _log.debug("-- generate_documentation()")
-            # skyrim_path = self.app.settings_obj.skyrim_path
+            self.app.reload()
+            skyrim_path = self.profile_manager.profile_db_dir()
+            docs_dir = self.profile_manager.profile_docgen_dir()
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
             scene_order_csv = self.app.settings_obj.scene_order_file
-            docs_dir = self.app.settings_obj.docgen_dir
             app_name = self.app.app_name_short
             github_url = self.app.url_github
             _log.debug(" --  QuestDialogs.generate_quest_documentation() ) skyrim_path:" + skyrim_path +
@@ -70,6 +69,7 @@ class MainLogicLayer:
             _log.info("** DOCUMENT GENERATION SUMMARY: " + poup_text)
             poup_text = self._popup_text(poup_text)
             sg.Popup(poup_text, keep_on_top=True, icon=self.app.app_icon_ico, title="Documentation Generation Summary")
+            os.startfile(docs_dir)
         except:
             self._exception_handler("CkLogicLayer.generate_documentation()")
 
@@ -123,8 +123,8 @@ class MainLogicLayer:
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
                     window_picker.close()
-                    sg.Popup('Please, close the Application to apply the Theme: ' + selected_theme, keep_on_top=True,
-                             icon=self.app.app_icon_ico, title="Attention!")
+                    # sg.Popup('Please, close the Application to apply the Theme: ' + selected_theme, keep_on_top=True,
+                    #          icon=self.app.app_icon_ico, title="Attention!")
                     return selected_theme
                 elif event == "RESET":
                     selected_theme = MainLogicLayer.DEFAULT_THEME
@@ -132,8 +132,8 @@ class MainLogicLayer:
                     self.app.settings_obj.app_theme = selected_theme
                     self.app.settings_obj.save()
                     window_picker.close()
-                    sg.Popup('Please, close the Application to apply the Theme: ' + selected_theme, keep_on_top=True,
-                             icon=self.app.app_icon_ico, title="Attention!")
+                    # sg.Popup('Please, close the Application to apply the Theme: ' + selected_theme, keep_on_top=True,
+                    #          icon=self.app.app_icon_ico, title="Attention!")
                     return selected_theme
                 sg.theme(values['-LIST-'][0])
                 sg.popup_get_text('This is {}'.format(values['-LIST-'][0]))
@@ -155,9 +155,11 @@ class MainLogicLayer:
             # 2
             layout.append([sg.Text("Actors.csv File"), sg.InputText(default_text=self.app.settings_obj.actors_file)])
             # 3
-            layout.append([sg.Text("Comments.csv File"), sg.InputText(default_text=self.app.settings_obj.comments_file)])
+            layout.append(
+                [sg.Text("Comments.csv File"), sg.InputText(default_text=self.app.settings_obj.comments_file)])
             # 4
-            layout.append([sg.Text("SceneOrder.csv File"), sg.InputText(default_text=self.app.settings_obj.scene_order_file)])
+            layout.append(
+                [sg.Text("SceneOrder.csv File"), sg.InputText(default_text=self.app.settings_obj.scene_order_file)])
             # 5
             layout.append([sg.Text("Sort By Name(true) or FormId(false)"),
                            sg.InputText(default_text=self.app.settings_obj.topic_sort_by_name)])
@@ -207,6 +209,13 @@ class MainLogicLayer:
         self.app.reload()
         _log = Logger.get()
         _log.debug("-- open_actors_editor() start")
+        is_non_empty = FileUtils.is_non_zero_file(self.app.settings_obj.actors_file)
+        if not is_non_empty:
+            sg.Popup("Objects from Creation Kit weren't exported yet.",
+                     keep_on_top=True,
+                     icon=self.app.app_icon_ico,
+                     title="Actor's dictionary is empty!")
+            return
         cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
         if cmd.is_process():
             _log.debug("-- _exec_actor_editor() process start")
@@ -225,6 +234,13 @@ class MainLogicLayer:
         self.app.reload()
         _log = Logger.get()
         _log.debug("-- open_actors_editor() start")
+        is_non_empty = FileUtils.is_non_zero_file(self.app.settings_obj.comments_file)
+        if not is_non_empty:
+            sg.Popup("Objects from Creation Kit weren't exported yet.",
+                     keep_on_top=True,
+                     icon=self.app.app_icon_ico,
+                     title="Comment's dictionary is empty!")
+            return
         cmd = AppEditorCmd(self.app.settings_obj.csv_editor_cmd)
         if cmd.is_process():
             _log.debug("-- _exec_comments_editor() process start")
@@ -257,7 +273,6 @@ class MainLogicLayer:
         _log = Logger.get()
         try:
             _log.debug("-- export_objects_to_csv()")
-            # skyrim_path = self.app.settings_obj.skyrim_path
             comments_csv = self.app.settings_obj.comments_file
             actors_csv = self.app.settings_obj.actors_file
             scene_order_csv = self.app.settings_obj.scene_order_file
@@ -304,6 +319,7 @@ class MainLogicLayer:
             self._exception_handler("CkLogicLayer.export_objects_to_csv()")
 
     def _exec_actor_editor(self):
+        global_app_configuration()
         _log = Logger.get()
         _log.debug("-- _exec_actor_editor() start")
         editor = CsvDicEditor()
@@ -311,11 +327,24 @@ class MainLogicLayer:
         _log.debug("-- _exec_actor_editor() finish")
 
     def _exec_comments_editor(self):
+        global_app_configuration()
         _log = Logger.get()
         _log.debug("-- open_comments_editor() start")
         editor = CsvDicEditor()
         editor.run_app(self.app.settings_obj.comments_file)
         _log.debug("-- _exec_comments_editor() finish")
+
+    """
+    @staticmethod
+    def _exec_comments_editor_2():
+        app = AppInfo()
+        _log = Logger.get()
+        _log.debug("-- open_comments_editor() start")
+        editor = CsvDicEditor()
+        # editor.run_app(comments_file)
+        editor.run_app(app.settings_obj.comments_file)
+        _log.debug("-- _exec_comments_editor() finish")
+    """
 
     def _popup_text(self, popup_raw_text):
         """
@@ -342,7 +371,6 @@ class MainLogicLayer:
         _log.error(err_title)
         _log.error(traceback.format_exc())
         _log.error(sys.exc_info()[2])
-
 
 # if __name__ == '__main__':
 #     print("oi")

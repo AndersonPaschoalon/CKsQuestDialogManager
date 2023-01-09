@@ -1,23 +1,21 @@
 import logging
 import traceback
+import multiprocessing
 import PySimpleGUI as sg
 from PyUtils.Logger import Logger
-from Settings.AppInfo import AppInfo
+from Settings.AppInfo import AppInfo, global_app_configuration
 from Gui.MainWindow import MainWindow
 
 
-def initialize_logger():
-    """
-    Initializes the logger singleton.
-    :return:
-    """
-    app_info = AppInfo()
-    Logger.initialize(app_info.log_file, level_log=logging.DEBUG, level_console=logging.INFO)
-
+APP_DIRECTORY = ".\\App\\"
 
 if __name__ == '__main__':
+    # multiprocess support
+    multiprocessing.freeze_support()
+    # global configuration
+    global_app_configuration()
     ret_code = 0
-    initialize_logger()
+
     _log = Logger.get()
     _log.info("###############################################################################")
     _log.info("# Starting application's MainWindow")

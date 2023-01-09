@@ -1,4 +1,5 @@
 from PyUtils.Logger import Logger
+from PyUtils.Console import Console
 import lxml.etree as ET
 from Settings.AppInfo import AppInfo
 from Settings.Profile import Profile
@@ -13,7 +14,6 @@ class ProfileManager:
     STR_TRUE = "TRUE"
 
     def __init__(self, app_dir):
-        self._log = Logger.get()
         self._app = AppInfo(app_dir)
         self._list_profile_files = [
             self._app.settings_file,
@@ -36,6 +36,7 @@ class ProfileManager:
         :return: ret, msg - True in case the profile was created; False otherwise, Status message; contains the error
         reason of the ret is False; Success if it is True.
         """
+        _log = Logger.get()
         # check profile name format
         profile_name = profile_name.strip()
         if not ProfileManager._check_profile_name(profile_name):
@@ -45,16 +46,20 @@ class ProfileManager:
         ret, msg = self.profile_exist(profile_name)
         if ret:
             ret_msg = "Profile " + profile_name + " already exist. " + msg
-            self._log.warn(ret_msg)
+            _log.warn(ret_msg)
             return False, ret_msg
 
         # create a copy of the files settings.xml, Actors.csv, SceneOrder.csv and Comments.csv, following the rule
-        self._log.debug("Creating backups for new profile")
+        _log.debug("Creating backups for new profile")
         for file in self._list_profile_files:
-            ret = self._backup_file(file, profile_name)
+            ret = False
+            if str(file).lower().endswith(".csv"):
+                ret = self._new_empty_file(file, profile_name)
+            else:
+                ret = self._backup_file(file, profile_name)
             if not ret:
                 ret_msg = "Error creating backup files for new profile!"
-                self._log.error(ret_msg)
+                _log.error(ret_msg)
                 return False, ret_msg
 
         # Create profile directories if it does not exist
@@ -84,6 +89,7 @@ class ProfileManager:
         :param profile_to_activate:
         :return:
         """
+        _log = Logger.get()
         profile_to_activate.strip()
         list_profiles = self.get_profile_name_list()
         # p_current = self.get_active_profile_name()
@@ -96,12 +102,12 @@ class ProfileManager:
             return False, "Profile " + profile_to_activate + " does not exit!"
         # (3)
         self._ensure_files_exist()
-        self._log.debug("Rename the files to backup format <file-name>.<profile-name>.<extension>")
+        _log.debug("Rename the files to backup format <file-name>.<profile-name>.<extension>")
         for file in self._list_profile_files:
             ret = self._rename_add_backup_label(file_path=file, profile_name=p_current)
             if not ret:
                 ret_msg = "Error creating backup files for new profile!"
-                self._log.error(ret_msg)
+                _log.error(ret_msg)
                 return False, ret_msg
         # (4)
         status_msg = ""
@@ -109,7 +115,7 @@ class ProfileManager:
             ret = self._rename_remove_backup_label(final_path=file, profile_name=profile_to_activate)
             if not ret:
                 ret_msg = "Error activating profile file " + file
-                self._log.warn(ret_msg)
+                _log.warn(ret_msg)
                 status_msg += ret_msg + ", "
         self._ensure_files_exist()
         # (5)
@@ -248,6 +254,7 @@ class ProfileManager:
         Returns a list of profile objects.
         :return: ret, list_profiles- True or false, the list of Profile objects.
         """
+        _log = Logger.get()
         if not os.path.exists(self._app.profiles_file):
             return False, []
         tree = ET.parse(self._app.profiles_file)
@@ -262,7 +269,7 @@ class ProfileManager:
                 p.active = True if active_str == ProfileManager.STR_TRUE else False
                 list_profiles.append(p)
             except:
-                self._log.Error("Cant read attib from profiles.xml")
+                _log.Error("Cant read attib from profiles.xml")
         return True, list_profiles
 
     def get_profile_name_list(self):
@@ -290,7 +297,13 @@ class ProfileManager:
         return p.name
 
     def profile_db_dir(self):
+        self._app.reload()
         db_dir = os.path.join(self._app.db_dir, self.get_active_profile_name())
+        return db_dir
+
+    def profile_docgen_dir(self):
+        self._app.reload()
+        db_dir = os.path.join(self._app.settings_obj.docgen_dir, self.get_active_profile_name())
         return db_dir
 
     ####################################################################################################################
@@ -298,6 +311,7 @@ class ProfileManager:
     ####################################################################################################################
 
     def _add_new_profile(self, profile_name, comment):
+        _log = Logger.get()
         if not os.path.exists(self._app.profiles_file):
             return False, "Profiles configuration file does not exist!"
 
@@ -316,11 +330,12 @@ class ProfileManager:
             return True, "Success"
 
         except:
-            self._log.error("** Error: Exception caught at __main__!")
-            self._log.error("** Error: " + traceback.format_exc())
+            _log.error("** Error: Exception caught at __main__!")
+            _log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
     def _remove_node(self, profile_name: str):
+        _log = Logger.get()
         if not os.path.exists(self._app.profiles_file):
             return False, "Profiles configuration file does not exist!"
         try:
@@ -334,19 +349,20 @@ class ProfileManager:
                     else:
                         root.remove(child)
                 except:
-                    self._log.error("** Error: Exception caught at _update_profile!")
-                    self._log.error("** Error: " + traceback.format_exc())
+                    _log.error("** Error: Exception caught at _update_profile!")
+                    _log.error("** Error: " + traceback.format_exc())
                     return False, "Exception caught: " + str(traceback.format_exc())
             pretty = ET.tostring(tree, encoding="utf-8", pretty_print=True)
             with open(self._app.profiles_file, "w") as f:
                 f.write(pretty.decode("utf-8"))
             return True, "Success"
         except:
-            self._log.error("** Error: Exception caught at _update_profile!")
-            self._log.error("** Error: " + traceback.format_exc())
+            _log.error("** Error: Exception caught at _update_profile!")
+            _log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
     def _update_profile(self, current_name, profile_name: str, comment: str):
+        _log = Logger.get()
         if not os.path.exists(self._app.profiles_file):
             return False, "Profiles configuration file does not exist!"
         try:
@@ -360,19 +376,20 @@ class ProfileManager:
                         child.attrib["name"] = profile_name
                         child.attrib["comment"] = comment
                 except:
-                    self._log.error("** Error: Exception caught at _update_profile!")
-                    self._log.error("** Error: " + traceback.format_exc())
+                    _log.error("** Error: Exception caught at _update_profile!")
+                    _log.error("** Error: " + traceback.format_exc())
                     return False, "Exception caught: " + str(traceback.format_exc())
             pretty = ET.tostring(tree, encoding="utf-8", pretty_print=True)
             with open(self._app.profiles_file, "w") as f:
                 f.write(pretty.decode("utf-8"))
             return True, "Success"
         except:
-            self._log.error("** Error: Exception caught at _update_profile!")
-            self._log.error("** Error: " + traceback.format_exc())
+            _log.error("** Error: Exception caught at _update_profile!")
+            _log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
     def _update_profile_flag(self, profile_name: str, is_active: bool):
+        _log = Logger.get()
         if not os.path.exists(self._app.profiles_file):
             return False, "Profiles configuration file does not exist!"
         try:
@@ -384,34 +401,48 @@ class ProfileManager:
                     if child.attrib["name"] == profile_name:
                         child.attrib["active"] = str(is_active)
                 except:
-                    self._log.error("** Error: Exception caught at _update_profile!")
-                    self._log.error("** Error: " + traceback.format_exc())
+                    _log.error("** Error: Exception caught at _update_profile!")
+                    _log.error("** Error: " + traceback.format_exc())
                     return False, "Exception caught: " + str(traceback.format_exc())
             pretty = ET.tostring(tree, encoding="utf-8", pretty_print=True)
             with open(self._app.profiles_file, "w") as f:
                 f.write(pretty.decode("utf-8"))
             return True, "Success"
         except:
-            self._log.error("** Error: Exception caught at _update_profile!")
-            self._log.error("** Error: " + traceback.format_exc())
+            _log.error("** Error: Exception caught at _update_profile!")
+            _log.error("** Error: " + traceback.format_exc())
             return False, "Exception caught: " + str(traceback.format_exc())
 
     def _backup_file(self, old_name, profile_name):
+        _log = Logger.get()
         profile_name.strip()
         dir_name = os.path.dirname(old_name)
         base_name = os.path.basename(old_name)
         # file extension already has a . at the beginning
         file_name, file_extension = os.path.splitext(base_name)
         new_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
-        self._log.info("copy " + old_name + " -> " + new_name)
+        _log.info("copy " + old_name + " -> " + new_name)
         return shutil.copy2(old_name, new_name)
 
+    def _new_empty_file(self, old_name, profile_name):
+        _log = Logger.get()
+        profile_name.strip()
+        dir_name = os.path.dirname(old_name)
+        base_name = os.path.basename(old_name)
+        # file extension already has a . at the beginning
+        file_name, file_extension = os.path.splitext(base_name)
+        new_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
+        _log.info("new file " + new_name)
+        # return shutil.copy2(old_name, new_name)
+        return Console.touch(new_name)
+
     def _delete_backup_file(self, config_file_base, profile_name):
+        _log = Logger.get()
         dir_name = os.path.dirname(config_file_base)
         base_name = os.path.basename(config_file_base)
         file_name, file_extension = os.path.splitext(base_name)
         bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
-        self._log.info("delete " + bkp_name)
+        _log.info("delete " + bkp_name)
         if os.path.exists(bkp_name):
             os.remove(bkp_name)
             return True
@@ -419,40 +450,44 @@ class ProfileManager:
             return False
 
     def _rename_remove_backup_label(self, final_path, profile_name):
+        _log = Logger.get()
         dir_name = os.path.dirname(final_path)
         base_name = os.path.basename(final_path)
         file_name, file_extension = os.path.splitext(base_name)
         bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
-        self._log.info("rename " + bkp_name + " -> " + final_path)
+        _log.info("rename " + bkp_name + " -> " + final_path)
         try:
             os.rename(bkp_name, final_path)
             return True
         except:
-            self._log.warn("Exception renaming files: " + traceback.format_exc())
+            _log.warn("Exception renaming files: " + traceback.format_exc())
             return False
 
     def _rename_add_backup_label(self, file_path, profile_name):
+        _log = Logger.get()
         dir_name = os.path.dirname(file_path)
         base_name = os.path.basename(file_path)
         file_name, file_extension = os.path.splitext(base_name)
         bkp_name = os.path.join(dir_name, file_name + "." + profile_name + file_extension)
-        self._log.info("rename " + bkp_name + " -> " + file_path)
+        _log.info("rename " + bkp_name + " -> " + file_path)
         try:
             os.rename(file_path, bkp_name)
             return True
         except:
-            self._log.warn("Exception renaming files: " + traceback.format_exc())
+            _log.warn("Exception renaming files: " + traceback.format_exc())
             return False
 
     def _ensure_files_exist(self):
+        _log = Logger.get()
         for file in self._list_profile_files:
             if not os.path.exists(file):
-                self._log.warn("For some reason, the file " + file + "does not exit. Creating empty file...")
+                _log.warn("For some reason, the file " + file + "does not exit. Creating empty file...")
                 with open(file, 'w'):
                     pass
-                self._log.info("Empty file " + file + " was created.")
+                _log.info("Empty file " + file + " was created.")
 
     def _change_profile_name(self, file_clear, current_prof, new_prof):
+        _log = Logger.get()
         dir_name = os.path.dirname(file_clear)
         base_name = os.path.basename(file_clear)
         file_name, file_extension = os.path.splitext(base_name)
@@ -462,13 +497,13 @@ class ProfileManager:
             return False, "Error! File " + curr_p + " does not exist. Profile cannot be renamed."
         if os.path.exists(new_p):
             return False, "Profile name " + new_prof + " already exist! Name cannot be used!"
-        self._log.info("rename " + curr_p + " -> " + new_p)
+        _log.info("rename " + curr_p + " -> " + new_p)
         try:
             os.rename(curr_p, new_p)
             return True, "Success"
         except:
             err_msg = "An exception occurred renaming the file " + curr_p + ": " + traceback.format_exc()
-            self._log.error(err_msg)
+            _log.error(err_msg)
             return False, err_msg
 
     def _list_profile_dirs(self, prof_name):

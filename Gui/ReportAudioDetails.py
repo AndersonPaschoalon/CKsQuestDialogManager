@@ -2,6 +2,8 @@ import os
 from datetime import datetime
 from Settings.AppInfo import AppInfo
 from PyUtils.DirUtils import DirUtils
+from Settings.ProfileManager import ProfileManager
+
 
 class ReportAudioDetails:
 
@@ -129,11 +131,13 @@ class ReportAudioDetails:
         return ReportAudioDetails.html_color(file_info, ReportAudioDetails.file_ext_color(file_info))
 
     @staticmethod
-    def export_report(list_audio_details, app: AppInfo):
+    def export_report(list_audio_details, output_dir, app_name, url_github):
         """
         Create a details' report about all the dialogues.
         :param list_audio_details:
-        :param app_dir:
+        :param output_dir:
+        :param app_name:
+        :param url_github:
         :return:
         """
         directory = os.getcwd()
@@ -142,8 +146,9 @@ class ReportAudioDetails:
         now = datetime.now()
         dt_string = now.strftime("-%d-%m-%Y_%H-%M-%S")
         # create directory just in case
-        DirUtils.mkdir(app.settings_obj.docgen_reports)
-        filename = app.settings_obj.docgen_reports + filename + dt_string + ".html"
+        DirUtils.mkdir(output_dir)
+        filename = os.path.join(output_dir, filename + dt_string + ".html")
+        # filename = output_dir + filename + dt_string + ".html"
         html_str = ReportAudioDetails.HTML_REPORT_HEADER
         item: ReportAudioDetails
         item_count = 0
@@ -179,7 +184,7 @@ class ReportAudioDetails:
             html_str += current_table
             item_count += 1
         footer_template = ReportAudioDetails.HTML_REPORT_FOOTER
-        footer_msg = ReportAudioDetails.FOOTER_MESSAGE.format(app.APP_NAME_LARGE, app.url_github)
+        footer_msg = ReportAudioDetails.FOOTER_MESSAGE.format(app_name, url_github)
         footer_template = footer_template.replace("###_replace_footer_text###", footer_msg)
         html_str += footer_template
         with open(filename, "w") as text_file:
@@ -189,6 +194,8 @@ class ReportAudioDetails:
 
 if __name__ == '__main__':
     app_dir = ".\\App\\"
+    app = AppInfo(app_dir=app_dir)
+    profile_manager = ProfileManager(app_dir)
     file_rep1 = ReportAudioDetails()
     file_rep2 = ReportAudioDetails()
     file_rep1.quest_id = "quest_id" + "1"
@@ -228,6 +235,9 @@ if __name__ == '__main__':
     list_details = []
     list_details.append(file_rep1)
     list_details.append(file_rep2)
-    ReportAudioDetails.export_report(list_details, app_dir)
+    ReportAudioDetails.export_report(list_audio_details=list_details,
+                                     output_dir=profile_manager.profile_docgen_dir(),
+                                     app_name=app.app_name_LARGE,
+                                     url_github=app.url_github)
 
 

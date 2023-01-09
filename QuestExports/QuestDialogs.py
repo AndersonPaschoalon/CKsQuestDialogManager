@@ -41,7 +41,7 @@ class QuestDialogs:
         self.skyrim_path = skyrim_path
         self.list_branch_dialogs = []
         self.list_scenes = []
-        # self._log = Logger.get()
+        # _log = Logger.get()
 
     def to_string(self):
         """

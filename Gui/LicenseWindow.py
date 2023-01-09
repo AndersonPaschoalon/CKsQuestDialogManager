@@ -18,16 +18,16 @@ class LicenseWindow:
     BTN_OK = "OK"
 
     def __init__(self, app_dir: str):
-        self._log = Logger.get()
         self.app = AppInfo(app_dir)
 
     def run(self):
+        _log = Logger.get()
         license_text = ""
         try:
             with open(self.app.license) as f:
                 license_text = f.read()
         except:
-            self._log.error("Could not read Licence File!")
+            _log.error("Could not read Licence File!")
         layout_title = [
             sg.Text(emojize(":fleur-de-lis: " + self.app.label_main_window + " :fleur-de-lis:", variant="emoji_type"),
                 font=LicenseWindow.FONT_TITLE1)]

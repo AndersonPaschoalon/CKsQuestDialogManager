@@ -3,6 +3,17 @@ import os
 import logging
 from PyUtils.Obj2Json import Obj2Json
 from Settings.AppSettings import AppSettings
+from PyUtils.Logger import Logger
+
+
+def global_app_configuration():
+    """
+    Initializes the logger singleton.
+    :return:
+    """
+    AppInfo.configure(".\\App\\")
+    app_info = AppInfo()
+    Logger.initialize(app_info.log_file, level_log=logging.DEBUG, level_console=logging.INFO)
 
 
 class AppInfo:
@@ -79,9 +90,8 @@ class AppInfo:
         self.creation_kit_exe = self.settings_obj.skyrim_path + "\\CreationKit.exe"
 
     @staticmethod
-    def configure(self, app_dir):
+    def configure(app_dir):
         AppInfo.default_app_dir = app_dir
-
 
 
 if __name__ == '__main__':

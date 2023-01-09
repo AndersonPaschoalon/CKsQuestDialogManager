@@ -1,6 +1,6 @@
 <settings>
     <!--Skyrim installation directory-->
-    <skyrim-path>C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim</skyrim-path>
+    <skyrim-path>.\\Sandbox\\default\\</skyrim-path>
     <!-- Where the documentation is generated-->
     <dogen-dir>C:\Users\Usuario\PycharmProjects\CKsQuestDialogManager\OUTPUT</dogen-dir>
     <!--DEBUG, INFO, WARN, ERROR-->
@@ -15,7 +15,7 @@
     This option tells if the topics will be sorted by alphabetical order (true) or using the formID number (false)
     -->
     <topic-sort-by-name>true</topic-sort-by-name>
-    <app-theme>BlueMono</app-theme>
+    <app-theme>Black</app-theme>
     <!--
     This option will configure the CSV editor to edit the Actor names and the Comments.
     Use Default to use the native CSV editor.

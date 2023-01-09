@@ -23,6 +23,7 @@ from Gui.ReportAudioDetails import ReportAudioDetails
 from Settings.AppInfo import AppInfo
 from Settings.ProfileManager import ProfileManager
 
+
 class AudioLogicLayer:
 
     STR_INFO_POPUP = "Info"
@@ -34,7 +35,6 @@ class AudioLogicLayer:
     def __init__(self, app_dir):
         self.app = AppInfo(app_dir)
         self.profile_manager = ProfileManager(app_dir)
-        self._log = Logger.get()
         self.encoder = SkyAudioEncoder(self.app.audio_encoder_dir)
         self.player = MusicUtils()
         self.console_output = "CK Audio Manager initialized...\n"
@@ -45,7 +45,8 @@ class AudioLogicLayer:
         Generates the list of audio data used to fill the AudioWindow table.
         :return:
         """
-        self._log.debug("-- generate_list_audio_data()")
+        _log = Logger.get()
+        _log.debug("-- generate_list_audio_data()")
         skyrim_files_path = self.profile_manager.profile_db_dir()
         comments_csv = self.app.settings_obj.comments_file
         actors_csv = self.app.settings_obj.actors_file
@@ -54,7 +55,8 @@ class AudioLogicLayer:
         return list_audio_data
 
     def create_audio_details_report(self, list_audio_data, ask_popup=True):
-        self._log.debug(" -- create_audio_details_report()")
+        _log = Logger.get()
+        _log.debug(" -- create_audio_details_report()")
         list_details = []
         item: AudioData
         for item in list_audio_data:
@@ -80,9 +82,13 @@ class AudioLogicLayer:
             details.scene_id = item.scene_id
             details.scene_phase = item.scene_phase
             list_details.append(details)
-        file_name = ReportAudioDetails.export_report(list_details, self.app)
-        self._log.debug("file_name:" + str(file_name))
-        self._log.debug("Report generation finished.")
+        # file_name = ReportAudioDetails.export_report(list_details, self.app)
+        file_name = ReportAudioDetails.export_report(list_audio_details=list_details,
+                                                     output_dir=self.profile_manager.profile_docgen_dir(),
+                                                     app_name=self.app.app_name_LARGE,
+                                                     url_github=self.app.url_github)
+        _log.debug("file_name:" + str(file_name))
+        _log.debug("Report generation finished.")
         self._console_add("Report generation finished.")
         if ask_popup:
             popup_ret = ""
@@ -90,8 +96,6 @@ class AudioLogicLayer:
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             self._console_add(popup_text)
             url_report = "file:///" + os.path.realpath(file_name)
-            # print("url_report:" + url_report)
-            # print("popup_ret:" + popup_ret)
             if popup_ret != AudioLogicLayer.STR_CANCEL:
                 webbrowser.open(url_report, new=2)
 
@@ -183,8 +187,9 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
+        _log = Logger.get()
         self._console_add("set_sound() sound_path: " + sound_path)
-        self._log.debug("-- set_sound() sound_path:" + sound_path)
+        _log.debug("-- set_sound() sound_path:" + sound_path)
         if sound_path.strip() == "":
             return
         ret_val = self.encoder.try_to_gen_wav(sound_path, force_generation=False)
@@ -204,8 +209,9 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
+        _log = Logger.get()
         self._console_add("play_sound() sound_path: " + sound_path)
-        self._log.debug("-- play_sound() sound_path:" + sound_path)
+        _log.debug("-- play_sound() sound_path:" + sound_path)
         if sound_path == "":
             popup_text = "No sound file selected."
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
@@ -227,8 +233,9 @@ class AudioLogicLayer:
         Screen Element: Stop Button
         :return:
         """
+        _log = Logger.get()
         self._console_add("stop_sound()")
-        self._log.debug("-- stop_sound()")
+        _log.debug("-- stop_sound()")
         self.player.stop()
 
     def pause_sound(self):
@@ -236,8 +243,9 @@ class AudioLogicLayer:
         Screen Element: Pause Button
         :return:
         """
+        _log = Logger.get()
         self._console_add("pause_sound()")
-        self._log.debug("-- stop_sound()")
+        _log.debug("-- stop_sound()")
         self.player.pause()
 
     def set_volume(self, volume: int):
@@ -246,8 +254,9 @@ class AudioLogicLayer:
         :param volume:
         :return:
         """
+        _log = Logger.get()
         self._console_add("set_volume() volume:" + str(volume))
-        self._log.debug("-- set_volume() " + str(volume))
+        _log.debug("-- set_volume() " + str(volume))
         v_in = volume/100
         self.player.set_volume(v_in)
 
@@ -257,7 +266,8 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
-        self._log.debug("-- open_folder()")
+        _log = Logger.get()
+        _log.debug("-- open_folder()")
         self._console_add("open_folder() sound_path:" + sound_path)
         mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
         lip_file = FileUtils.change_ext(sound_path, Exts.EXT_LIP)
@@ -289,8 +299,9 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
+        _log = Logger.get()
         self._console_add("copy_track_name() sound_path:" + sound_path)
-        self._log.debug("-- copy_track_name()")
+        _log.debug("-- copy_track_name()")
         pyperclip.copy(sound_path)
         popup_text = "Track name " + sound_path + " was copied to the clipboard."
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
@@ -302,7 +313,8 @@ class AudioLogicLayer:
         :param sound_path:
         :param list_audio_data:
         """
-        self._log.debug("-- copy_track_info()")
+        _log = Logger.get()
+        _log.debug("-- copy_track_info()")
         self._console_add("copy_track_info() sound_path:" + sound_path)
         data: AudioData
         out_data = ""
@@ -316,14 +328,15 @@ class AudioLogicLayer:
 
     def audio_gen_lip(self, sound_path: str, list_audio_data):
         "NOT WORKING PROPERLY"
-        self._log.debug("-- audio_gen_lip()")
+        _log = Logger.get()
+        _log.debug("-- audio_gen_lip()")
         self._console_add("audio_gen_lip() sound_path:" + sound_path)
         data: AudioData
         subtitles = ""
         wavfile = sound_path + ".wav"
         if exists(wavfile) != True:
             msg = "Error, could not find WAV file " + wavfile + " required to generate the lip file!"
-            self._log.warning("**WARNING** " + msg)
+            _log.warning("**WARNING** " + msg)
             self._console_add(msg)
             sg.popup_ok_cancel(msg, keep_on_top=True, icon=self.app.app_icon_ico,
                                title=AudioLogicLayer.STR_ERROR_POPUP)
@@ -342,7 +355,8 @@ class AudioLogicLayer:
         Generate XWM file.
         :param sound_path:
         """
-        self._log.debug("-- audio_gen_xwm()")
+        _log = Logger.get()
+        _log.debug("-- audio_gen_xwm()")
         self._console_add("audio_gen_xwm(): " + sound_path)
         if sound_path.strip() == "":
             popup_text = "Error: No sound file selected!"
@@ -370,8 +384,8 @@ class AudioLogicLayer:
         if not exists(wav_file):
             [ret_flag, ret_val, ret_msg, ret_stdout] = self._generate_wav_if_not_exit(sound_path, xwm_to_wav=False)
         if not ret_flag:
-            self._log.warn("Last Stdout:" + ret_stdout)
-            self._log.warn("Last error:" + ret_msg + " for sound_path:" + sound_path)
+            _log.warn("Last Stdout:" + ret_stdout)
+            _log.warn("Last error:" + ret_msg + " for sound_path:" + sound_path)
             self._console_add("Last Stdout:\n" + ret_stdout)
             self._console_add("Last error:\n" + ret_msg + " for sound_path:" + sound_path)
             popup_text = "Error Generating XWM file: Error creating WAV file.\nSound Path: " + sound_path + \
@@ -382,10 +396,10 @@ class AudioLogicLayer:
         ret_val = self.encoder.wav_to_xwm(sound_path)
         ret_stdout = self.encoder.get_last_stdout()
         ret_msg = self.encoder.get_last_error()
-        self._log.warn("Last Stdout:\n" + ret_stdout)
+        _log.warn("Last Stdout:\n" + ret_stdout)
         self._console_add("Last Stdout:\n" + ret_stdout)
         if ret_val != SkyAudioEncoder.RET_SUCCESS:
-            self._log.error("Last error:" + ret_msg + " for sound_path:" + sound_path)
+            _log.error("Last error:" + ret_msg + " for sound_path:" + sound_path)
             self._console_add("Last error:" + ret_msg + " for sound_path:" + sound_path)
             popup_text = "Error encoding WAV into XWM.\nSound Path:" + sound_path + "\nError Code:" + str(ret_val) + \
                          ".\nError Message:" + ret_msg
@@ -403,17 +417,18 @@ class AudioLogicLayer:
         :param sound_path:
         :return:
         """
-        self._log.debug("-- audio_gen_fuz()")
+        _log = Logger.get()
+        _log.debug("-- audio_gen_fuz()")
         self._console_add("audio_gen_fuz() sound_path:" + sound_path)
         fuz_file = FileUtils.change_ext(sound_path, Exts.EXT_FUZ)
         ret_val = self.encoder.fuz(sound_path)
         if ret_val != SkyAudioEncoder.RET_SUCCESS:
             popup_text = "Error encoding file into FUZ format: " + self.encoder.get_last_error()
-            self._log.error("PopUp Error: " + popup_text)
+            _log.error("PopUp Error: " + popup_text)
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             self._console_add(popup_text)
             return
-        self._log.debug("FUZ file " + fuz_file + " generated successfully!")
+        _log.debug("FUZ file " + fuz_file + " generated successfully!")
         popup_text = "Success generating FUZ file " + fuz_file + "."
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
         self._console_add(popup_text)
@@ -434,13 +449,14 @@ class AudioLogicLayer:
         :param parallel_method: 1 for one thread per core, 2 for thread ThreadPool (built-in).
         :return:
         """
-        self._log.debug("audio_gen_fuz_all()")
+        _log = Logger.get()
+        _log.debug("audio_gen_fuz_all()")
         self._console_add("audio_gen_fuz_all()")
         # popup of confirmation
         if ask_popup:
             popup_text = "This procedure will overwrite any .fuz and xwm pre-existing file.\n If the audios are recoded in mp3 format, wav files are going to be overwritten as well.\n\n Do you want to continue?"
             self._console_add(popup_text)
-            self._log.debug("popup_text:" + popup_text)
+            _log.debug("popup_text:" + popup_text)
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                                            title=AudioLogicLayer.STR_INFO_POPUP)
             self._console_add("User option: " + popup_ret)
@@ -480,7 +496,7 @@ class AudioLogicLayer:
                 report_list_async.append(return_val)
         n_errors = ReportBatchCmd.count_errors(report_list_arg)
         n_success = ReportBatchCmd.count_success(report_list_arg)
-        self._log.debug("Batch finished. n_errors:" + str(n_errors) + ", n_success:" + str(n_success))
+        _log.debug("Batch finished. n_errors:" + str(n_errors) + ", n_success:" + str(n_success))
         if ask_popup:
             popup_ret = ""
             popup_text = "Batch execution finished with {0} errors and {1} successes. Do you want to open the report?".format(n_errors, n_success)
@@ -494,7 +510,8 @@ class AudioLogicLayer:
                 webbrowser.open(url_report, new=2)
 
     def audio_gen_silent(self, sound_path: str, list_audio_data, ask_popup=True):
-        self._log.debug("-- audio_gen_silent()")
+        _log = Logger.get()
+        _log.debug("-- audio_gen_silent()")
         self._console_add("audio_gen_silent(): " + sound_path)
         # (1) check if no file was selected
         if sound_path.strip() == "":
@@ -527,17 +544,17 @@ class AudioLogicLayer:
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                                            title=AudioLogicLayer.STR_INFO_POPUP)
             if (popup_ret == AudioLogicLayer.STR_CANCEL) or (popup_ret is None):
-                self._log.debug("-- audio_gen_silent() CANCELED")
+                _log.debug("-- audio_gen_silent() CANCELED")
                 self._console_add("-- audio_gen_silent() CANCELED")
                 return
-            self._log.info("creating backup file " + str(bkp_name))
+            _log.info("creating backup file " + str(bkp_name))
             self.player.reset()
             os.rename(sound_wav, bkp_name)
         # (5) GENERATE EMPTY AUDIO
         ret_val, trace = AudioLogicLayer._create_silent_audio(sound_no_ext, reading_time)
         # in case of failure, report the error and restore the backup
         if not ret_val:
-            self._log.error(trace)
+            _log.error(trace)
             sg.popup_ok(trace, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
             if file_already_exist:
                 os.rename(bkp_name, sound_wav)
@@ -545,18 +562,17 @@ class AudioLogicLayer:
             return
         # in case of success, delete the backup
         else:
-            self._log.info("Deleting BACKUP file " + bkp_name)
+            _log.info("Deleting BACKUP file " + bkp_name)
             os.remove(bkp_name)
             self.player.set(sound_wav)
-
-
 
     def audio_unfuz(self, sound_path: str):
         """
         Decode FUZ file into lip, xwm an wav format.
         :param sound_path: sound file.
         """
-        self._log.debug("-- audio_unfuz()")
+        _log = Logger.get()
+        _log.debug("-- audio_unfuz()")
         self._console_add("audio_unfuz() sound_path:" + sound_path)
         lip_file = FileUtils.change_ext(sound_path, Exts.EXT_LIP)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
@@ -572,22 +588,22 @@ class AudioLogicLayer:
         if len(exit_file) > 0:
             popup_text = "The following files are going to be overwritten: \n" + str(exit_file) +\
                          "\n\nDo you want to continue?"
-            self._log.error("PopUp Error: " + popup_text)
+            _log.error("PopUp Error: " + popup_text)
             popup_ret = sg.popup_ok_cancel(popup_text, keep_on_top=True, icon=self.app.app_icon_ico,
                                            title=AudioLogicLayer.STR_INFO_POPUP)
             if popup_ret == AudioLogicLayer.STR_CANCEL:
-                self._log.info("Operation {0} was CANCELLED".format("audio_unfuz()"))
+                _log.info("Operation {0} was CANCELLED".format("audio_unfuz()"))
                 self._console_add("Operation {0} was CANCELLED".format("audio_unfuz()"))
                 return
         ret_val = self.encoder.unfuz(sound_path)
         if ret_val != SkyAudioEncoder.RET_SUCCESS:
             popup_text = "Error decoding file " + sound_path + "\nError Code:" + str(ret_val) + "\n. Error message:" + \
                          self.encoder.get_last_error()
-            self._log.error("PopUp Error: " + popup_text)
+            _log.error("PopUp Error: " + popup_text)
             sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_ERROR_POPUP)
             self._console_add(popup_text)
             return
-        self._log.debug("UNFUZ on file " + sound_path + " was successful!")
+        _log.debug("UNFUZ on file " + sound_path + " was successful!")
         popup_text = "Success on UNFUZ file " + sound_path + "."
         self._console_add(popup_text)
         sg.Popup(popup_text, keep_on_top=True, icon=self.app.app_icon_ico, title=AudioLogicLayer.STR_INFO_POPUP)
@@ -706,7 +722,8 @@ class AudioLogicLayer:
         generating the WAV file. ret_val is the code returned by the encoder. ret_str is the error message returned by
         the encoder, in case of error, and the ret_strout is the console output generated (error os success).
         """
-        self._log.debug("-- _generate_wav_if_not_exit()")
+        _log = Logger.get()
+        _log.debug("-- _generate_wav_if_not_exit()")
         self._console_add("_generate_wav_if_not_exit()")
         ret_flag = False
         ret_val = SkyAudioEncoder.RET_SUCCESS
@@ -715,39 +732,39 @@ class AudioLogicLayer:
         wav_file = FileUtils.change_ext(sound_path, Exts.EXT_WAV)
         xwm_file = FileUtils.change_ext(sound_path, Exts.EXT_XWM)
         mp3_file = FileUtils.change_ext(sound_path, Exts.EXT_MP3)
-        self._log.debug("wav_file:" + wav_file + ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
+        _log.debug("wav_file:" + wav_file + ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
         self._console_add("wav_file:" + wav_file + ", xwm_file:" + xwm_file + ", mp3_file:" + mp3_file)
         if not exists(wav_file):
-            self._log.info("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
+            _log.info("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
             self._console_add("WAV file for <" + sound_path + "> was not found. Search for alternatives: XWM and MP3...")
             # try to generate file from XWM
             if exists(xwm_file) and xwm_to_wav:
-                self._log.info("XWM was found for " + sound_path)
+                _log.info("XWM was found for " + sound_path)
                 self._console_add("XWM was found for " + sound_path)
                 ret_val = self.encoder.xwm_to_wav(sound_path)
                 ret_stdout = self.encoder.get_last_stdout()
-                self._log.error("Last stdout: " + ret_stdout)
+                _log.error("Last stdout: " + ret_stdout)
                 self._console_add("Last stdout: " + ret_stdout)
                 if ret_val != SkyAudioEncoder.RET_SUCCESS:
                     ret_msg = self.encoder.get_last_error()
-                    self._log.error("Last error: " + ret_msg)
+                    _log.error("Last error: " + ret_msg)
                     self._console_add("Last error: " + ret_msg)
             # try mp3 format
             elif exists(mp3_file):
-                self._log.info("MP3 was found for " + sound_path)
+                _log.info("MP3 was found for " + sound_path)
                 self._console_add()
                 ret_val = self.encoder.mp3_to_wav(sound_path)
                 ret_stdout = self.encoder.get_last_stdout()
-                self._log.error("Last stdout: " + ret_stdout)
+                _log.error("Last stdout: " + ret_stdout)
                 self._console_add("Last stdout: " + ret_stdout)
                 if ret_val != SkyAudioEncoder.RET_SUCCESS:
                     ret_msg = self.encoder.get_last_error()
-                    self._log.error("Last error: " + ret_msg)
+                    _log.error("Last error: " + ret_msg)
                     self._console_add("Last error: " + ret_msg)
             else:
                 ret_msg = "WAV file does not exit for track \"" + sound_path + \
                           "\", and no alternative (xwm or mp3) was found.\n Try to use UnFuz first."
-                self._log.error("ret_msg:" + ret_msg)
+                _log.error("ret_msg:" + ret_msg)
                 self._console_add("ret_msg:" + ret_msg)
         else:
             ret_flag = True

@@ -8,6 +8,7 @@ from PyUtils.Cd import Cd
 from PyUtils.Logger import Logger
 from PyUtils.ScreenInfo import ScreenInfo
 from Settings.AppInfo import AppInfo
+from Settings.ProfileManager import ProfileManager
 from Gui.AudioLogicLayer import AudioLogicLayer
 from Gui.TestData import *
 
@@ -70,6 +71,7 @@ class AudioWindow:
         #sg.theme('Default')
         self.app = AppInfo(app_dir)
         self.audio_logic_layer = AudioLogicLayer(app_dir)
+        self.profile_manager = ProfileManager(self.app.app_dir)
         self.data = []
         self.current_row = -1
         self.current_track = ""
@@ -77,7 +79,6 @@ class AudioWindow:
         self.current_subtitle = ""
         self.current_track_information = ""
         self.test_mode = False
-        self._log = Logger.get()
 
     def update_current_track(self, filepath, sound, subtitle):
         if not sound == "":
@@ -91,12 +92,14 @@ class AudioWindow:
         self.test_mode = test_mode
 
     def run(self):
+        _log = Logger.get()
+        # use local database to load skyrim files
+        # skyrim_path = self.profile_manager.profile_db_dir()
         skyrim_path = self.app.settings_obj.skyrim_path
         icon_abs_path = os.path.abspath(self.app.app_icon_ico)
-        # print("icon_abs_path:" + icon_abs_path)
-        self._log.info("Changing working directory from {0} to {1}".format(Cd.pwd(), skyrim_path))
+        _log.info("Changing working directory from {0} to {1}".format(Cd.pwd(), skyrim_path))
         with Cd(skyrim_path):
-            self._log.info("Current working directory: " + Cd.pwd())
+            _log.info("Current working directory: " + Cd.pwd())
             # Load table data
             list_audio_data = []
             if self.test_mode:
@@ -249,7 +252,7 @@ class AudioWindow:
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
                         window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
                         window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
-                        self._log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
+                        _log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
                         window[AudioWindow.KEY_TEXT_END_TIME].update(str(self.audio_logic_layer.get_current_track_len()))
 
                 if event == AudioWindow.KEY_UP or event == AudioWindow.KEY_DOWN:
@@ -261,7 +264,7 @@ class AudioWindow:
                     window[AudioWindow.KEY_TEXT_CURRENT_TRACK].update(self.current_track)
                     window[AudioWindow.KEY_TEXT_CURRENT_TRACK_INFORMATION].update(self.current_track_information)
                     window[AudioWindow.KEY_TEXT_CURRENT_SUBTITLE].update(self.current_subtitle)
-                    self._log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
+                    _log.debug("Current track Len: " + str(self.audio_logic_layer.get_current_track_len()))
                     window[AudioWindow.KEY_TEXT_END_TIME].update(str(self.audio_logic_layer.get_current_track_len()))
 
                 # print(event)
@@ -329,7 +332,7 @@ class AudioWindow:
                     window[AudioWindow.KEY_TEXT_CONSOLE].update(value=self.audio_logic_layer.get_console_output())
                     window[AudioWindow.KEY_TEXT_CONSOLE].set_vscroll_position(1.0)
             window.close()
-        self._log.info("Current working directory: " + Cd.pwd())
+        _log.info("Current working directory: " + Cd.pwd())
 
     @staticmethod
     def selected_row(layout):

@@ -19,11 +19,11 @@ class CsvReorderWindow:
         self.current_row_int = 0
         self.csv_delimiter = csv_delimiter
         self.csv_cote_char = csv_cote_char
-        self._log = Logger.get()
         self.app = AppInfo(app_dir)
 
     def run(self, filename="", label_key="Key", label_value="Value"):
-        self._log.debug("CsvReorderWindow.run() filename:" + filename + ", label_key:" + label_key + ", label_value:" +
+        _log = Logger.get()
+        _log.debug("CsvReorderWindow.run() filename:" + filename + ", label_key:" + label_key + ", label_value:" +
                         label_value)
         if filename == "":
             popup_text = "File name is empty."
@@ -66,11 +66,11 @@ class CsvReorderWindow:
             curr_row = self.current_row(event, values)
             if curr_row != self.current_row_int:
                 self.current_row_int = curr_row
-                self._log.debug("=> curr_row:" + str(curr_row))
-                self._log.debug("key:" + str(data[curr_row][0]) + ", value:" + str(data[curr_row][1]))
+                _log.debug("=> curr_row:" + str(curr_row))
+                _log.debug("key:" + str(data[curr_row][0]) + ", value:" + str(data[curr_row][1]))
 
             if event == sg.WIN_CLOSED:
-                self._log.debug("Pressed button: sg.WIN_CLOSED")
+                _log.debug("Pressed button: sg.WIN_CLOSED")
                 break
 
             if event == CsvReorderWindow.KEY_BUTTON_MOVE_UP:
@@ -80,7 +80,7 @@ class CsvReorderWindow:
                 abs_pos = dic_tuple.tuple_absolute_position(key, value)
                 if abs_pos >= 0:
                     self.current_row_int = abs_pos
-                    self._log.debug("-- [key, value]=" + str([key, value]) + "current_row_int:" + str(self.current_row_int))
+                    _log.debug("-- [key, value]=" + str([key, value]) + "current_row_int:" + str(self.current_row_int))
                     window[CsvReorderWindow.KEY_TABLE_TUPLE_DIC].update(values=data[:][:], select_rows=[self.current_row_int])
                     window[CsvReorderWindow.KEY_TABLE_TUPLE_DIC].SetFocus(force=True)
                 else:
@@ -91,7 +91,7 @@ class CsvReorderWindow:
                         popup_txt = "Exception processing tuple (" + str(key) + ", " + str(value) + ")!"
                     else:
                         popup_txt = "Unknown Error! Return code <" + str(abs_pos) + ">"
-                    self._log.debug("abs_pos:" + str(abs_pos) + ", popup_txt:" + popup_txt())
+                    _log.debug("abs_pos:" + str(abs_pos) + ", popup_txt:" + popup_txt())
 
             if event == CsvReorderWindow.KEY_BUTTON_MOVE_DOWN:
                 [key, value] = self.get_data_key_value(data)

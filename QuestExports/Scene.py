@@ -34,14 +34,13 @@ class Scene:
         self.scene_position = -1
         self.comment = ""
         self.list_scene_topics = []
-        self._log = Logger.get()
 
     def to_string(self):
         """
         Build a Json string representation of the object.
         :return: json string.
         """
-        # self._log.debug("Scene.to_string()")
+        # _log.debug("Scene.to_string()")
         obj = Obj2Json()
         obj.add("quest_id", self.quest_id)
         obj.add("scene_id", self.scene_id)
@@ -76,7 +75,8 @@ class Scene:
         :param list_scenes_topics: list of SceneTopics.
         :return: void
         """
-        self._log.debug("Scene.set_scene_topics() len(list_scenes_topics): " + str(len(list_scenes_topics)))
+        _log = Logger.get()
+        _log.debug("Scene.set_scene_topics() len(list_scenes_topics): " + str(len(list_scenes_topics)))
         self.list_scene_topics.clear()
         for st in list_scenes_topics:
             self.list_scene_topics.append(st)
@@ -94,7 +94,7 @@ class Scene:
         :param dialog_type: 'CATEGORY' column.
         :return: void.
         """
-        # self._log.debug("Scene.set_dialog_export() filename_key:" + filename_key + ", response_index:" + response_index
+        # _log.debug("Scene.set_dialog_export() filename_key:" + filename_key + ", response_index:" + response_index
         #                 + ", filepath:" + filepath + ", actor_id:" + actor_id + ", actor_race:" + actor_race +
         #                 ", dialog_type:" + dialog_type)
         i = 0
@@ -111,15 +111,15 @@ class Scene:
         :return: list of FILENAME entries.
         """
         list_filenames = []
-        # self._log.debug("get_list_filenames_keys()")
-        # self._log.debug("len(self.list_scene_topics):" + str(len(self.list_scene_topics)) +\
+        # _log.debug("get_list_filenames_keys()")
+        # _log.debug("len(self.list_scene_topics):" + str(len(self.list_scene_topics)) +\
         #                 "for quest:" + self.quest_id + ", scene:" + self.scene_id )
         if len(self.list_scene_topics) > 0:
             for st in self.list_scene_topics:
                 list_scene_keys = st.get_list_filenames_keys()
                 for key in list_scene_keys:
                     list_filenames.append(key)
-        # self._log.debug("quest:" + self.quest_id + ", scene:" + self.scene_id + " > " + str(list_filenames))
+        # _log.debug("quest:" + self.quest_id + ", scene:" + self.scene_id + " > " + str(list_filenames))
         return list_filenames
 
     def sort_scenes_topics(self):
@@ -127,7 +127,8 @@ class Scene:
         Sort the scene topics, and all the list beneath it.
         :return: void
         """
-        self._log.debug("sort_scenes_topics()")
+        _log = Logger.get()
+        _log.debug("sort_scenes_topics()")
         i = 0
         # sort dialog lines
         while i < len(self.list_scene_topics):
@@ -135,7 +136,7 @@ class Scene:
             i += 1
         # sort scene phases
         self.list_scene_topics.sort(key=lambda x: x.scene_phase(), reverse=False)
-        self._log.debug("elements from self.list_scene_topics sorted for quest " + self.quest_id + ", scene " +\
+        _log.debug("elements from self.list_scene_topics sorted for quest " + self.quest_id + ", scene " +\
                         self.scene_id)
 
     def set_position(self, position: int):
@@ -144,7 +145,8 @@ class Scene:
         :param position: position from 0 to n.
         :return: void
         """
-        self._log.debug("Setting position " + str(position) + "for scene " + self.scene_id + " in the quest " +\
+        _log = Logger.get()
+        _log.debug("Setting position " + str(position) + "for scene " + self.scene_id + " in the quest " +\
                         self.quest_id)
         self.scene_position = position
 

@@ -43,7 +43,6 @@ class MainWindow:
     RET_ERROR = 1
     RET_RESTART = 2
 
-
     def run(self):
         """
         Run main window.
@@ -63,10 +62,11 @@ class MainWindow:
         #
         sg.theme(str_theme)
         layout_title_main = [
-            sg.Text(emojize(":fleur-de-lis: " + app.APP_NAME_LARGE +" :fleur-de-lis:", variant="emoji_type"),
+            sg.Text(emojize(":fleur-de-lis: " + app.APP_NAME_LARGE + " :fleur-de-lis:", variant="emoji_type"),
                     font=('Any', 32))]
         layout_title_config = [
-            sg.Text(emojize(f":hammer_and_wrench:Application Settings [Profile: {profile_name}]", variant="emoji_type"), font=MainWindow.FONT_TITLE2)]
+            sg.Text(emojize(f":hammer_and_wrench:Application Settings [Profile: {profile_name}]", variant="emoji_type"),
+                    font=MainWindow.FONT_TITLE2)]
         layout_title_export = [
             sg.Text(emojize(":scroll:     Content Manager", variant="emoji_type"), font=MainWindow.FONT_TITLE2)]
         layout_title_help = [
@@ -90,7 +90,8 @@ class MainWindow:
         # Layout
         layout = [layout_title_main, [sg.Text("", font=MainWindow.FONT_SKIPLINE1)],
                   layout_title_config, layout_settings, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
-                  layout_title_export, layout_export_l1, layout_export_l2, layout_export_l3, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
+                  layout_title_export, layout_export_l1, layout_export_l2, layout_export_l3,
+                  [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   layout_title_help, layout_tutorial, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],
                   ]
         window = sg.Window(title=app.label_main_window, layout=layout, size=MainWindow.WINDOW_SIZE,
@@ -118,6 +119,8 @@ class MainWindow:
                 selected_theme = cd_dialog_docgen.open_theme_picker()
                 if selected_theme != "":
                     sg.theme(selected_theme)
+                    reload = True
+                    break
             elif event == MainWindow.BTN_ABOUT:
                 _log.debug("event:" + event)
                 cd_dialog_docgen.open_about_window()
@@ -159,8 +162,3 @@ class MainWindow:
         window.close()
 
         return ret_code
-
-
-
-
-

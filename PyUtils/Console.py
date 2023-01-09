@@ -1,4 +1,6 @@
 import subprocess
+import traceback
+import os
 
 
 class Console:
@@ -49,4 +51,18 @@ class Console:
             return [0, bytes(command, 'utf-8'), bytes("bypass test", 'utf-8')]
         ret = subprocess.run(command, shell=True, capture_output=True)
         return [ret.returncode, ret.stdout, ret.stderr]
+
+    @staticmethod
+    def touch(path):
+        try:
+            basedir = os.path.dirname(path)
+            if basedir != "":
+                if not os.path.exists(basedir):
+                    os.makedirs(basedir)
+            with open(path, 'a'):
+                os.utime(path, None)
+            return True
+        except:
+            traceback.print_exc()
+            return False
 

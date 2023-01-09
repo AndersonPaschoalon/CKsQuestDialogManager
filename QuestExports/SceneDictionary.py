@@ -41,7 +41,7 @@ class SceneDictionary:
         self.emotion = ""  # SceneDialogue.EMOTION
         self.notes = ""  # SceneDialogue.SCRIPT NOTES
         self.scene_phase = -1  # SceneDialogue.SCENE PHASE (last)
-        self._log = Logger.get()
+        _log = Logger.get()
 
     def to_string(self):
         obj = Obj2Json()

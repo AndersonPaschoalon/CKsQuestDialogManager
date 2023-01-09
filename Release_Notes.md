@@ -11,6 +11,11 @@
 * 03/01/2023
   * Implementação do sistema de gerenciamento de profiles. 
 
+TODO
+  * logger deve sempre ter escopo local
+  * logger deve utilizar um singleton thread safe
+  * 
+
 ----
 
 # Version v0.1.1.0 Apple Cabbage Stew

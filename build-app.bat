@@ -1,27 +1,14 @@
 @echo off
 
-echo ================================================
-echo Initializing Environment
-echo ================================================
+echo === Initializing Environment
 call Env/Scripts/activate.bat
 
-echo ================================================
-echo Building CKQuestDialogManager
-echo ================================================
-python -m PyInstaller --onefile --clean --log-level DEBUG  --noconsole --icon=.\resources\Snowberry_crostata_Blur_WinIcon.ico CKQuestDialogManager.py
+rem echo === Creating requirements.txt
+rem pipreqs --encoding=utf8 .
 
-echo ================================================
-echo Building CsvDicEditorApp
-echo ================================================
-python -m PyInstaller --onefile --noconsole   --icon=.\resources\csv01.ico CsvDicEditorApp.py
+echo === Building CKQuestDialogManager
+python -m PyInstaller --onefile --clean --log-level DEBUG  --noconsole --icon=.\AppClear\Img\Snowberry_crostata_Blur_WinIcon.ico CKQuestDialogManager.py
 
-echo ================================================
-echo Creating Release
-echo ================================================
-rem update CsvDicEditorApp in the AppClear directory
-robocopy  dist\ AppClear\Bin\ CsvDicEditorApp.exe
-rem update CsvDicEditorApp in the App directory
-move dist\CsvDicEditorApp.exe App\Bin\
-rem Package for release AppClear
+echo === Creating Release
 robocopy /S /E .\AppClear  dist\\App
-rem package for release CKQuestDialogManager
+

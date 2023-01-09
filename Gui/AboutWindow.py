@@ -17,7 +17,7 @@ class AboutWindow:
     BTN_OK = "OK"
 
     def __init__(self, app_dir: str):
-        self._log = Logger.get()
+        # _log = Logger.get()
         self.app = AppInfo(app_dir)
 
     def run(self):

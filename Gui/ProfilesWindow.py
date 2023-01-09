@@ -38,7 +38,7 @@ class ProfilesWindow:
     RET_RESTART = 2
 
     def __init__(self, app_dir: str):
-        self._log = Logger.get()
+        _log = Logger.get()
         self.app = AppInfo(app_dir)
         self.profile_manager = ProfileManager(app_dir)
 
@@ -226,6 +226,7 @@ class ProfilesWindow:
         ret - 0 in case of success, 1 in case some error occurred, 2 to indicates the application must be restarted.
         status - a description of the resulting status of the application.
         """
+        _log = Logger.get()
         # Title
         active_profile = self.profile_manager.get_active_profile().name.strip()
         layout_title = [sg.Text("Current Profile: " + active_profile, font=ProfilesWindow.FONT_TITLE1)]
@@ -292,10 +293,10 @@ class ProfilesWindow:
                     break
                 # Application Setup
                 elif event == ProfilesWindow.BTN_NEW:
-                    self._log.debug("event:" + event)
+                    _log.debug("event:" + event)
                     ret = self._create_new_profile(current_name="New_Profile", current_comment="Profile Description")
                 elif event == ProfilesWindow.BTN_LOAD:
-                    self._log.debug("event:" + event)
+                    _log.debug("event:" + event)
                     ret = self._load_profile(profile_to_load=current_profile)
                     if ret:
                         reload = True
@@ -305,7 +306,7 @@ class ProfilesWindow:
                                              current_comment=current_comment)
                 elif event == ProfilesWindow.BTN_DELETE:
                     ret = self._delete_profile(profile_to_delete=current_profile, active_profile=active_profile)
-                    self._log.debug("event:" + event)
+                    _log.debug("event:" + event)
                 elif event == ProfilesWindow.BTN_LOAD:
                     ret = self._load_profile(profile_to_load=current_profile)
                 # reload screen
