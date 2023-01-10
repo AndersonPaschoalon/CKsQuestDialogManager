@@ -1,17 +1,28 @@
-# CkDialogDocGen
+# Ck's Quest Dialog Manager
 
-CkDialogDocGen stands for Creation Kit Dialog Documentation Generator. Is a tool to help in generating beautiful and comprehensive documentation on readable formats, such as:
+As the name says, this tool is made for helping mod cretors to manager their created quests. 
+
+There two main tools available in this application:
+
+The **Quest documentation generator**: a tool to help in generating beautiful and comprehensive documentation on readable formats, such as:
 * Docx;
 * Html;
 * Markdown;
 * Json.
 
+The **Audio Manager**, a set of tools for helping visualize, listen to and edit quest audio files. 
 
-# For who this tool is usefull?
+Both tools consume dialog files that can be exported directly the the creation kit. 
+
+
+
+# For who this tool is made for?
 
 **Short answer**: 
 
-*For Skyrim modders who work on quests, and want to review or share its dialogs in a readable format.*
+* *For Skyrim modders who want to review or share its dialogs in a readable format.*
+
+* *For Skyrim modders who want a tool for help visualize, listen to, open and edit the quest dialog files.*
 
 **Long answer**: 
 
@@ -31,13 +42,6 @@ Creating Kit allows you to export the dialogs in a (horrible to read as a human)
 Once I finished it, I decided to share it in the community. Maybe it would be useful for someone else as well.
 
 
-# Why would I need it?
-
-* If you want to share the updated version of your dialogs in some quest with other people;
-
-* If you want to review the dialogs of your quest in a simple way;
-
-* Keep an updated version of your dialogs scripts.
 
 
 # Tutorial
