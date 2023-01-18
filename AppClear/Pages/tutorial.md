@@ -1,80 +1,147 @@
-# CkDialogDocGen
+# CK's Quest Dialog Manager
 
-CkDialogDocGen stands for Creation Kit Dialog Documentation Generator. Is a tool to help in generating beautiful and comprehensive documentation on readable formats, such as:
-* Docx;
-* Html;
-* Markdown;
-* Json.
+Creatin Kit's Quest Dialog Manager, as the name says, is a tool for helping mod creators to manage Creation Kit's Quest dialogs in a simple way.
+
+It is possible to export quests dialog information from creation kit into text file. The idea is to import that information, and use it to create a content manager.
 
 
-# For who this tool is usefull?
+# Who this tool is usefull for? 
 
 **Short answer**: 
 
-*For Skyrim modders who work on quests, and want to review or share its dialogs in a readable format.*
+*For skyrim modders who:*
+
+* *Want to review or share quest dialogs in a readable format;*
+* *Want to manage dialog files easily. By manager, I mean, find files, list to, open at the location, replace, extract information, and convert into different formats (mp3, wav, xwm, fuz)*
+
 
 **Long answer**: 
 
-![](Img/1.png)
+> ![](Img/1.png)
+> *Dialog View window in the creation kit.*
 
 When you create a new quest for the game, usually it will have dialogs and scenes, so the Dragonborn will be able to interact with other people in the world. 
 
-So, as a mod developer, I wrote down a draft of the speeches and inserted it into the Creation Kit. But I found the process of reviewing the dialogs for correcting typos, fixing little things, and applying some changes, HORRIBLE AND TEDIOUS.
+So, as a mod developer, I wrote down a draft of the speeches and inserted it into the Creation Kit. But I found the process of reviewing the dialogs for correcting typos, fixing little things, and applying some changes, PAINFULL AND TEDIOUS.
 
 I had to click in dozens of boxes to find the text I wanted to review. Since changes were frequently applied to the dialogs, the drafts were completely outdated. 
 When some people started to appear offering help, I had to provide the most current version of the story script, in a readable format. How should sustainably do that?
 
 I saw that I need to find some way to auto-generate documentation for the dialogues, so I or another person could review the most updated version simply, always using the most recent version. 
 
-Creating Kit allows you to export the dialogs in a (horrible to read as a human) CSV table, with lots of (frequently) useless information with no (easy to understand) context.
+Creating Kit allows you to export the dialogs in a (horrible to read as a human) CSV table, with lots of information, really hard to understand without context.
 
-Once I finished it, I decided to share it in the community. Maybe it would be useful for someone else as well.
+I decided to create a tool to help me with the task of creating readable documentation automatically. It started as a simple script. With the time, it evolved into a content manager tool, since I implemented  many more features using all information I was already importing.
+
+In this current version, this tool:
+
+* Allows me to create beautifull documentation for my quests in many formats: HTML, Markdown, DOCX and JSON;
+
+* Allows the management of audio files from quests in a reasonable way. As stated before, I can easily find and open (in player or in the Windows file explorer) and audio file according to its  subititle. I can extract information, and convert into many formats; 
+
+* It is possible to generate mute audio files with the aproximate time lenght expent for a real person to speak the the audio text.
 
 
-# Why would I need it?
-
-* If you want to share the updated version of your dialogs in some quest with other people;
-
-* If you want to review the dialogs of your quest in a simple way;
-
-* Keep an updated version of your dialogs scripts.
+Once I had and stable version in my hands, I decided to share with the community in the Nexus. Hope this can be useful for someone else as well.
 
 
 # Tutorial
 
+## Application folder 
+
+CK's Quest Dialog Manager is an auto-executable application, therefore it does not requere installation. It shoud have the following structure:
+
+> ![](Img/app-folder.jpg) 
+> *CKQuestDialogManager application's folder structure.*
+
+
+* *App*: Application folder, this store files required byt the application to work properly. 
+
+* *OUTPUT*: this folder is created after the application is executed for the first time. This folder store generated documentation and reports.
+
+* *CKQuestDialogManager.exe*: application executable.
+
+
+## Main Window
+
+> ![](Img/main-window.jpg)
+> *CKQuestDialogManager main window.*
+
+Executing the application will launch this windows.  This Windows is divided inth three sections:
+
+
+**Application Settings**
+* *Settings*: Allows the basic cofiguration of the application. Usually the settings do not need to be changed.
+    * *Skyrim Path*: the most inportant configuration, the path where Skyrim is intalled, usually `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim`.
+    * *Docgen Folder*: usually `OUTPUT` folder. 
+    * *Sort by Name(true) or Form ID (false)*: the branches in the documentation will be sorted in the alphabetical order if it is set as true, or by the Form ID if it is set as false. 
+    
+> ![](Img/settings-window.jpg)
+> *Settings window.*
+
+* *Profiles*: 
+Profiles allows the Mod developer to manage the Dialogs from many mods in different workspaces, keeping their imported assets separate. Each profile will store all the settings and imported files from the Creation Kit. 
+The application is going to have a "Default" profile configured in the first time it is used, but it can be renamed later with a proper name. 
+You can choose color schemas for each profile as well. The profile management window will indicates wich profile is currently active with an arrow. To help identifying each profile, you can put some comments or description about the profile as well. Finally, you can Create new profiles, Load, Edit and Delete using this window. Take care, Delete option cannot be undone. 
+
+
+> ![](Img/prefile-main.jpg)
+> *Profiele management window.*
+
+> ![](Img/profile-edit.jpg)
+> *Profile editing window.*
+
+> ![](Img/profile-new.jpg)
+> *Profile creation window.*
+
+
+
 ## Step 1: Preparing the quest
 
-For the auto-generation of the documentation to work properly, when a dialog is spoken by a unique actor, he/she must be set on the "**Speaker:**" field on the **Topic Info** window.  
+For the auto-generation of the documentation to work properly, when a dialog is spoken by a unique actor, he/she must be set on the "**Speaker:**" field on the **Topic Info** window.  In the figure down belows is indicated where this option is located.
 
-![](Img/2.png)
-
+> ![](Img/ck-speaker-window.png)
+> *Location of the field "Speaker", in the Topic Info window. This field usually is optional, but it is really important to be properly filled in for this application to work properly.*
 
 ## Step 2: Export the dialogs from Creation Kit
 
-To generate the documentation, CkDialogDocGen needs to export the dialogs from the Creation Kit.
+To generate the documentation, CkQuestDialogManager needs to export the dialogs from the Creation Kit.
 
-Click on the button "Export Quest Dialog" on the "Quest Data" tab from your selected quest.
+In the quest object editor, in the "Quest Data" tab of the quest you want to manage,  you must click on both button presented in the image down below: "Export Scene Dialogue" and "Export Quest Dialog".
 
-![](Img/3.png)
+> ![](Img/ck-export-files.png)
+> *Buttons that must be clicked for each quest you want to manage the dialogs.*
+
+For the first Button "Export Scene Dialog", you are going to be asked wich actor you want to export the data. Select all actors (one each time) of the mod you want to manage. 
+
+Next, click on the button "Export Quest Dialog" on the "Quest Data" tab from your selected quest.
+
+> ![](Img/ck-export01.png)
+> *"Export Scene Dialog" and "Export Quest Dialog" buttons on the "Quest Data" tab.*
 
 Then, click ok.
 
-![](Img/4.png)
+>![](Img/ck-export02.png)
+> *Confirmation window.*
+
+If you proceed well these steps, all the quest dialog data was properly exported to text files. In the image down below, we show an example of exported files.
+
+> ![](Img/ck-export-files.jpg)
+> *Exported files from Creation kit.*
 
 
 ## Step 3: Configuring CkDialogDocGen
 
 On CkDiagDocgen, click on settings.
 
-![](Img/5.png)
+![](Img/ck-main-settings.png)
 
 * You must check if the "Skyrim Path" option is pointing to the Skyrim installation folder on your computer.
 * The DocGen folder points to the folder where you want to save the generated documentation. You may leave it as it is, or change it to a different folder if you want to.
-* Actors files point to the Actors' Names dictionary file. The default value is "Actors.csv", and usually there is no need to change it.
-* Same for Comments.csv, you may leave it as it is.
 * Sort by name or by FormId defines the sorting methods for the **Topics** in the same **Branch**. If you have a good name conversion, true should be the best option.
 
-![](Img/6.png)
+> ![](Img/settings-window.jpg)
+> *Settings window.*
 
 
 ## Step 4: Previwing the documentation
