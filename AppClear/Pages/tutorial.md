@@ -1,21 +1,21 @@
-# CK's Quest Dialog Manager
+# 1. CK's Quest Dialog Manager
 
 Creatin Kit's Quest Dialog Manager, as the name says, is a tool for helping mod creators to manage Creation Kit's Quest dialogs in a simple way.
 
 It is possible to export quests dialog information from creation kit into text file. The idea is to import that information, and use it to create a content manager.
 
 
-# Who this tool is usefull for? 
+# 2. For Who this tool is usefull? 
 
-**Short answer**: 
+## 2.1. Short answer 
 
 *For skyrim modders who:*
 
-* *Want to review or share quest dialogs in a readable format;*
+* *Want to review or share quest dialogs in a readable format*;
 * *Want to manage dialog files easily. By manager, I mean, find files, list to, open at the location, replace, extract information, and convert into different formats (mp3, wav, xwm, fuz)*
 
 
-**Long answer**: 
+## 2.2 Long answer 
 
 > ![](Img/1.png)
 > *Dialog View window in the creation kit.*
@@ -45,9 +45,9 @@ In this current version, this tool:
 Once I had and stable version in my hands, I decided to share with the community in the Nexus. Hope this can be useful for someone else as well.
 
 
-# Tutorial
+# 3. Overview
 
-## Application folder 
+## 3.1 Application folder 
 
 CK's Quest Dialog Manager is an auto-executable application, therefore it does not requere installation. It shoud have the following structure:
 
@@ -62,26 +62,40 @@ CK's Quest Dialog Manager is an auto-executable application, therefore it does n
 * *CKQuestDialogManager.exe*: application executable.
 
 
-## Main Window
+## 3.2 Main Window
 
 > ![](Img/main-window.jpg)
 > *CKQuestDialogManager main window.*
 
-Executing the application will launch this windows.  This Windows is divided inth three sections:
+Executing the application will launch this windows.  This Windows is divided into three sections:
+
+* Application Settings
+* Content Manager
+* Help
 
 
-**Application Settings**
-* *Settings*: Allows the basic cofiguration of the application. Usually the settings do not need to be changed.
-    * *Skyrim Path*: the most inportant configuration, the path where Skyrim is intalled, usually `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim`.
-    * *Docgen Folder*: usually `OUTPUT` folder. 
-    * *Sort by Name(true) or Form ID (false)*: the branches in the documentation will be sorted in the alphabetical order if it is set as true, or by the Form ID if it is set as false. 
+## 3.3 Application Settings
+
+### 3.3.1. Settings
+
+Allows the basic cofiguration of the application. Usually the settings do not need to be changed.
+
+* *Skyrim Path*: the most inportant configuration, the path where Skyrim is intalled, usually `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim`.
+
+* *Docgen Folder*: usually `OUTPUT` folder. 
+
+* *Sort by Name(true) or Form ID (false)*: the branches in the documentation will be sorted in the alphabetical order if it is set as true, or by the Form ID if it is set as false. 
     
 > ![](Img/settings-window.jpg)
 > *Settings window.*
 
-* *Profiles*: 
+
+### 3.3.2. Profiles
+
 Profiles allows the Mod developer to manage the Dialogs from many mods in different workspaces, keeping their imported assets separate. Each profile will store all the settings and imported files from the Creation Kit. 
+
 The application is going to have a "Default" profile configured in the first time it is used, but it can be renamed later with a proper name. 
+
 You can choose color schemas for each profile as well. The profile management window will indicates wich profile is currently active with an arrow. To help identifying each profile, you can put some comments or description about the profile as well. Finally, you can Create new profiles, Load, Edit and Delete using this window. Take care, Delete option cannot be undone. 
 
 
@@ -93,6 +107,83 @@ You can choose color schemas for each profile as well. The profile management wi
 
 > ![](Img/profile-new.jpg)
 > *Profile creation window.*
+
+
+### 3.3.3. Choose Theme
+
+> ![](Img/theme.jpg)
+> *Window for color theme selection.*
+
+
+### 3.3.4.  About and License
+
+Just displays information about the application, and its Open Source license.
+
+
+## 3.4.  Content Manager
+
+
+#### 3.4.1 Step 1: Import Objects
+
+The button "Import files from the Creation Kit" to import dialog files from Creation Kit. This action must be executed before this application can be used in any way. 
+
+All the imported files will be stored in the folder `App/Db/<Profile-Name>` folder. If the imported data is outdated, just import it again. Only the imported data will be replaced.
+
+> ![](Img/imported-files.jpg)
+> *Imported files from creation kit.*
+
+
+#### 3.4.2 Step 2: Edit
+
+The buttons in this section can be used to customize and add information for the imported data from Creation Kit.
+* **Edit Actor's Names**: Here you can tell the for what names the NPCs IDs could be replaced in the documentation.
+* **Edit Comments**: Here you can add comments for the quest elements, that are going to be diplayed in the generated documntation.
+* **Edit Scene Order**: Here you can choose the order the scenes are going to appear in the generated documntation.
+
+
+> ![](Img/actos-window.jpg)
+> *Actors Names editor.*
+
+> ![](Img/comments-window.jpg)
+> *Comments editor.*
+
+> ![](Img/scenes-window.jpg)
+> *Actors Names editor.*
+
+
+#### 3.4.3 Step 3: Manage Quest Content
+
+In this section you will find two tools:
+
+**Generate Documentation**
+
+A documentation generator, wich will synthetese an human-readable documentation from the imported files, into 4 different formats:
+* HTML;
+* Docx;
+* Markdown;
+* Json.
+All generated documentation will be placed at the output folder, configured in the settings. 
+
+**Audio Manager Tools**
+
+This window provides a set of tools for helping manage all the audio files for the quest you imported the data in the first section. 
+
+> ![](Img/audio-tools.jpg)
+> *Audio manager tools.*
+
+
+#### Generate Documentation
+
+Todo
+
+
+#### Audio Manager Tools
+
+Todo
+
+
+
+
 
 
 

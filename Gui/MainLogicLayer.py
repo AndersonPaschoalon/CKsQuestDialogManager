@@ -153,16 +153,17 @@ class MainLogicLayer:
             # 1
             layout.append([sg.Text("Docgen Folder"), sg.InputText(default_text=self.app.settings_obj.docgen_dir)])
             # 2
-            layout.append([sg.Text("Actors.csv File"), sg.InputText(default_text=self.app.settings_obj.actors_file)])
-            # 3
-            layout.append(
-                [sg.Text("Comments.csv File"), sg.InputText(default_text=self.app.settings_obj.comments_file)])
-            # 4
-            layout.append(
-                [sg.Text("SceneOrder.csv File"), sg.InputText(default_text=self.app.settings_obj.scene_order_file)])
-            # 5
             layout.append([sg.Text("Sort By Name(true) or FormId(false)"),
                            sg.InputText(default_text=self.app.settings_obj.topic_sort_by_name)])
+            # # 3
+            # layout.append([sg.Text("Actors.csv File"), sg.InputText(default_text=self.app.settings_obj.actors_file)])
+            # # 4
+            # layout.append(
+            #    [sg.Text("Comments.csv File"), sg.InputText(default_text=self.app.settings_obj.comments_file)])
+            # # 5
+            # layout.append(
+            #    [sg.Text("SceneOrder.csv File"), sg.InputText(default_text=self.app.settings_obj.scene_order_file)])
+
             layout.append([sg.Button('Save'), sg.Button('Reset'), sg.Button('Cancel')])
             window_settings = sg.Window('Settings Window', layout, icon=self.app.app_icon_ico)
             while True:  # Event Loop
@@ -173,10 +174,10 @@ class MainLogicLayer:
                 elif event == "Save":
                     self.app.settings_obj.skyrim_path = values[0]
                     self.app.settings_obj.docgen_dir = values[1]
-                    self.app.settings_obj.actors_file = values[2]
-                    self.app.settings_obj.comments_file = values[3]
-                    self.app.settings_obj.scene_order_file = values[4]
-                    self.app.settings_obj.topic_sort_by_name = values[5]
+                    self.app.settings_obj.topic_sort_by_name = values[2]
+                    # self.app.settings_obj.actors_file = values[3]
+                    # self.app.settings_obj.comments_file = values[4]
+                    # self.app.settings_obj.scene_order_file = values[5]
                     self.app.settings_obj.save()
                     self.app.reload()
                     window_settings.close()
