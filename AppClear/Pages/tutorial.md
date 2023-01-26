@@ -1,190 +1,67 @@
 # 1. CK's Quest Dialog Manager
 
-Creatin Kit's Quest Dialog Manager, as the name says, is a tool for helping mod creators to manage Creation Kit's Quest dialogs in a simple way.
 
-It is possible to export quests dialog information from creation kit into text file. The idea is to import that information, and use it to create a content manager.
+The Quest Dialog Manager, a feature of the Creation Kit, offers mod creators a simple solution for managing quest dialogs.
+
+The tool allows for the export of dialog information from the Creation Kit to be imported and utilized in a streamlined content management system.
 
 
 # 2. For Who this tool is usefull? 
 
 ## 2.1. Short answer 
 
-*For skyrim modders who:*
+*For Skyrim modders who:*
 
-* *Want to review or share quest dialogs in a readable format*;
-* *Want to manage dialog files easily. By manager, I mean, find files, list to, open at the location, replace, extract information, and convert into different formats (mp3, wav, xwm, fuz)*
-
+* *Want to review and share quest dialogs in a clear and readable format;*
+* *Want to easily manage their dialog files, including finding, listing, opening, replacing, extracting information, and converting to different formats (such as mp3, wav, xwm, fuz).*
 
 ## 2.2 Long answer 
 
 > ![](Img/1.png)
 > *Dialog View window in the creation kit.*
 
-When you create a new quest for the game, usually it will have dialogs and scenes, so the Dragonborn will be able to interact with other people in the world. 
+As a mod developer, creating new quests for the game of Skyrim often involves creating dialogs and scenes for the Dragonborn to interact with NPCs in the world. However, I found the process of reviewing and editing these dialogs to be tedious and time-consuming. I had to navigate through dozens of boxes in the Creation Kit to find the text I needed to review, and keeping track of changes was difficult as the drafts quickly became outdated.
 
-So, as a mod developer, I wrote down a draft of the speeches and inserted it into the Creation Kit. But I found the process of reviewing the dialogs for correcting typos, fixing little things, and applying some changes, PAINFULL AND TEDIOUS.
+When other people began to offer to help with the quest, I struggled to provide them with the most current version of the story script in a readable format. I realized that I needed a way to automatically generate documentation for the dialogs to make the review process easier and more efficient.
 
-I had to click in dozens of boxes to find the text I wanted to review. Since changes were frequently applied to the dialogs, the drafts were completely outdated. 
-When some people started to appear offering help, I had to provide the most current version of the story script, in a readable format. How should sustainably do that?
+The Creation Kit allows for exporting dialogs in a CSV format, but it is difficult to read and understand without context. I decided to create a tool that could help me generate readable documentation automatically. Starting as a simple script, the tool eventually evolved into a content manager with multiple features that use the information imported from the Creation Kit.
 
-I saw that I need to find some way to auto-generate documentation for the dialogues, so I or another person could review the most updated version simply, always using the most recent version. 
+With this tool, I can now easily:
 
-Creating Kit allows you to export the dialogs in a (horrible to read as a human) CSV table, with lots of information, really hard to understand without context.
+* Create beautiful documentation for my quests in a variety of formats, including HTML, Markdown, DOCX, and JSON.
 
-I decided to create a tool to help me with the task of creating readable documentation automatically. It started as a simple script. With the time, it evolved into a content manager tool, since I implemented  many more features using all information I was already importing.
+* Manage audio files from quests in an organized way. I can easily find, open, and play audio files according to their subtitle, extract information, and convert them to different formats.
 
-In this current version, this tool:
+* Generate mute audio files with approximate speaking times for the text in the audio.
 
-* Allows me to create beautifull documentation for my quests in many formats: HTML, Markdown, DOCX and JSON;
+After reaching a stable version, I decided to share it with the community on Nexus. I hope it will be useful for other mod developers as well.
 
-* Allows the management of audio files from quests in a reasonable way. As stated before, I can easily find and open (in player or in the Windows file explorer) and audio file according to its  subititle. I can extract information, and convert into many formats; 
 
-* It is possible to generate mute audio files with the aproximate time lenght expent for a real person to speak the the audio text.
 
 
-Once I had and stable version in my hands, I decided to share with the community in the Nexus. Hope this can be useful for someone else as well.
 
 
-# 3. Overview
 
-## 3.1 Application folder 
 
-CK's Quest Dialog Manager is an auto-executable application, therefore it does not requere installation. It shoud have the following structure:
 
-> ![](Img/app-folder.jpg) 
-> *CKQuestDialogManager application's folder structure.*
 
 
-* *App*: Application folder, this store files required byt the application to work properly. 
 
-* *OUTPUT*: this folder is created after the application is executed for the first time. This folder store generated documentation and reports.
 
-* *CKQuestDialogManager.exe*: application executable.
 
 
-## 3.2 Main Window
 
-> ![](Img/main-window.jpg)
-> *CKQuestDialogManager main window.*
 
-Executing the application will launch this windows.  This Windows is divided into three sections:
 
-* Application Settings
-* Content Manager
-* Help
 
 
-## 3.3 Application Settings
 
-### 3.3.1. Settings
 
-Allows the basic cofiguration of the application. Usually the settings do not need to be changed.
 
-* *Skyrim Path*: the most inportant configuration, the path where Skyrim is intalled, usually `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim`.
 
-* *Docgen Folder*: usually `OUTPUT` folder. 
 
-* *Sort by Name(true) or Form ID (false)*: the branches in the documentation will be sorted in the alphabetical order if it is set as true, or by the Form ID if it is set as false. 
-    
-> ![](Img/settings-window.jpg)
-> *Settings window.*
-
-
-### 3.3.2. Profiles
-
-Profiles allows the Mod developer to manage the Dialogs from many mods in different workspaces, keeping their imported assets separate. Each profile will store all the settings and imported files from the Creation Kit. 
-
-The application is going to have a "Default" profile configured in the first time it is used, but it can be renamed later with a proper name. 
-
-You can choose color schemas for each profile as well. The profile management window will indicates wich profile is currently active with an arrow. To help identifying each profile, you can put some comments or description about the profile as well. Finally, you can Create new profiles, Load, Edit and Delete using this window. Take care, Delete option cannot be undone. 
-
-
-> ![](Img/prefile-main.jpg)
-> *Profiele management window.*
-
-> ![](Img/profile-edit.jpg)
-> *Profile editing window.*
-
-> ![](Img/profile-new.jpg)
-> *Profile creation window.*
-
-
-### 3.3.3. Choose Theme
-
-> ![](Img/theme.jpg)
-> *Window for color theme selection.*
-
-
-### 3.3.4.  About and License
-
-Just displays information about the application, and its Open Source license.
-
-
-## 3.4.  Content Manager
-
-
-#### 3.4.1 Step 1: Import Objects
-
-The button "Import files from the Creation Kit" to import dialog files from Creation Kit. This action must be executed before this application can be used in any way. 
-
-All the imported files will be stored in the folder `App/Db/<Profile-Name>` folder. If the imported data is outdated, just import it again. Only the imported data will be replaced.
-
-> ![](Img/imported-files.jpg)
-> *Imported files from creation kit.*
-
-
-#### 3.4.2 Step 2: Edit
-
-The buttons in this section can be used to customize and add information for the imported data from Creation Kit.
-* **Edit Actor's Names**: Here you can tell the for what names the NPCs IDs could be replaced in the documentation.
-* **Edit Comments**: Here you can add comments for the quest elements, that are going to be diplayed in the generated documntation.
-* **Edit Scene Order**: Here you can choose the order the scenes are going to appear in the generated documntation.
-
-
-> ![](Img/actos-window.jpg)
-> *Actors Names editor.*
-
-> ![](Img/comments-window.jpg)
-> *Comments editor.*
-
-> ![](Img/scenes-window.jpg)
-> *Actors Names editor.*
-
-
-#### 3.4.3 Step 3: Manage Quest Content
-
-In this section you will find two tools:
-
-**Generate Documentation**
-
-A documentation generator, wich will synthetese an human-readable documentation from the imported files, into 4 different formats:
-* HTML;
-* Docx;
-* Markdown;
-* Json.
-All generated documentation will be placed at the output folder, configured in the settings. 
-
-**Audio Manager Tools**
-
-This window provides a set of tools for helping manage all the audio files for the quest you imported the data in the first section. 
-
-> ![](Img/audio-tools.jpg)
-> *Audio manager tools.*
-
-
-#### Generate Documentation
-
-Todo
-
-
-#### Audio Manager Tools
-
-Todo
-
-
-
-
-
+================================================================
+# 3. Tutorial
 
 
 ## Step 1: Preparing the quest
@@ -225,7 +102,7 @@ If you proceed well these steps, all the quest dialog data was properly exported
 
 On CkDiagDocgen, click on settings.
 
-![](Img/ck-main-settings.png)
+![](Img/main-window-settings.jpg)
 
 * You must check if the "Skyrim Path" option is pointing to the Skyrim installation folder on your computer.
 * The DocGen folder points to the folder where you want to save the generated documentation. You may leave it as it is, or change it to a different folder if you want to.
@@ -237,9 +114,7 @@ On CkDiagDocgen, click on settings.
 
 ## Step 4: Previwing the documentation
 
-At this point, you can already generate the documentation. 
-
-First, we have to fill the dictionaries Actos.csv and Comments.csv. Click on "Export Objects to CSV files". 
+At this point, you can already generate the documentation. We just have to import the data from Creation Kit. Click on "Import files from Creation Kit"
 
 ![](Img/7.png)
 
@@ -332,4 +207,189 @@ Repeat the same procedure from Step 4: click on "Generate Documentation", and "O
 * This program has logged. Usually, you are not going to use them, but if some strange error occurs (and the documentation files are not closed), you may send them to me in my email (anderson dot paschoalon at gmail dot com), with a description of what you have done. If it is a bug, I will fix it as soon as possible. If it is not, I will fix it as soon as possible. Or, if it is not a bug, I'll improve the documentation.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================================================================
+# 4. Detailed Overview
+
+## 4.1 Application folder 
+
+CK's Quest Dialog Manager does not require installation, just unzip the files to use. It is structured as follows:
+
+> ![](Img/app-folder.jpg) 
+> *CKQuestDialogManager application's folder structure.*
+
+* App: This folder contains all the necessary files for the application to function properly.
+
+* OUTPUT: This folder is generated after the application is run for the first time. It stores all generated documentation and reports.
+
+* CKQuestDialogManager.exe: This is the executable file for the application.
+
+
+## 4.2 Main Window
+
+> ![](Img/main-window.jpg)
+> *CKQuestDialogManager main window.*
+
+When the application is launched, it will display a window with three main sections:
+
+* Application Settings: Here, users can configure the application and access information about the application itself.
+* Content Manager: This section provides tools for managing the quest content, such as finding, listing, opening, replacing, extracting information, and converting to different formats.
+* Help: This section includes links to tutorials and other resources to assist users in using the application.
+
+
+## 4.3 Application Settings
+
+### 4.3.1. Settings
+
+This section allows for basic configuration of the application. The settings typically do not need to be changed, but can be adjusted as needed.
+
+* *Skyrim Path*: This is the most important configuration and should be set to the path where Skyrim is installed, typically `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim`.
+
+* *Docgen Folder*: This is the location where the generated documentation will be saved, typically the `OUTPUT` folder.
+
+* *Sort by Name (true) or Form ID (false)*: This setting controls how the branches in the documentation are sorted. If set to true, they will be sorted in alphabetical order. If set to false, they will be sorted by Form ID.
+
+> ![](Img/settings-window.jpg)
+> *Settings window.*
+
+
+### 4.3.2. Profiles
+
+The "Profile" feature in the CK Quest Dialog Manager allows mod developers to efficiently manage dialogs from multiple mods in different workspaces by keeping their imported assets separate. Each profile stores all of the settings and imported files from the Creation Kit.
+
+When the application is first used, a "Default" profile is configured, but it can be renamed later to a more meaningful name. Additionally, users can assign different color schemes to each profile to help with identification. The profile management window clearly indicates which profile is currently active, and users can add comments or a description to each profile to further aid in organization. The Profile's window also allows for the creation, loading, editing, and deletion of profiles. It's important to note that the deletion option is permanent and cannot be undone.
+
+> ![](Img/prefile-main.jpg)
+> *Profiele management window.*
+
+> ![](Img/profile-edit.jpg)
+> *Profile editing window.*
+
+> ![](Img/profile-new.jpg)
+> *Profile creation window.*
+
+
+### 4.3.3. Choose Theme
+
+In this section, you can customize the visual appearance of the application by selecting a color theme for each individual profile. There are a wide range of options available to suit your preferences and personalize the look of your workspace.
+
+> ![](Img/theme.jpg)
+> *Window for color theme selection.*
+
+
+### 4.3.4.  About and License
+
+In this section, you can find information about the application, including its version number and developer credits. Additionally, the Open Source license under which the application is distributed is also displayed here. This information is provided to ensure transparency and compliance with the terms of the license.
+
+
+## 4.4.  Content Manager
+
+### 4.4.1 Step 1: Import Objects
+
+In the Content Manager section, the first step is to import dialog files from the Creation Kit. This is achieved by clicking the "Import files from the Creation Kit" button. This action is necessary before the application can be utilized in any way.
+
+The imported files will be stored in the `App/Db/<Profile-Name>` folder, where "Profile-Name" is the name of the currently active profile. If the imported data becomes outdated, you can easily update it by importing the files again. Note that only the imported data will be replaced, so any changes made within the application, such as adding actor's names or comments, will be preserved.
+
+> ![](Img/imported-files.jpg)
+> *Imported files from creation kit.*
+
+
+### 4.4.2 Step 2: Edit
+
+In the Content Manager section, the second step is to customize and add information to the imported data from the Creation Kit. The buttons in this section provide the following options:
+
+* *Edit Actor's Names*: Allows you to specify custom names for NPCs in the generated documentation.
+
+* *Edit Comments*: Allows you to add comments for quest elements that will be displayed in the generated documentation.
+
+* *Edit Scene Order*: Allows you to choose the order in which scenes will appear in the generated documentation.
+
+It is important to remember that all these changes will be saved in the profile and they will be used to generate the final documentation.
+
+> ![](Img/actos-window.jpg)
+> *Actors Names editor.*
+
+> ![](Img/comments-window.jpg)
+> *Comments editor.*
+
+> ![](Img/scenes-window.jpg)
+> *Actors Names editor.*
+
+
+### 4.4.3 Step 3: Manage Quest Content
+
+In the Content Manager section, step 3 offers two essential tools for managing the quest content:
+
+**Generate Documentation**
+
+This tool allows you to generate a human-readable documentation from the imported files, in four different formats: HTML, Docx, Markdown, and Json. The generated documentation will be saved in the output folder, as configured in the settings.
+
+**Audio Manager Tools**
+
+This window provides a set of tools to help manage all the audio files associated with the quest you imported in the first step. These tools are designed to make it easy to keep track of all your audio assets and ensure that they are correctly associated with the quest content. The tools include features such as organizing and renaming audio files, editing metadata, and converting files to different formats.
+
+The tool screen can be divided into four segments:
+
+> ![](Img/audio-tools.jpg)
+> *Audio manager tools.*
+
+**(1) Table of imported audio tracks**
+
+This table lists all imported tracks that were imported using the "Import files from the Creation Kit" button. In this section, you can select any track to execute actions. The tracks are organized by Quest ID, Actor ID, and Subtitles.
+
+**(2) Audio Track Player/Details**
+
+In this section, you can visualize the track name, subtitles, and the current file format of the track. Additionally, you can listen to the track using the track player menu.
+
+**(3) Audio Track Tools section** 
+
+In the Audio Track Tools section, you can perform a variety of actions on individual tracks or all tracks at once using the provided tools. When using tools that convert files into different formats, the source files will be kept and not deleted. However, if the target file already exists, it will be overwritten.
+
+The tools available in this section include:
+
+* Open Folder: Allows you to open the track's location in the Windows File Explorer.
+
+* Copy Track Name: Copies the track's name to the clipboard
+Track Info Details: Copies the track's details in JSON format to the clipboard.
+
+* Generate Dialogue's Report: Creates an HTML report of information about all tracks in the output folder.
+
+* Generate XWM: Converts the WAV track file into XWM format. If an MP3 file is available, it will first convert the file to WAV, and then to XWM.
+
+* Generate FUZ: Combines the XWM and LIP files into a FUZ file. If an XWM file is not available, it will search for WAV or MP3 files instead.
+
+* UnFUZ: Decomposes a FUZ file (if available) into XWM and LIP files.
+
+* Generate FUZ for all: Creates FUZ files (combining XWM and LIP files) for all tracks
+
+* Generate EMPTY audio: Creates an audio file with no sound. The length is calculated using an estimation equation that takes into account the total number of words, the words per minute (WPM). The lenght is calculated using an time-to-speak estimation equation:
+
+```
+reading_time = max [(total_words * 60)/wpm + padding_time, min_time]
+```
+Where:
+* `wpm`: 110
+* `padding_time`: 1s
+* `min_time`: 2s
+* `total_words`: estimation of amount of words.
 
