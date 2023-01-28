@@ -1,3 +1,16 @@
+## Proxima Versão v0.4.0.0 (Apple Pie)
+
+## Bugfixes
+* 
+
+## Features
+* 
+
+## To-Do
+  * Logger deve utilizar um singleton thread safe
+
+----
+
 ## Proxima Versão v0.3.0.0 (Apple Dumpling)
 
 ## Bugfixes
@@ -11,14 +24,11 @@
   * CSV default editor do not run as an external process anymore.
   * Use of XML configuration files (settings.xml).
 * 03/01/2023
-  * Implementação do sistema de gerenciamento de profiles. 
+  * Profile management system.  
 * 28/01/2022
-  * Logger apenas com escopo local
-  * Páginas de documentação/tutorial implementadas
-  * Pastas Misc, Img e Pages combinadas em apenas uma: Docs
-
-## To-Do
-  * Logger deve utilizar um singleton thread safe
+  * No logger is used as a class property anymore, only on local scope
+  * Pages of embedded documentation and tutorial. 
+  * The folder Misc, Img and Pages where merged into only one: Docs.
 
 ----
 
