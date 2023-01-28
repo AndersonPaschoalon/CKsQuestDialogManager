@@ -21,8 +21,8 @@ class AppInfo:
     # constants
     APP_NAME_SHORT = "CKsQuestDialogManager"
     APP_NAME_LARGE = "CreationKit's Quest Dialog Manager"
-    APP_VERSION = "v0.1.0.0"
-    APP_VERSION_NAME = "Snowberry Crostata"
+    APP_VERSION = "v0.3.0.0"
+    APP_VERSION_NAME = "Apple Dumpling"
     # static
     default_app_dir = ".\\App\\"
 
@@ -31,14 +31,14 @@ class AppInfo:
             app_dir = AppInfo.default_app_dir
         self.app_dir = os.path.abspath(app_dir) + "\\"
         self.audio_encoder_dir = self.app_dir + "Bin\\"
-        self.img_dir = self.app_dir + "Img\\"
-        self.pages_dir = self.app_dir + "Pages\\"
+        self.img_dir = self.app_dir + "Docs\\Img\\"
+        self.pages_dir = self.app_dir + "Docs\\"
         self.log_dir = self.app_dir + "Logs\\"
         self.db_dir = self.app_dir + "Db\\"
         self.csv_actors = self.db_dir + "Actors.csv"
         self.csv_comments = self.db_dir + "Comments.csv"
         self.csv_scene_order = self.db_dir + "SceneOrder.csv"
-        self.app_icon_ico = self.img_dir + "sbc.ico"
+        self.app_icon_ico = self.img_dir + "Snowberry_crostata_Blur_WinIcon.ico"
         self.app_icon_png = self.img_dir + "Snowberry_crostata.png"
         self.log_file = self.log_dir + "ck-dialog-docgen.log"
         self.url_github = "https://github.com/AndersonPaschoalon/CKsQuestDialogManager.git"
@@ -51,7 +51,7 @@ class AppInfo:
         self.app_version = AppInfo.APP_VERSION + " -- " + AppInfo.APP_VERSION_NAME
         self.app_name_short = AppInfo.APP_NAME_SHORT
         self.app_name_LARGE = AppInfo.APP_NAME_LARGE
-        self.license = self.app_dir + "Misc\\LICENSE.md"
+        self.license = self.app_dir + "Docs\\LICENSE.md"
         self.settings_obj = AppSettings(self.settings_file)
         self.creation_kit_exe = self.settings_obj.skyrim_path + "\\CreationKit.exe"
 

@@ -28,7 +28,7 @@ class MainWindow:
     BTN_LICENSE = "License"
     # Documentation Generation
     # BTN_IMPORT_FROM_CK = "Import Objects from Creation Kit"
-    BTN_IMPORT_FROM_CK = "Import files from Creation Kit"
+    BTN_IMPORT_FROM_CK = "Import Files from Creation Kit"
     BTN_EDIT_SCENES = "Edit Scene Order"
     BTN_EDIT_ACTORS = "Edit Actor's Names"
     BTN_EDIT_COMMENTS = "Edit Comments"
@@ -78,15 +78,21 @@ class MainWindow:
                            sg.Button(MainWindow.BTN_ABOUT),
                            sg.Button(MainWindow.BTN_LICENSE)]
         layout_export_l1 = [sg.Text("Step 1: Import Objects                "),
-                            sg.Button(MainWindow.BTN_IMPORT_FROM_CK)]
-        layout_export_l2 = [sg.Text("Step 2: Edit                                "),
+                            sg.Button(MainWindow.BTN_IMPORT_FROM_CK)
+                            ]
+        layout_export_l2 = [sg.Text("Step 2: Customize                      "),
                             sg.Button(MainWindow.BTN_EDIT_ACTORS),
                             sg.Button(MainWindow.BTN_EDIT_COMMENTS),
-                            sg.Button(MainWindow.BTN_EDIT_SCENES)]
+                            sg.Button(MainWindow.BTN_EDIT_SCENES)
+                            ]
         layout_export_l3 = [sg.Text("Step 3: Manage Quest Content    "),
-                            sg.Button(MainWindow.BTN_DOC_GEN), sg.Button(MainWindow.BTN_AUDIO_MANAGER)]
-        layout_tutorial = [sg.Button(MainWindow.BTN_TUTORIAL), sg.Button(MainWindow.BTN_GITHUB),
-                           sg.Button(MainWindow.BTN_NEXUS)]
+                            sg.Button(MainWindow.BTN_DOC_GEN),
+                            sg.Button(MainWindow.BTN_AUDIO_MANAGER)
+                            ]
+        layout_tutorial = [sg.Button(MainWindow.BTN_TUTORIAL),
+                           sg.Button(MainWindow.BTN_GITHUB),
+                           # sg.Button(MainWindow.BTN_NEXUS)
+                           ]
         # Layout
         layout = [layout_title_main, [sg.Text("", font=MainWindow.FONT_SKIPLINE1)],
                   layout_title_config, layout_settings, [sg.Text("", font=MainWindow.FONT_SKIPLINE2)],

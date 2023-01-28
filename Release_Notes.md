@@ -1,8 +1,10 @@
+## Proxima Versão v0.3.0.0 (Apple Dumpling)
+
 ## Bugfixes
 * 10/12/2022
   * Fix on the scrollbars of the CSV editor
   * Fix on the size of the editable table in the CSV editor
-
+  * Correção do bug do botão Licence
 
 ## Features
 * 12/10/2022
@@ -10,15 +12,17 @@
   * Use of XML configuration files (settings.xml).
 * 03/01/2023
   * Implementação do sistema de gerenciamento de profiles. 
+* 28/01/2022
+  * Logger apenas com escopo local
+  * Páginas de documentação/tutorial implementadas
+  * Pastas Misc, Img e Pages combinadas em apenas uma: Docs
 
-TODO
-  * logger deve sempre ter escopo local
-  * logger deve utilizar um singleton thread safe
-  * 
+## To-Do
+  * Logger deve utilizar um singleton thread safe
 
 ----
 
-# Version v0.1.1.0 Apple Cabbage Stew
+# Version v0.1.1.0 Apple Cabbage Stew (versão v0.2.0.0)
 
 ## Bugfixes
 * 05/05/2022
@@ -51,4 +55,18 @@ TODO
   * Generate Silent Audio button
   * New settings about empty audio generation
   * Rename of some settings
+
+----
+
+## Regra de versionamento
+
+X.Y.Z.W
+X - Maior Release Estável (Nexus)
+Y - Release Publico (Github)
+Z - Melhorias dês do ultimo Release publico
+Y - Bugfixes dês do ultimo Release publico
+
+Convenção de Nomes: Comidas de Skyrim
+https://elderscrolls.fandom.com/wiki/Food_(Skyrim)
+
 
