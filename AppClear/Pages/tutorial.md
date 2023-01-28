@@ -1,7 +1,7 @@
 # Tutorial
 
 
-## Step 1: Preparing the quest
+## 1: Preparing the quest
 
 
 To ensure that the auto-generation of documentation functions correctly, it is necessary to make a few adjustments to the quests in the Creation Kit. One important step is to ensure that the speaker for each dialog is correctly set in the "**Speaker**" field of the **Topic Info** window. This is particularly important when a dialog is spoken by a unique actor. The figure below illustrates where this option can be found within the Creation Kit interface.
@@ -10,7 +10,7 @@ To ensure that the auto-generation of documentation functions correctly, it is n
 > *Location of the field "Speaker", in the Topic Info window. This field usually is optional, but it is really important to be properly filled in for this application to work properly.*
 
 
-## Step 2: Export the dialogs from Creation Kit
+## 2: Export the dialogs from Creation Kit
 
 In order to properly export the Quest Dialog data from the Creation Kit, follow these steps:
 
@@ -20,11 +20,10 @@ In order to properly export the Quest Dialog data from the Creation Kit, follow 
 
 3. Click on the "Export Quest Dialog" button on the "Quest Data" tab of your selected quest. Click "OK" to proceed.
 
-> ![](Img/ck-export-files.png)  
-> *Buttons that must be clicked for each quest you want to manage the dialogs.*
 
 > ![](Img/ck-export01.png)  
 > *"Export Scene Dialog" and "Export Quest Dialog" buttons on the "Quest Data" tab.*
+
 
 >![](Img/ck-export02.png)  
 > *Confirmation window.*
@@ -32,10 +31,10 @@ In order to properly export the Quest Dialog data from the Creation Kit, follow 
 By following these steps, you will have properly exported all of the quest dialog data to text files. An example of the exported files can be seen in the image below.
 
 > ![](Img/ck-export-files.jpg)  
-> *Exported files from Creation kit.*
+> *Files generated after clicking on both buttons for all quests you want to manage.*
 
 
-## Step 3: Configuring the Application
+## 3: Configuring the Application
 
 
 To properly manage the dialogs of our quest, we need to import the data we previously exported from the Creation Kit. It is important to ensure that the application is configured correctly to point to the location of the exported files.
@@ -54,7 +53,7 @@ The option to "Sort by name" or "Sort by FormId" determines the sorting method f
 > *Settings window.*
 
 
-## Step 4: Previwing the documentation
+## 4: Previwing the documentation
 
 At this point, you can begin generating the documentation. To do so, we need to first import the data from the Creation Kit. To start the import process, simply click on the "Import files from Creation Kit" button.
 
@@ -74,7 +73,7 @@ Next, you can generate the documentation by clicking on the "Generate Documentat
 If you navigate to the directory where the documentation was saved, you will notice that four subfolders have been created: "Docx," "Html," "Markdown," and "Json." These subfolders contain the documentation in different formats, but the content of each format is the same.
 
 > ![](Img/dir-output.png)  
-> *OUTPUT directory structure, after documentation generation.* 
+> *The structure of the OUTPUT directory after the generation of the documentation.* 
 
 Additionally, if you click on the "Audio Manager Tools" button, you will be able to view a table of all audio tracks that were imported. This confirms that the data was imported correctly into the current profile.
 
@@ -93,9 +92,9 @@ Upon opening the document "DSilHand_M10SilverHunt.docx" generated for the first 
 * For each topic within the branch, there is a sub-subtitle that contains information about the player (if applicable) and a list of dialogs for the actor to whom the branch belongs (if any). The actor is identified by their ID, and their mood and voice audio file name are also included.
 
 > ![](Img/doc-no-aliases.png)
-> *Document with no comments and named actors.*
+> *Document without comments or named actors.*
 
-While this is a good first version of the documentation, there are a few issues to keep in mind:
+While this is a good first version of the documentation, there are still few issues with it:
 
 * It would be helpful to provide some context for the branches, so that readers can understand the context of the dialogues.
 * The quest history should also be included at the beginning of the document, for a better understanding of the overall context and how the branches connect.
@@ -103,61 +102,54 @@ While this is a good first version of the documentation, there are a few issues 
 
 We will fix them right now.
 
-++++++++++++++
 
-## Step 5: Adding comments and naming the Actors
+## 5: Adding comments and naming the Actors
 
-Open the Actors.csv file and the Comments.csv file with your favorite CSV or text editor, and add the Actual names for the actors and your commentaries for the quests and branches*.
+As you may have already realized, the main window of the Content Manager features three buttons in the "Step 2: Edit" subsection that allow you to improve the documentation and address the issues previously mentioned. These buttons are:
 
-After you are done, just save it. But keep in mind you must preserve the CSV format if you are using a CSV editor. 
-If you are using a text editor, remember the separator is a semicolon.
+* "Edit Actor's Names"
+* "Edit Comments"
+* "Edit Scene Order"
 
-**Note: You should not use semicolons on comments or Actors' names.**
+These buttons enable you to easily edit and update the documentation in a structured way.
 
-![](Img/11a.png)
+The first two buttons, "Edit Actor's Names" and "Edit Comments", both open a CSV editor. The first button allows you to edit the Actors.csv file, where you can assign actual names to the Actors, which will be used in the documentation instead of their IDs. 
 
-![](Img/11b.png)
+> ![Actors.csv Editor](./Img/actos-window.jpg)
+> *The Actors.csv Editor is a tool that allows you to specify the actual names of the actors in your documentation.*
 
-(*) The current version of the documentation does not support comments for the Topics.
+The second button opens the Comments.csv file, which contains a list of all Quest Objects and allows you to include a description or context for each object. This information will be included in the generated documentation. Note that the current version of the documentation does not support comments for Topic objects.
 
+> ![Comments.csv Editor](./Img/comments-window.jpg)
+> *The Comments.csv Editor is a tool where you can add detailed descriptions and comments for Quests, Branches, and Scenes, which will be included in the generated documentation.*
 
-## Step 6: Generating the docuementation
+The third button, "Edit Scene Order", allows you to edit the SceneOrder.csv file, which determines the order in which Scene Objects appear within a quest.
 
-Repeat the same procedure from Step 4: click on "Generate Documentation", and "OK".
+> ![SceneOrder.csv Editor](./Img/scenes-window.jpg)
+> *The SceneOrder.csv Editor allows you to modify the order in which scenes appear in the generated documentation.*
 
-**Note: You may click on "Export Objects to CSV files" many times you want to or need. No row from the tables is going to be removed, and its content removed. It will just add new blank rows (if necessary) at the end of the files.**
-
-![](Img/12.png)
-
-
-# Observations
-
-* Whan you press the button "Export the Objects to CSV files", **it does not overwrite or erase any of the entries** are already on the files Actors.csv and Comments.csv. It only adds new entries. Therefore, the same CSV files can be used to generate the documentation for multiple quests from different mods, with no issue, as long the IDs for the objects are unique (as they should be).
-
-* Make sure the documentation files are **CLOSED** after regenerating the documentation. It may lead to unexpected errors.
-
-* This program has logged. Usually, you are not going to use them, but if some strange error occurs (and the documentation files are not closed), you may send them to me in my email (anderson dot paschoalon at gmail dot com), with a description of what you have done. If it is a bug, I will fix it as soon as possible. If it is not, I will fix it as soon as possible. Or, if it is not a bug, I'll improve the documentation.
+These CSVs are located in the directory App/Db/, and can be edited manually using another CSV or text editor, but it is recommended to use the built-in tools to avoid corrupting the file structure.
 
 
+## Step 6: Generating the final docuementation
 
+To generate the final documentation, click the button "Generate Documentation" once more. If you have followed all the steps correctly, a comprehensive and visually appealing quest documentation will be generated, as shown in the screenshot below.
 
+> ![Final generated documentation](./Img/doc-final.png)
+> *The final output of the documentation generation process is a polished and comprehensive DOCX document, ready for review and distribution.*
 
+## Final Remarks
 
+* **It is important to note that any comments or actor names added to the CSV files will never be removed, only added. This means that you can click the "Import Files from Creation Kit" button as many times as you want without losing any information.**
 
+* **Keeping your documentation up-to-date is easy. Simply export the files of the modified quests from the Creation Kit, and then use the CK Quest Dialog Manager's "Import files from Creation Kit" and "Generate Documentation" buttons to synchronize your quest scripts with the current content of the Creation Kit.**
 
+* **To avoid any confusion, it is recommended to create separate profiles for each mod you want to manage.**
 
+* **Make sure that the documentation files are closed after regenerating the documentation to avoid unexpected errors.**
 
-
-
-
-
-
+* **This program has logging capabilities. In most cases, you will not need to use them, but in the event of a strange error occurring (and the documentation files are not closed), you can send them to me at anderson.paschoalon@gmail.com along with a description of the steps you took. If it is a bug, I will fix it as soon as possible. If it is not a bug, I will improve the documentation accordingly.**
 
 
 
 
-
-
-
-
-================================================================

@@ -4,7 +4,7 @@
 
 CK's Quest Dialog Manager does not require installation, just unzip the files to use. It is structured as follows:
 
-> ![](Img/app-folder.jpg) 
+> ![](Img/app-folder.jpg)  
 > *CKQuestDialogManager application's folder structure.*
 
 * App: This folder contains all the necessary files for the application to function properly.
@@ -38,7 +38,7 @@ This section allows for basic configuration of the application. The settings typ
 
 * *Sort by Name (true) or Form ID (false)*: This setting controls how the branches in the documentation are sorted. If set to true, they will be sorted in alphabetical order. If set to false, they will be sorted by Form ID.
 
-> ![](Img/settings-window.jpg)
+> ![](Img/settings-window.jpg)  
 > *Settings window.*
 
 
@@ -48,13 +48,13 @@ The "Profile" feature in the CK Quest Dialog Manager allows mod developers to ef
 
 When the application is first used, a "Default" profile is configured, but it can be renamed later to a more meaningful name. Additionally, users can assign different color schemes to each profile to help with identification. The profile management window clearly indicates which profile is currently active, and users can add comments or a description to each profile to further aid in organization. The Profile's window also allows for the creation, loading, editing, and deletion of profiles. It's important to note that the deletion option is permanent and cannot be undone.
 
-> ![](Img/prefile-main.jpg)
+> ![](Img/prefile-main.jpg)  
 > *Profiele management window.*
 
-> ![](Img/profile-edit.jpg)
+> ![](Img/profile-edit.jpg)  
 > *Profile editing window.*
 
-> ![](Img/profile-new.jpg)
+> ![](Img/profile-new.jpg)  
 > *Profile creation window.*
 
 
@@ -62,7 +62,7 @@ When the application is first used, a "Default" profile is configured, but it ca
 
 In this section, you can customize the visual appearance of the application by selecting a color theme for each individual profile. There are a wide range of options available to suit your preferences and personalize the look of your workspace.
 
-> ![](Img/theme.jpg)
+> ![](Img/theme.jpg)  
 > *Window for color theme selection.*
 
 
@@ -79,7 +79,7 @@ In the Content Manager section, the first step is to import dialog files from th
 
 The imported files will be stored in the `App/Db/<Profile-Name>` folder, where "Profile-Name" is the name of the currently active profile. If the imported data becomes outdated, you can easily update it by importing the files again. Note that only the imported data will be replaced, so any changes made within the application, such as adding actor's names or comments, will be preserved.
 
-> ![](Img/imported-files.jpg)
+> ![](Img/imported-files.jpg)  
 > *Imported files from creation kit.*
 
 
@@ -95,13 +95,13 @@ In the Content Manager section, the second step is to customize and add informat
 
 It is important to remember that all these changes will be saved in the profile and they will be used to generate the final documentation.
 
-> ![](Img/actos-window.jpg)
+> ![](Img/actos-window.jpg)  
 > *Actors Names editor.*
 
-> ![](Img/comments-window.jpg)
+> ![](Img/comments-window.jpg)  
 > *Comments editor.*
 
-> ![](Img/scenes-window.jpg)
+> ![](Img/scenes-window.jpg)  
 > *Actors Names editor.*
 
 
@@ -119,7 +119,7 @@ This window provides a set of tools to help manage all the audio files associate
 
 The tool screen can be divided into four segments:
 
-> ![](Img/audio-tools.jpg)
+> ![](Img/audio-tools.jpg)  
 > *Audio manager tools.*
 
 **(1) Table of imported audio tracks**

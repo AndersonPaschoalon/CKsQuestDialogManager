@@ -17,7 +17,7 @@ The tool allows for the export of dialog information from the Creation Kit to be
 
 ## Long answer 
 
-> ![](Img/1.png)
+> ![](Img/ck-topics.png)
 > *Dialog View window in the creation kit.*
 
 As a mod developer, creating new quests for the game of Skyrim often involves creating dialogs and scenes for the Dragonborn to interact with NPCs in the world. However, I found the process of reviewing and editing these dialogs to be tedious and time-consuming. I had to navigate through dozens of boxes in the Creation Kit to find the text I needed to review, and keeping track of changes was difficult as the drafts quickly became outdated.

@@ -50,8 +50,8 @@ Once I finished it, I decided to share it in the community. Maybe it would be us
 
 For the auto-generation of the documentation to work properly, when a dialog is spoken by a unique actor, he/she must be set on the "**Speaker:**" field on the **Topic Info** window.  
 
-![](Img/2.png)
-
+> ![](Img/ck-topics.png)
+> 
 
 ## Step 2: Export the dialogs from Creation Kit
 
