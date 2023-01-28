@@ -131,7 +131,7 @@ The third button, "Edit Scene Order", allows you to edit the SceneOrder.csv file
 These CSVs are located in the directory App/Db/, and can be edited manually using another CSV or text editor, but it is recommended to use the built-in tools to avoid corrupting the file structure.
 
 
-## Step 6: Generating the final docuementation
+## 6: Generating the final docuementation
 
 To generate the final documentation, click the button "Generate Documentation" once more. If you have followed all the steps correctly, a comprehensive and visually appealing quest documentation will be generated, as shown in the screenshot below.
 
