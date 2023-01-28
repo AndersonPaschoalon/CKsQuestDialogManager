@@ -8,16 +8,19 @@
 
 ## To-Do
   * Logger deve utilizar um singleton thread safe
+  * Melhorar readme
 
 ----
 
-## Proxima Versão v0.3.0.0 (Apple Dumpling)
+## Verson v0.3.0.0 (Apple Dumpling)
 
 ## Bugfixes
 * 10/12/2022
   * Fix on the scrollbars of the CSV editor
   * Fix on the size of the editable table in the CSV editor
-  * Correção do bug do botão Licence
+* 28/01/2022
+  * Fix on License Button
+  * Fix on icon-less build
 
 ## Features
 * 12/10/2022
